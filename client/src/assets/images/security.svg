@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#050d18"/><stop offset="100%" stop-color="#0a1a2e"/></linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#e8c96a"/></linearGradient>
+    <radialGradient id="shield-glow" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#c9a84c" stop-opacity="0.3"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+    <radialGradient id="node-glow" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#4a8abf" stop-opacity="0.6"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <!-- Grid lines -->
+  <g opacity="0.06" stroke="#4a8abf" stroke-width="1">
+    <line x1="0" y1="100" x2="1200" y2="100"/><line x1="0" y1="200" x2="1200" y2="200"/>
+    <line x1="0" y1="300" x2="1200" y2="300"/><line x1="0" y1="400" x2="1200" y2="400"/>
+    <line x1="0" y1="500" x2="1200" y2="500"/><line x1="0" y1="600" x2="1200" y2="600"/>
+    <line x1="0" y1="700" x2="1200" y2="700"/>
+    <line x1="100" y1="0" x2="100" y2="800"/><line x1="200" y1="0" x2="200" y2="800"/>
+    <line x1="300" y1="0" x2="300" y2="800"/><line x1="400" y1="0" x2="400" y2="800"/>
+    <line x1="500" y1="0" x2="500" y2="800"/><line x1="600" y1="0" x2="600" y2="800"/>
+    <line x1="700" y1="0" x2="700" y2="800"/><line x1="800" y1="0" x2="800" y2="800"/>
+    <line x1="900" y1="0" x2="900" y2="800"/><line x1="1000" y1="0" x2="1000" y2="800"/>
+    <line x1="1100" y1="0" x2="1100" y2="800"/>
+  </g>
+  <!-- Connection lines network -->
+  <g opacity="0.3" stroke="#4a8abf" stroke-width="1">
+    <line x1="600" y1="400" x2="200" y2="200"/>
+    <line x1="600" y1="400" x2="1000" y2="200"/>
+    <line x1="600" y1="400" x2="200" y2="600"/>
+    <line x1="600" y1="400" x2="1000" y2="600"/>
+    <line x1="600" y1="400" x2="400" y2="150"/>
+    <line x1="600" y1="400" x2="800" y2="150"/>
+    <line x1="600" y1="400" x2="150" y2="400"/>
+    <line x1="600" y1="400" x2="1050" y2="400"/>
+  </g>
+  <!-- Gold connection lines -->
+  <g opacity="0.5" stroke="#c9a84c" stroke-width="1.5">
+    <line x1="600" y1="400" x2="400" y2="300"/>
+    <line x1="600" y1="400" x2="800" y2="300"/>
+    <line x1="600" y1="400" x2="400" y2="500"/>
+    <line x1="600" y1="400" x2="800" y2="500"/>
+  </g>
+  <!-- Network nodes -->
+  <circle cx="200" cy="200" r="20" fill="url(#node-glow)"/><circle cx="200" cy="200" r="8" fill="#4a8abf" opacity="0.8"/>
+  <circle cx="1000" cy="200" r="20" fill="url(#node-glow)"/><circle cx="1000" cy="200" r="8" fill="#4a8abf" opacity="0.8"/>
+  <circle cx="200" cy="600" r="20" fill="url(#node-glow)"/><circle cx="200" cy="600" r="8" fill="#4a8abf" opacity="0.8"/>
+  <circle cx="1000" cy="600" r="20" fill="url(#node-glow)"/><circle cx="1000" cy="600" r="8" fill="#4a8abf" opacity="0.8"/>
+  <circle cx="400" cy="150" r="15" fill="url(#node-glow)"/><circle cx="400" cy="150" r="6" fill="#4a8abf" opacity="0.7"/>
+  <circle cx="800" cy="150" r="15" fill="url(#node-glow)"/><circle cx="800" cy="150" r="6" fill="#4a8abf" opacity="0.7"/>
+  <circle cx="150" cy="400" r="15" fill="url(#node-glow)"/><circle cx="150" cy="400" r="6" fill="#4a8abf" opacity="0.7"/>
+  <circle cx="1050" cy="400" r="15" fill="url(#node-glow)"/><circle cx="1050" cy="400" r="6" fill="#4a8abf" opacity="0.7"/>
+  <!-- Gold nodes -->
+  <circle cx="400" cy="300" r="18" fill="url(#shield-glow)"/><circle cx="400" cy="300" r="7" fill="#c9a84c"/>
+  <circle cx="800" cy="300" r="18" fill="url(#shield-glow)"/><circle cx="800" cy="300" r="7" fill="#c9a84c"/>
+  <circle cx="400" cy="500" r="18" fill="url(#shield-glow)"/><circle cx="400" cy="500" r="7" fill="#c9a84c"/>
+  <circle cx="800" cy="500" r="18" fill="url(#shield-glow)"/><circle cx="800" cy="500" r="7" fill="#c9a84c"/>
+  <!-- Central shield -->
+  <ellipse cx="600" cy="400" rx="120" ry="120" fill="url(#shield-glow)"/>
+  <path d="M600,280 L700,320 L700,400 Q700,460 600,500 Q500,460 500,400 L500,320 Z" fill="#0d1f35" stroke="#c9a84c" stroke-width="2"/>
+  <path d="M600,295 L688,332 L688,400 Q688,452 600,488 Q512,452 512,400 L512,332 Z" fill="#c9a84c" opacity="0.15"/>
+  <!-- Lock inside shield -->
+  <rect x="574" y="380" width="52" height="44" rx="6" fill="#c9a84c" opacity="0.9"/>
+  <path d="M585,380 Q585,355 600,355 Q615,355 615,380" fill="none" stroke="#c9a84c" stroke-width="5" opacity="0.9"/>
+  <circle cx="600" cy="402" r="8" fill="#0d1f35"/>
+  <rect x="597" y="402" width="6" height="12" rx="3" fill="#0d1f35"/>
+  <!-- Binary/hex code floating -->
+  <text x="80" y="120" font-size="11" fill="#4a8abf" opacity="0.4" font-family="monospace">01001010 11010101</text>
+  <text x="900" y="680" font-size="11" fill="#4a8abf" opacity="0.4" font-family="monospace">10110010 01101011</text>
+  <text x="60" y="700" font-size="11" fill="#c9a84c" opacity="0.3" font-family="monospace">AES-256</text>
+  <text x="1050" y="120" font-size="11" fill="#c9a84c" opacity="0.3" font-family="monospace">FINMA</text>
+  <!-- SSL/TLS badge -->
+  <rect x="480" y="540" width="80" height="30" rx="6" fill="#0d1f35" stroke="#c9a84c" stroke-width="1" opacity="0.8"/>
+  <text x="497" y="560" font-size="12" fill="#c9a84c" font-family="monospace" font-weight="bold">SSL/TLS</text>
+</svg>

@@ -1,0 +1,224 @@
+Objet : Développement du Dashboard Client d'une plateforme bancaire haut de gamme.
+
+"Agis en tant que Lead Developer Fintech & Architecte Logiciel Senior. Je souhaite développer l'Espace Client de SwizKote Bank, un tableau de bord bancaire interactif offrant l'autonomie d'une banque physique moderne avec un design premium.
+
+🎨 1. IDENTITÉ VISUELLE & UX (Design System Strict)
+Nom : SwizKote Bank - Espace Client
+
+Charte Graphique Impérative :
+
+Élément	Mode Jour (Clair)	Mode Nuit (Sombre)	Usage
+Fond	#F8FAFC	#1A202C	Arrière-plan principal
+Texte	#0F172A	#F8FAFC	Corps de texte
+Accent Principal	#B89336 (Or de Genève)	#ECC94B (Or Doux)	Boutons, icônes, bordures actives
+Accent Secondaire	#FFFFFF	#2D3748	Cartes, conteneurs
+Bordures	#E2E8F0	#4A5568	Séparateurs, inputs
+Composants UI : Shadcn/UI personnalisé avec les tokens ci-dessus, Tailwind CSS, Lucid Icons (liste : CreditCard, FlipHorizontal, ArrowUpDown, Send, History, Settings, Copy, Eye, EyeOff, MoreVertical).
+
+Animations : Framer Motion pour le flip de carte et transitions douces.
+
+Mode Sombre/Clair : Toggle dans le header avec persistance localStorage.
+
+🧭 2. STRUCTURE DU DASHBOARD CLIENT
+Layout Principal
+Sidebar verticale rétrécissable (largeur réduite : icônes seules) :
+
+Accueil (LayoutDashboard)
+
+Mes Cartes (CreditCard)
+
+Virements (Send)
+
+Historique (History)
+
+Paramètres (Settings)
+
+Header fixe :
+
+Titre de la page active
+
+Toggle Jour/Nuit
+
+Menu utilisateur (avatar avec initiales, nom, déconnexion)
+
+💰 3. COMPOSANTS DU TABLEAU DE BORD
+🧾 Header de Compte (visible sur toutes les pages)
+Solde total : CHF 12'345.67 en text-4xl font-bold
+
+IBAN : CH93 0070 0XXX XXXX XXXX X avec :
+
+Bouton Copier → feedback toast "IBAN copié dans le presse-papier"
+
+Tooltip "Cliquez pour copier l'IBAN complet"
+
+💳 4. WIDGET CARTE VISA INTERACTIF (Composant Principal)
+Spécifications Techniques du Composant BankCard.tsx :
+
+Structure Visuelle Recto :
+
+Fond blanc/dégradé subtil avec motif léger
+
+Logo SwizKote Bank (or) en haut à droite
+
+Puce électronique (simulée visuellement)
+
+Numéro de carte : **** **** **** 4242 (format chunké)
+
+Titulaire : PRENOM NOM (majuscules)
+
+Date expiration : MM/AA
+
+Logo Visa en bas à droite
+
+Animation Flip :
+
+Déclencheur : icône FlipHorizontal (Lucid)
+
+Animation 3D fluide (Framer Motion)
+
+Au verso : afficher CVV *** et plafond actuel
+
+Contrôles sous la carte :
+
+Toggle Blocage : Switch Shadcn
+
+Vert = active / Rouge = bloquée
+
+Action → toast : "Carte bloquée/débloquée avec succès"
+
+Selecteur de Plafond :
+
+Options : CHF 500 | 1000 | 5000
+
+Valeur par défaut : 1000
+
+Tooltip : "Plafond mensuel de la carte"
+
+Menu contextuel (MoreVertical) :
+
+Signaler perte/vol
+
+Commander une nouvelle carte
+
+Voir les coordonnées complètes (modal de sécurité)
+
+📊 5. STATISTIQUES FINANCIÈRES
+Deux graphiques responsives (Recharts ou D3) :
+
+A. Graphique en Beignet (Pie/Donut)
+
+Données : Dépôts vs Dépenses du mois en cours
+
+Couleurs : Or (#B89336) pour dépôts, Gris (#94A3B8) pour dépenses
+
+Légende interactive
+
+Centre du beignet : total du mois
+
+B. Graphique Linéaire (Évolution du solde)
+
+Période : 30 jours glissants
+
+Axe X : dates (format JJ/MM)
+
+Axe Y : montant en CHF
+
+Courbe or avec remplissage dégradé léger
+
+Tooltip au survol : date + solde exact
+
+Contrôle : Selecteur de période (7j, 30j, 90j) synchronisé sur les deux graphiques
+
+💸 6. MODULE DE VIREMENT AVANCÉ
+Formulaire en 4 étapes :
+
+Étape 1 : Détails du virement
+
+Montant (input number avec validation > 0)
+
+Devise (Select : CHF, EUR, USD)
+
+Type de virement (Radio Group) :
+
+Local (Suisse) - instantané
+
+International - 1-2 jours ouvrés
+
+Express - sous 2h (frais CHF 15)
+
+Étape 2 : Bénéficiaire
+
+Nom complet (input texte)
+
+IBAN (input avec validation format)
+
+BIC (optionnel)
+
+Banque (auto-complétion mock)
+
+Étape 3 : Confirmation
+
+Récapitulatif (montant, frais, total)
+
+Motif du virement (textarea optionnel)
+
+Case à cocher "Je confirme les informations"
+
+Étape 4 : Validation
+
+Bouton "Effectuer le virement"
+
+Modal de succès avec :
+
+Message "Virement initié avec succès"
+
+Bouton "Suivre mon virement" → redirection vers /tracker/[id]
+
+Bouton "Retour au tableau de bord"
+
+🧭 7. TRANSFER TRACKER (Page /tracker/[id])
+Composant temps-réel avec Socket.io :
+
+Barre de progression (5 étapes) :
+
+Validation (0-20%)
+
+Traitement (21-40%)
+
+Compliance (41-60%)
+
+Signature (61-80%)
+
+Exécution (81-100%)
+
+Design :
+
+Barre horizontale avec segments
+
+Remplissage progressif en or (#B89336)
+
+Pourcentage affiché au centre
+
+Animation fluide lors des mises à jour
+
+Zone Motif Admin :
+
+text
+╔══════════════════════════════════╗
+║  ⏳ Motif de l'étape actuelle     ║
+║  ──────────────────────────────  ║
+║  Paiement des frais de dossier    ║
+║  requis (CHF 150)                 ║
+║                                   ║
+║  Contactez le support pour         ║
+║  toute question                    ║
+╚══════════════════════════════════╝
+Fond de carte (mode jour : blanc, mode nuit : gris foncé)
+
+Icône horloge animée
+
+Texte dynamique (reçu via WebSocket)
+
+Case de validation :
+
+Champ inpu...

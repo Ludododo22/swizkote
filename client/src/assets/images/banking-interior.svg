@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="marble" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f0ece4"/><stop offset="50%" stop-color="#e8e0d4"/><stop offset="100%" stop-color="#d8d0c4"/></linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#e8c96a"/></linearGradient>
+    <linearGradient id="ceiling" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f8f4ee"/><stop offset="100%" stop-color="#ece8e0"/></linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d4c8b4"/><stop offset="100%" stop-color="#c4b8a4"/></linearGradient>
+  </defs>
+  <!-- Floor -->
+  <rect width="1200" height="800" fill="url(#floor)"/>
+  <!-- Marble tiles floor pattern -->
+  <g opacity="0.3">
+    <line x1="0" y1="600" x2="1200" y2="600" stroke="#b8a898" stroke-width="1"/>
+    <line x1="0" y1="650" x2="1200" y2="650" stroke="#b8a898" stroke-width="1"/>
+    <line x1="0" y1="700" x2="1200" y2="700" stroke="#b8a898" stroke-width="1"/>
+    <line x1="0" y1="750" x2="1200" y2="750" stroke="#b8a898" stroke-width="1"/>
+    <line x1="100" y1="550" x2="100" y2="800" stroke="#b8a898" stroke-width="1"/>
+    <line x1="200" y1="550" x2="200" y2="800" stroke="#b8a898" stroke-width="1"/>
+    <line x1="300" y1="550" x2="300" y2="800" stroke="#b8a898" stroke-width="1"/>
+    <line x1="400" y1="550" x2="400" y2="800" stroke="#b8a898" stroke-width="1"/>
+    <line x1="500" y1="550" x2="500" y2="800" stroke="#b8a898" stroke-width="1"/>
+    <line x1="600" y1="550" x2="600" y2="800" stroke="#b8a898" stroke-width="1"/>
+    <line x1="700" y1="550" x2="700" y2="800" stroke="#b8a898" stroke-width="1"/>
+    <line x1="800" y1="550" x2="800" y2="800" stroke="#b8a898" stroke-width="1"/>
+    <line x1="900" y1="550" x2="900" y2="800" stroke="#b8a898" stroke-width="1"/>
+    <line x1="1000" y1="550" x2="1000" y2="800" stroke="#b8a898" stroke-width="1"/>
+    <line x1="1100" y1="550" x2="1100" y2="800" stroke="#b8a898" stroke-width="1"/>
+  </g>
+  <!-- Back wall -->
+  <rect x="0" y="0" width="1200" height="580" fill="url(#ceiling)"/>
+  <!-- Ceiling decorative molding -->
+  <rect x="0" y="0" width="1200" height="50" fill="#f0ece4"/>
+  <rect x="0" y="48" width="1200" height="6" fill="url(#gold)" opacity="0.6"/>
+  <!-- Pillars -->
+  <rect x="100" y="50" width="60" height="540" fill="url(#marble)"/>
+  <rect x="108" y="50" width="44" height="540" fill="#f0ece8"/>
+  <rect x="100" y="50" width="60" height="20" fill="url(#gold)" opacity="0.5"/>
+  <rect x="100" y="570" width="60" height="20" fill="url(#gold)" opacity="0.5"/>
+  <rect x="340" y="50" width="60" height="540" fill="url(#marble)"/>
+  <rect x="348" y="50" width="44" height="540" fill="#f0ece8"/>
+  <rect x="340" y="50" width="60" height="20" fill="url(#gold)" opacity="0.5"/>
+  <rect x="340" y="570" width="60" height="20" fill="url(#gold)" opacity="0.5"/>
+  <rect x="800" y="50" width="60" height="540" fill="url(#marble)"/>
+  <rect x="808" y="50" width="44" height="540" fill="#f0ece8"/>
+  <rect x="800" y="50" width="60" height="20" fill="url(#gold)" opacity="0.5"/>
+  <rect x="800" y="570" width="60" height="20" fill="url(#gold)" opacity="0.5"/>
+  <rect x="1040" y="50" width="60" height="540" fill="url(#marble)"/>
+  <rect x="1048" y="50" width="44" height="540" fill="#f0ece8"/>
+  <rect x="1040" y="50" width="60" height="20" fill="url(#gold)" opacity="0.5"/>
+  <rect x="1040" y="570" width="60" height="20" fill="url(#gold)" opacity="0.5"/>
+  <!-- Arched windows -->
+  <rect x="160" y="80" width="170" height="320" rx="85" fill="#cce4f8" opacity="0.8"/>
+  <rect x="175" y="90" width="140" height="300" rx="70" fill="#d8ecf8" opacity="0.6"/>
+  <rect x="670" y="80" width="120" height="280" rx="60" fill="#cce4f8" opacity="0.8"/>
+  <rect x="685" y="90" width="90" height="260" rx="45" fill="#d8ecf8" opacity="0.6"/>
+  <!-- Reception counter -->
+  <rect x="400" y="440" width="500" height="160" rx="8" fill="url(#marble)"/>
+  <rect x="400" y="440" width="500" height="20" fill="url(#gold)" opacity="0.6"/>
+  <rect x="408" y="460" width="484" height="132" rx="6" fill="#e8e0d4"/>
+  <!-- SwizKote Bank sign above counter -->
+  <rect x="480" y="200" width="340" height="60" rx="6" fill="#1a1208"/>
+  <rect x="482" y="202" width="336" height="56" rx="5" fill="#0d0a05"/>
+  <text x="518" y="238" font-size="22" fill="url(#gold)" font-family="serif" font-weight="bold">SwizKote Bank</text>
+  <!-- Swiss cross -->
+  <rect x="490" y="215" width="20" height="28" rx="2" fill="#cc0000" opacity="0.9"/>
+  <rect x="482" y="223" width="36" height="12" rx="2" fill="#cc0000" opacity="0.9"/>
+  <!-- Counter staff silhouette -->
+  <ellipse cx="550" cy="420" rx="30" ry="35" fill="#4a3828"/>
+  <rect x="520" y="455" width="60" height="90" rx="8" fill="#2a1e12"/>
+  <ellipse cx="750" cy="420" rx="30" ry="35" fill="#8a6848"/>
+  <rect x="720" y="455" width="60" height="90" rx="8" fill="#3a2a1a"/>
+  <!-- Chandelier -->
+  <rect x="574" y="50" width="52" height="80" rx="4" fill="#d4a830" opacity="0.8"/>
+  <rect x="560" y="124" width="80" height="12" rx="6" fill="url(#gold)"/>
+  <circle cx="600" cy="148" r="20" fill="url(#gold)" opacity="0.9"/>
+  <circle cx="560" cy="155" r="14" fill="url(#gold)" opacity="0.8"/>
+  <circle cx="640" cy="155" r="14" fill="url(#gold)" opacity="0.8"/>
+  <circle cx="540" cy="168" r="10" fill="url(#gold)" opacity="0.7"/>
+  <circle cx="660" cy="168" r="10" fill="url(#gold)" opacity="0.7"/>
+  <!-- Light rays from chandelier -->
+  <ellipse cx="600" cy="200" rx="120" ry="40" fill="#f5d080" opacity="0.1"/>
+  <!-- Carpet runner -->
+  <rect x="550" y="590" width="100" height="210" fill="#8a2010" opacity="0.7"/>
+  <rect x="555" y="595" width="90" height="200" fill="none" stroke="#c9a84c" stroke-width="2" opacity="0.5"/>
+</svg>

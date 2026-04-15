@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0f1e2e"/><stop offset="100%" stop-color="#1a2d42"/></linearGradient>
+    <linearGradient id="desk" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2a1a0a"/><stop offset="100%" stop-color="#1a0f05"/></linearGradient>
+    <linearGradient id="suit" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1a2535"/><stop offset="100%" stop-color="#0d161f"/></linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#e8c96a"/></linearGradient>
+    <radialGradient id="light" cx="0.5" cy="0.3" r="0.6"><stop offset="0%" stop-color="#c9a84c" stop-opacity="0.15"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#light)"/>
+  <!-- Office window background - city view -->
+  <rect x="700" y="50" width="450" height="500" rx="4" fill="#0a1520"/>
+  <!-- City lights -->
+  <rect x="710" y="100" width="12" height="80" fill="#1a3050"/>
+  <rect x="730" y="120" width="18" height="60" fill="#1a3050"/>
+  <rect x="755" y="90" width="22" height="110" fill="#1a3050"/>
+  <rect x="785" y="110" width="14" height="90" fill="#1a3050"/>
+  <rect x="810" y="80" width="28" height="120" fill="#1a3050"/>
+  <rect x="848" y="100" width="18" height="100" fill="#1a3050"/>
+  <rect x="876" y="70" width="32" height="130" fill="#1a3050"/>
+  <rect x="918" y="90" width="20" height="110" fill="#1a3050"/>
+  <rect x="948" y="110" width="24" height="90" fill="#1a3050"/>
+  <rect x="982" y="80" width="16" height="120" fill="#1a3050"/>
+  <rect x="1008" y="100" width="22" height="100" fill="#1a3050"/>
+  <rect x="1040" y="60" width="30" height="140" fill="#1a3050"/>
+  <rect x="1080" y="90" width="18" height="110" fill="#1a3050"/>
+  <rect x="1108" y="110" width="26" height="90" fill="#1a3050"/>
+  <!-- Window lights -->
+  <rect x="715" y="110" width="4" height="6" fill="#c9a84c" opacity="0.8"/>
+  <rect x="722" y="125" width="4" height="6" fill="#e8c96a" opacity="0.6"/>
+  <rect x="758" y="100" width="4" height="6" fill="#c9a84c" opacity="0.9"/>
+  <rect x="770" y="115" width="4" height="6" fill="#e8c96a" opacity="0.7"/>
+  <rect x="814" y="90" width="4" height="6" fill="#c9a84c" opacity="0.8"/>
+  <rect x="826" y="105" width="4" height="6" fill="#e8c96a" opacity="0.6"/>
+  <rect x="880" y="80" width="4" height="6" fill="#c9a84c" opacity="0.9"/>
+  <rect x="894" y="100" width="4" height="6" fill="#e8c96a" opacity="0.7"/>
+  <!-- Desk -->
+  <rect x="50" y="560" width="1100" height="30" rx="4" fill="url(#desk)"/>
+  <rect x="50" y="590" width="1100" height="200" fill="#150d05"/>
+  <!-- Laptop on desk -->
+  <rect x="600" y="470" width="250" height="160" rx="6" fill="#0d1520"/>
+  <rect x="610" y="480" width="230" height="140" rx="3" fill="#1a2d3f"/>
+  <!-- Screen content - chart -->
+  <polyline points="620,590 660,560 700,575 740,540 780,555 820,520" fill="none" stroke="#c9a84c" stroke-width="2"/>
+  <rect x="600" y="630" width="250" height="15" rx="4" fill="#0a0f15"/>
+  <!-- Papers/documents on desk -->
+  <rect x="100" y="530" width="180" height="240" rx="3" fill="#f5f0e8" transform="rotate(-5 190 650)"/>
+  <rect x="110" y="540" width="160" height="10" rx="2" fill="#ddd" transform="rotate(-5 190 650)"/>
+  <rect x="110" y="558" width="140" height="6" rx="2" fill="#eee" transform="rotate(-5 190 650)"/>
+  <rect x="110" y="572" width="150" height="6" rx="2" fill="#eee" transform="rotate(-5 190 650)"/>
+  <!-- Person silhouette - professional advisor -->
+  <!-- Body/suit -->
+  <rect x="420" y="350" width="200" height="280" rx="10" fill="url(#suit)"/>
+  <!-- Shirt + tie -->
+  <rect x="490" y="355" width="60" height="280" fill="#e8e0d0"/>
+  <rect x="510" y="360" width="20" height="220" fill="url(#gold)" opacity="0.8"/>
+  <!-- Shoulders broader -->
+  <rect x="390" y="350" width="260" height="60" rx="20" fill="url(#suit)"/>
+  <!-- Head -->
+  <ellipse cx="520" cy="300" rx="60" ry="70" fill="#c8a882"/>
+  <!-- Hair -->
+  <ellipse cx="520" cy="250" rx="62" ry="30" fill="#2a1a0a"/>
+  <!-- Face features -->
+  <rect x="500" y="290" width="12" height="18" rx="6" fill="#b8906a"/>
+  <rect x="528" y="290" width="12" height="18" rx="6" fill="#b8906a"/>
+  <rect x="505" y="330" width="30" height="8" rx="4" fill="#a06040"/>
+  <!-- Eyebrows -->
+  <rect x="498" y="282" width="18" height="4" rx="2" fill="#2a1a0a"/>
+  <rect x="524" y="282" width="18" height="4" rx="2" fill="#2a1a0a"/>
+  <!-- Arm extended - handshake gesture -->
+  <rect x="620" y="420" width="180" height="40" rx="20" fill="url(#suit)" transform="rotate(-20 710 440)"/>
+  <!-- Hand -->
+  <ellipse cx="790" cy="400" rx="25" ry="20" fill="#c8a882"/>
+  <!-- Second person (client) - partial view right side -->
+  <rect x="900" y="400" width="160" height="260" rx="10" fill="#3a2820"/>
+  <ellipse cx="980" cy="370" rx="50" ry="58" fill="#d4a878"/>
+  <!-- Gold accent light on table -->
+  <ellipse cx="520" cy="565" rx="200" ry="20" fill="#c9a84c" opacity="0.08"/>
+  <!-- Nameplate on desk -->
+  <rect x="420" y="555" width="180" height="30" rx="4" fill="url(#gold)" opacity="0.7"/>
+  <rect x="430" y="562" width="100" height="6" rx="2" fill="#8a6a20"/>
+  <rect x="430" y="572" width="80" height="4" rx="2" fill="#a07830"/>
+  <!-- Award/frame on wall -->
+  <rect x="120" y="100" width="160" height="200" rx="8" fill="#1a2d42" stroke="#c9a84c" stroke-width="2"/>
+  <rect x="135" y="115" width="130" height="170" rx="4" fill="#0d1f2e"/>
+  <!-- Swiss cross in frame -->
+  <rect x="190" y="155" width="12" height="50" fill="#c9a84c" opacity="0.8"/>
+  <rect x="172" y="173" width="48" height="12" fill="#c9a84c" opacity="0.8"/>
+</svg>
