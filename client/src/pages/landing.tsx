@@ -406,31 +406,31 @@ const MODERN_FEATURES_IT = [
 
 // Awards and recognitions - COMPLETE 4 LANGUAGES
 const AWARDS_DE = [
-  { name: "Beste Privatbank Schweiz", year: "2024", issuer: "Euromoney", icon: Award },
-  { name: "Innovation im Digital Banking", year: "2024", issuer: "Finews", icon: Sparkles },
-  { name: "Top Arbeitgeber Finanzsektor", year: "2024", issuer: "Great Place to Work", icon: Users },
-  { name: "Beste Kundenzufriedenheit", year: "2024", issuer: "Swiss Banking Report", icon: Heart },
+  { name: "Beste Privatbank Schweiz", year: "2026", issuer: "Euromoney", icon: Award },
+  { name: "Innovation im Digital Banking", year: "2026", issuer: "Finews", icon: Sparkles },
+  { name: "Top Arbeitgeber Finanzsektor", year: "2026", issuer: "Great Place to Work", icon: Users },
+  { name: "Beste Kundenzufriedenheit", year: "2026", issuer: "Swiss Banking Report", icon: Heart },
 ];
 
 const AWARDS_FR = [
-  { name: "Meilleure Banque Privée Suisse", year: "2024", issuer: "Euromoney", icon: Award },
-  { name: "Innovation en Digital Banking", year: "2024", issuer: "Finews", icon: Sparkles },
-  { name: "Top Employeur Secteur Financier", year: "2024", issuer: "Great Place to Work", icon: Users },
-  { name: "Meilleure Satisfaction Client", year: "2024", issuer: "Swiss Banking Report", icon: Heart },
+  { name: "Meilleure Banque Privée Suisse", year: "2026", issuer: "Euromoney", icon: Award },
+  { name: "Innovation en Digital Banking", year: "2026", issuer: "Finews", icon: Sparkles },
+  { name: "Top Employeur Secteur Financier", year: "2026", issuer: "Great Place to Work", icon: Users },
+  { name: "Meilleure Satisfaction Client", year: "2026", issuer: "Swiss Banking Report", icon: Heart },
 ];
 
 const AWARDS_EN = [
-  { name: "Best Private Bank Switzerland", year: "2024", issuer: "Euromoney", icon: Award },
-  { name: "Innovation in Digital Banking", year: "2024", issuer: "Finews", icon: Sparkles },
-  { name: "Top Employer Financial Sector", year: "2024", issuer: "Great Place to Work", icon: Users },
-  { name: "Best Customer Satisfaction", year: "2024", issuer: "Swiss Banking Report", icon: Heart },
+  { name: "Best Private Bank Switzerland", year: "2026", issuer: "Euromoney", icon: Award },
+  { name: "Innovation in Digital Banking", year: "2026", issuer: "Finews", icon: Sparkles },
+  { name: "Top Employer Financial Sector", year: "2026", issuer: "Great Place to Work", icon: Users },
+  { name: "Best Customer Satisfaction", year: "2026", issuer: "Swiss Banking Report", icon: Heart },
 ];
 
 const AWARDS_IT = [
-  { name: "Miglior Banca Privata Svizzera", year: "2024", issuer: "Euromoney", icon: Award },
-  { name: "Innovazione nel Digital Banking", year: "2024", issuer: "Finews", icon: Sparkles },
-  { name: "Miglior Datore di Lavoro Settore Finanziario", year: "2024", issuer: "Great Place to Work", icon: Users },
-  { name: "Miglior Soddisfazione Clienti", year: "2024", issuer: "Swiss Banking Report", icon: Heart },
+  { name: "Miglior Banca Privata Svizzera", year: "2026", issuer: "Euromoney", icon: Award },
+  { name: "Innovazione nel Digital Banking", year: "2026", issuer: "Finews", icon: Sparkles },
+  { name: "Miglior Datore di Lavoro Settore Finanziario", year: "2026", issuer: "Great Place to Work", icon: Users },
+  { name: "Miglior Soddisfazione Clienti", year: "2026", issuer: "Swiss Banking Report", icon: Heart },
 ];
 
 // Testimonials with images - COMPLETE 4 LANGUAGES
