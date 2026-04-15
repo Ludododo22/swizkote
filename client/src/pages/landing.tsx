@@ -14,10 +14,6 @@ import {
   Sparkles, Zap, Smartphone, Headphones, Laptop, LineChart, PieChart,
   Database, CheckCircle2, Star, Heart, Fingerprint, Timer, RefreshCw,
   Gift, Coffee, Plane, Car, Wifi, BatteryCharging, Settings, X,
-<<<<<<< HEAD
-=======
-  Facebook, Twitter, Youtube, Linkedin, Instagram,
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -55,11 +51,7 @@ const SERVICE_IMAGES = [
 // Testimonial profile images
 const TESTIMONIAL_IMAGES = [
   "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop",   // Dr. Markus Weber — homme
-<<<<<<< HEAD
   "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=150&h=150&fit=crop",   // Claudia Meier — femme
-=======
-  "https://www.dermacompetencecenter.com/media/2023/07/dcc-praxisteam-elena-meier-1536x1023.jpg?w=150&h=150&fit=crop",   // Claudia Meier — femme
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
   "https://www.sog.unc.edu/sites/default/files/styles/large/public/profiles/Thomas_Eric_292_2023_web.jpg?w=150&h=150&fit=crop",       // Thomas Schmid — homme (nouveau)
   "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=150&h=150&fit=crop",       // Sabine Keller — femme (nouveau)
 ];
@@ -595,42 +587,6 @@ export default function LandingPage() {
     scrollToElement("#contact");
   };
 
-<<<<<<< HEAD
-=======
-  // Social media links configuration
-  const socialLinks = [
-    { icon: Facebook, href: "https://facebook.com/swizkote", label: "Facebook", color: "hover:text-[#1877f2]" },
-    { icon: Twitter, href: "https://twitter.com/swizkote", label: "X (Twitter)", color: "hover:text-[#1da1f2]" },
-    { icon: Youtube, href: "https://youtube.com/swizkote", label: "YouTube", color: "hover:text-[#ff0000]" },
-    { icon: Linkedin, href: "https://linkedin.com/company/swizkote", label: "LinkedIn", color: "hover:text-[#0077b5]" },
-    { icon: Instagram, href: "https://instagram.com/swizkote", label: "Instagram", color: "hover:text-[#e4405f]" },
-  ];
-
-  // Newsletter subscription state
-  const [newsletterEmail, setNewsletterEmail] = useState("");
-  const [newsletterSending, setNewsletterSending] = useState(false);
-
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newsletterEmail) return;
-    setNewsletterSending(true);
-    setTimeout(() => {
-      setNewsletterSending(false);
-      setNewsletterEmail("");
-      toast({
-        title: lang === "de" ? "Newsletter abonniert ✓" : lang === "en" ? "Newsletter subscribed ✓" : lang === "it" ? "Iscritto alla newsletter ✓" : "Abonné à la newsletter ✓",
-        description: lang === "de"
-          ? "Sie erhalten jetzt unsere neuesten Updates."
-          : lang === "en"
-          ? "You will now receive our latest updates."
-          : lang === "it"
-          ? "Ora riceverai i nostri ultimi aggiornamenti."
-          : "Vous recevrez maintenant nos dernières mises à jour.",
-      });
-    }, 800);
-  };
-
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
   // Footer data per language
   const footerSrvDE = ["Girokonto","Sparkonto","Premium-Karten","Kredite","Vermögensverwaltung","Sicherheit"];
   const footerSrvFR = ["Compte Courant","Compte Épargne","Cartes Premium","Crédits","Gestion de Fortune","Sécurité"];
@@ -1253,7 +1209,6 @@ export default function LandingPage() {
                 <span className="font-bold" style={{ whiteSpace: "nowrap" }}>SWIZKOTE</span>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">{t("land_footer_tagline")}</p>
-<<<<<<< HEAD
               <div className="mt-4 flex gap-2 flex-wrap">
                 {/* Facebook */}
                 <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
@@ -1285,30 +1240,6 @@ export default function LandingPage() {
                   className="w-8 h-8 rounded-lg bg-muted/60 flex items-center justify-center text-muted-foreground hover:bg-gold/20 hover:text-gold transition-all hover:scale-110">
                   <Mail className="w-4 h-4" />
                 </a>
-=======
-              {/* Social Media Icons */}
-              <div className="mt-6">
-                <h5 className="text-xs font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
-                  {lang === "de" ? "Folgen Sie uns" : lang === "en" ? "Follow us" : lang === "it" ? "Seguici" : "Suivez-nous"}
-                </h5>
-                <div className="flex gap-3">
-                  {socialLinks.map((social, idx) => {
-                    const SocialIcon = social.icon;
-                    return (
-                      <a
-                        key={idx}
-                        href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`text-muted-foreground transition-all duration-300 hover:scale-110 ${social.color}`}
-                        aria-label={social.label}
-                      >
-                        <SocialIcon className="w-5 h-5" />
-                      </a>
-                    );
-                  })}
-                </div>
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
               </div>
             </div>
             <div>
@@ -1335,28 +1266,6 @@ export default function LandingPage() {
                 <li className="flex items-center gap-2"><MapPin className="w-3.5 h-3.5" /> {lang === "de" ? "Genf, Schweiz" : lang === "en" ? "Geneva, Switzerland" : lang === "it" ? "Ginevra, Svizzera" : "Genève, Suisse"}</li>
                 <li className="flex items-center gap-2"><Mail className="w-3.5 h-3.5" /> kontakt@swizkote.ch</li>
               </ul>
-<<<<<<< HEAD
-=======
-              {/* Newsletter Subscription */}
-              <div className="mt-6">
-                <h5 className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wider">
-                  {lang === "de" ? "Newsletter" : lang === "en" ? "Newsletter" : lang === "it" ? "Newsletter" : "Newsletter"}
-                </h5>
-                <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
-                  <Input
-                    type="email"
-                    placeholder={lang === "de" ? "Ihre E-Mail" : lang === "en" ? "Your email" : lang === "it" ? "La tua email" : "Votre email"}
-                    value={newsletterEmail}
-                    onChange={(e) => setNewsletterEmail(e.target.value)}
-                    className="bg-background/50 border-white/10 text-sm h-9"
-                    required
-                  />
-                  <Button type="submit" size="sm" className="gold-gradient text-[hsl(222,40%,10%)] border-[hsl(42,70%,45%)] font-semibold h-9 px-3" disabled={newsletterSending}>
-                    <Send className="w-3.5 h-3.5" />
-                  </Button>
-                </form>
-              </div>
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
             </div>
           </div>
           <div className="mt-10 pt-6 border-t flex flex-wrap items-center justify-between gap-4 text-xs text-muted-foreground">
@@ -1390,8 +1299,4 @@ export default function LandingPage() {
       `}</style>
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210

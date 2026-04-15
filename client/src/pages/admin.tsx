@@ -327,13 +327,10 @@ function LoanStepAdminRow({
   const [labelDraft, setLabelDraft]     = useState(step.label);
   const [showDisburse, setShowDisburse] = useState(false);
   const [disburseDesc, setDisburseDesc] = useState(`Décaissement prêt — virement des fonds`);
-<<<<<<< HEAD
   const [showInterrupt, setShowInterrupt] = useState(false);
   const [interruptPct, setInterruptPct] = useState(50);
   const [interruptMsg, setInterruptMsg] = useState("");
   const [showAdditionalInfo, setShowAdditionalInfo] = useState(false);
-=======
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
 
   const statusColor: Record<string, string> = {
     completed:     "bg-green-500/10 border-green-300 dark:border-green-800",
@@ -407,7 +404,6 @@ function LoanStepAdminRow({
     onError: (err: any) => toast({ title: "Erreur", description: err.message, variant: "destructive" }),
   });
 
-<<<<<<< HEAD
   const setInterrupt = useMutation({
     mutationFn: async () => {
       const res = await apiRequest("PATCH", `/api/admin/loans/${loanId}/steps/${step.id}`, {
@@ -421,8 +417,6 @@ function LoanStepAdminRow({
     onError: (err: any) => toast({ title: "Erreur", description: err.message, variant: "destructive" }),
   });
 
-=======
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
   const isPending = step.status === "pending";
   const isCompleted = step.status === "completed";
   const isCodeReq = step.status === "code_required";
@@ -515,14 +509,11 @@ function LoanStepAdminRow({
                 {requireCode.isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <Lock className="w-3 h-3" />}
                 Exiger un code
               </Button>
-<<<<<<< HEAD
               <Button size="sm" variant="outline" className="h-7 text-xs gap-1 border-purple-300 text-purple-700 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20"
                 onClick={() => setShowInterrupt(!showInterrupt)}>
                 <CircleDashed className="w-3 h-3" />
                 Interrompre à %
               </Button>
-=======
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
               {!isLast && (
                 <Button size="sm" className="h-7 text-xs gap-1 bg-blue-600 hover:bg-blue-700 text-white border-0"
                   onClick={() => advance.mutate()} disabled={advance.isPending}>
@@ -549,7 +540,6 @@ function LoanStepAdminRow({
         </div>
       )}
 
-<<<<<<< HEAD
       {/* Interrupt at % panel */}
       {showInterrupt && (
         <div className="rounded-xl border border-purple-200 dark:border-purple-900 bg-purple-50 dark:bg-purple-950/30 p-3.5 space-y-3">
@@ -599,8 +589,6 @@ function LoanStepAdminRow({
         </div>
       )}
 
-=======
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
       {/* Disburse confirmation panel */}
       {showDisburse && (
         <div className="rounded-xl border border-green-300 dark:border-green-800 bg-green-50 dark:bg-green-950/30 p-3.5 space-y-3">
@@ -946,7 +934,6 @@ function AdminLoans() {
   );
 }
 
-<<<<<<< HEAD
 // ─── ADMIN CARDS ─────────────────────────────────────────────────────────────
 function AdminCards() {
   const { toast } = useToast();
@@ -1199,8 +1186,6 @@ function AdminCards() {
   );
 }
 
-=======
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
 // ─── ADMIN TRANSFERS ─────────────────────────────────────────────────────────
 function AdminTransfers() {
   const { toast } = useToast();
@@ -2194,12 +2179,9 @@ export default function AdminPage() {
           <TabsTrigger value="transfers" className="flex-1 gap-1.5 min-w-[100px]">
             <ArrowLeftRight className="w-4 h-4" />Virements
           </TabsTrigger>
-<<<<<<< HEAD
           <TabsTrigger value="cards" className="flex-1 gap-1.5 min-w-[100px]">
             <CreditCard className="w-4 h-4" />Cartes
           </TabsTrigger>
-=======
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
           <TabsTrigger value="messages" className="flex-1 gap-1.5 min-w-[100px]">
             <MessageSquare className="w-4 h-4" />Messages
           </TabsTrigger>
@@ -2212,10 +2194,7 @@ export default function AdminPage() {
         <TabsContent value="clients" className="mt-4"><AdminClientsV2 /></TabsContent>
         <TabsContent value="loans" className="mt-4"><AdminLoans /></TabsContent>
         <TabsContent value="transfers" className="mt-4"><AdminTransfers /></TabsContent>
-<<<<<<< HEAD
         <TabsContent value="cards" className="mt-4"><AdminCards /></TabsContent>
-=======
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
         <TabsContent value="messages" className="mt-4"><AdminMessages /></TabsContent>
         <TabsContent value="pdf" className="mt-4"><AdminPDF /></TabsContent>
       </Tabs>

@@ -7,23 +7,15 @@ import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { Skeleton } from "@/components/ui/skeleton";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
-<<<<<<< HEAD
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-=======
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { Loan, LoanStep } from "@shared/schema";
 import {
   CheckCircle2, Lock, Unlock, AlertTriangle, KeyRound,
   TrendingUp, ChevronRight, X, Banknote, FileText,
-<<<<<<< HEAD
   CircleDashed, BadgeCheck, Phone, Mail, MessageSquare,
-=======
-  CircleDashed,
-  BadgeCheck,
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
 } from "lucide-react";
 import { format } from "date-fns";
 import { fr, de } from "date-fns/locale";
@@ -82,7 +74,6 @@ function StepDot({ status }: { status: string }) {
 
 // ─── Loan Request Form ────────────────────────────────────────────────────────
 
-<<<<<<< HEAD
 // ─── StepLoadingBar — animated loading bar for the active step ────────────────
 function StepLoadingBar({ step, lang }: { step: SafeLoanStep; lang: string }) {
   const [pct, setPct] = useState(0);
@@ -190,8 +181,6 @@ function StepLoadingBar({ step, lang }: { step: SafeLoanStep; lang: string }) {
   );
 }
 
-=======
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
 // ─── LoanDetail ───────────────────────────────────────────────────────────────
 function LoanDetail({ loanId }: { loanId: string }) {
   const { toast } = useToast();
@@ -234,12 +223,9 @@ function LoanDetail({ loanId }: { loanId: string }) {
   const isFinished = completedCount === totalCount && totalCount > 0;
   const hasCodeReq = steps.some(s => s.status === "code_required");
 
-<<<<<<< HEAD
   // Active step index for the animated loading bar
   const activeStepIdx = steps.findIndex(s => s.status === "active" || s.status === "code_required");
 
-=======
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
   return (
     <div className="p-4 md:p-6 max-w-2xl mx-auto space-y-5">
       <Link href="/loans">
@@ -249,11 +235,7 @@ function LoanDetail({ loanId }: { loanId: string }) {
         </button>
       </Link>
 
-<<<<<<< HEAD
       {/* Hero card */}
-=======
-      {/* Hero */}
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
       <div className="rounded-2xl p-5 text-white space-y-4" style={{ background: cfg.gradient }}>
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-3">
@@ -273,7 +255,6 @@ function LoanDetail({ loanId }: { loanId: string }) {
             }
           </div>
         </div>
-<<<<<<< HEAD
 
         {/* ── 4-step milestone progress bar ── */}
         <div className="space-y-3">
@@ -315,33 +296,16 @@ function LoanDetail({ loanId }: { loanId: string }) {
             <StepLoadingBar step={steps[activeStepIdx]} lang={lang} />
           )}
 
-=======
-        <div className="space-y-1.5">
-          <div className="flex justify-between text-sm">
-            <span className="text-white/80">{lang === "de" ? "Gesamtfortschritt" : "Progression globale"}</span>
-            <span className="font-bold">{globalPct}%</span>
-          </div>
-          <div className="h-2.5 rounded-full bg-white/20 overflow-hidden">
-            <div className="h-full rounded-full bg-white/90 transition-all duration-1000 ease-out" style={{ width: `${globalPct}%` }} />
-          </div>
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
           <p className="text-xs text-white/70">{completedCount}/{totalCount} {lang === "de" ? "Schritte" : "étapes"}
             {loan.updatedAt && <> · {format(new Date(loan.updatedAt), "d MMM", { locale })}</>}
           </p>
         </div>
       </div>
 
-<<<<<<< HEAD
       {/* Detailed step list */}
       <Card>
         <CardHeader className="pb-2 pt-4 px-4">
           <span className="text-sm font-semibold">{lang === "de" ? "Détail des étapes" : "Détail des étapes"}</span>
-=======
-      {/* Steps */}
-      <Card>
-        <CardHeader className="pb-2 pt-4 px-4">
-          <span className="text-sm font-semibold">{lang === "de" ? "Vorgangsschritte" : "Étapes du dossier"}</span>
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
         </CardHeader>
         <CardContent className="px-4 pb-4">
           {steps.map((step, idx) => {
@@ -350,11 +314,7 @@ function LoanDetail({ loanId }: { loanId: string }) {
             const active = step.status === "active";
             const codeReq = step.status === "code_required";
             const pending = step.status === "pending";
-<<<<<<< HEAD
             const pct = done ? 100 : active ? 60 : codeReq ? 35 : 0;
-=======
-            const pct = done ? 100 : active ? 55 : codeReq ? 30 : 0;
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
             const barCol = done ? "#22c55e" : codeReq ? "#f59e0b" : "#3b82f6";
             return (
               <div key={step.id} className="flex gap-3.5">
@@ -368,15 +328,11 @@ function LoanDetail({ loanId }: { loanId: string }) {
                     <div className="flex-shrink-0">
                       {done && step.unlockedAt && <span className="text-[11px] text-muted-foreground">{format(new Date(step.unlockedAt), "d MMM · HH:mm", { locale })}</span>}
                       {active && <Badge variant="outline" className="text-[10px] border-blue-300 text-blue-600 dark:text-blue-400 py-0">{lang === "de" ? "Aktiv" : "En cours"}</Badge>}
-<<<<<<< HEAD
                       {codeReq && <Badge variant="outline" className="text-[10px] border-amber-400 text-amber-600 py-0 animate-pulse">{lang === "de" ? "Code requis" : "Code requis"}</Badge>}
-=======
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
                     </div>
                   </div>
                   {step.description && <p className="text-xs text-muted-foreground mb-2 leading-relaxed">{step.description}</p>}
                   {!pending && <div className="mb-2.5"><AnimatedBar value={pct} color={barCol} height={3} /></div>}
-<<<<<<< HEAD
 
                   {/* ── Code validation — enhanced UI ── */}
                   {codeReq && (
@@ -414,28 +370,11 @@ function LoanDetail({ loanId }: { loanId: string }) {
                         <div className="space-y-3">
                           <div className="flex flex-col items-center gap-2">
                             <p className="text-xs text-muted-foreground">{lang === "de" ? "Code eingeben (6 Ziffern)" : "Saisir le code (6 chiffres)"}</p>
-=======
-                  {codeReq && (
-                    <div className="rounded-xl border border-amber-300 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/30 p-3.5 space-y-3 mt-2">
-                      <div className="flex items-start gap-2.5">
-                        <div className="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center flex-shrink-0">
-                          <KeyRound className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-                        </div>
-                        <div>
-                          <p className="text-xs font-semibold text-amber-800 dark:text-amber-300 mb-0.5">{lang === "de" ? "Validierungscode erforderlich" : "Code de validation requis"}</p>
-                          <p className="text-xs text-amber-700 dark:text-amber-400 leading-relaxed">{lang === "de" ? "Kontaktieren Sie Ihren Berater, um diesen Code per E-Mail zu erhalten." : "Contactez votre conseiller pour recevoir ce code par email."}</p>
-                        </div>
-                      </div>
-                      {showOtpFor === step.id ? (
-                        <div className="space-y-3">
-                          <div className="flex justify-center">
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
                             <InputOTP maxLength={6} value={otpValue} onChange={setOtpValue}>
                               <InputOTPGroup>{Array.from({ length: 6 }).map((_, i) => <InputOTPSlot key={i} index={i} />)}</InputOTPGroup>
                             </InputOTP>
                           </div>
                           <div className="flex gap-2">
-<<<<<<< HEAD
                             <Button size="sm" className="flex-1 bg-amber-500 hover:bg-amber-600 text-white border-0 gap-1.5"
                               onClick={() => validateCode.mutate(otpValue)}
                               disabled={otpValue.length < 6 || validateCode.isPending}>
@@ -453,17 +392,6 @@ function LoanDetail({ loanId }: { loanId: string }) {
                           onClick={() => setShowOtpFor(step.id)}>
                           <KeyRound className="w-3.5 h-3.5" />
                           {lang === "de" ? "Code eingeben & validieren" : "Saisir le code & valider"}
-=======
-                            <Button size="sm" className="flex-1 bg-amber-500 hover:bg-amber-600 text-white border-0" onClick={() => validateCode.mutate(otpValue)} disabled={otpValue.length < 6 || validateCode.isPending}>
-                              {validateCode.isPending ? (lang === "de" ? "Prüfung..." : "Vérification...") : (lang === "de" ? "Bestätigen" : "Valider")}
-                            </Button>
-                            <Button size="sm" variant="outline" onClick={() => { setShowOtpFor(null); setOtpValue(""); }}><X className="w-4 h-4" /></Button>
-                          </div>
-                        </div>
-                      ) : (
-                        <Button size="sm" variant="outline" className="w-full border-amber-300 text-amber-700 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/30" onClick={() => setShowOtpFor(step.id)}>
-                          <Unlock className="w-3.5 h-3.5 mr-2" />{lang === "de" ? "Code eingeben" : "Saisir le code"}
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
                         </Button>
                       )}
                     </div>

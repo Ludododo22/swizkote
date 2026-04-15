@@ -12,11 +12,7 @@ const ADVISOR_IMG = "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w
 const SWISS_LANDSCAPE_IMG = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop&q=80";
 const LEADERSHIP_IMAGES = [
   "https://www.sfp.ch/assets/group/_processed_/d/a/csm_Bauer_Hans-Peter_87__c7898d0446.jpg?w=400&h=400&fit=crop&q=80",
-<<<<<<< HEAD
   "https://author-img.nuglif.net/0c7af3a3-2cc9-4c8a-bbb3-2edb424a92ec/author_sheet_web_654bb5e7ca326.webp?w=400&h=400&fit=crop",
-=======
-  "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=400&fit=crop",
->>>>>>> a62e0d5913f2859e5b358f2feb37e5068c85d210
   "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
   "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop",
 ];
