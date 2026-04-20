@@ -253,7 +253,7 @@ export default function PrivacyPage() {
 
       <footer className="border-t bg-card/50 py-8">
         <div className="max-w-7xl mx-auto px-4 text-center text-xs text-muted-foreground">
-          <p>© 2024 SWIZKOTE SA —{" "}
+          <p>© 2026 SWIZKOTE SA —{" "}
             <Link href="/terms" className="hover:text-foreground">{de ? "AGB" : en ? "Terms" : it ? "Termini" : "CGU"}</Link>
             {" · "}
             <Link href="/legal" className="hover:text-foreground">{de ? "Impressum" : en ? "Legal" : it ? "Note Legali" : "Mentions légales"}</Link>

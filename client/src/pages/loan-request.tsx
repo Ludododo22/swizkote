@@ -20,11 +20,11 @@ function formatCurrency(amount: number, currency = "CHF") {
 }
 
 const LOAN_TYPES = [
-  { value: "immo",    rate: 1.5,  icon: Home,        labelDe: "Immobilienkredit",  labelFr: "Prêt immobilier",   max: 2000000, durMax: 360 },
-  { value: "conso",   rate: 4.9,  icon: ShoppingBag, labelDe: "Konsumkredit",      labelFr: "Prêt consommation", max: 100000,  durMax: 84  },
-  { value: "auto",    rate: 2.9,  icon: Car,         labelDe: "Autokredit",        labelFr: "Prêt automobile",   max: 200000,  durMax: 84  },
-  { value: "pro",     rate: 3.5,  icon: Briefcase,   labelDe: "Geschäftskredit",   labelFr: "Prêt professionnel",max: 500000,  durMax: 120 },
-  { value: "travaux", rate: 2.2,  icon: Wrench,      labelDe: "Renovierungskredit",labelFr: "Prêt travaux",      max: 300000,  durMax: 120 },
+  { value: "immo",    rate: 1.5,  icon: Home,        labelDe: "Immobilienkredit",  labelFr: "Prêt immobilier",   labelEn: "Mortgage", labelIt: "Mutuo", max: 2000000, durMax: 360 },
+  { value: "conso",   rate: 4.9,  icon: ShoppingBag, labelDe: "Konsumkredit",      labelFr: "Prêt consommation", labelEn: "Consumer", labelIt: "Consumo", max: 100000,  durMax: 84  },
+  { value: "auto",    rate: 2.9,  icon: Car,         labelDe: "Autokredit",        labelFr: "Prêt automobile",   labelEn: "Auto",     labelIt: "Auto",    max: 200000,  durMax: 84  },
+  { value: "pro",     rate: 3.5,  icon: Briefcase,   labelDe: "Geschäftskredit",   labelFr: "Prêt professionnel",labelEn: "Business", labelIt: "Aziendale",max: 500000,  durMax: 120 },
+  { value: "travaux", rate: 2.2,  icon: Wrench,      labelDe: "Renovierungskredit",labelFr: "Prêt travaux",      labelEn: "Renovation",labelIt: "Ristrutturazione",max: 300000,  durMax: 120 },
 ];
 
 export default function LoanRequestPage() {
@@ -37,6 +37,13 @@ export default function LoanRequestPage() {
   const [purpose, setPurpose] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
+  const getLoanTypeLabel = (lt: typeof LOAN_TYPES[0]) => {
+    if (lang === "de") return lt.labelDe;
+    if (lang === "en") return lt.labelEn;
+    if (lang === "it") return lt.labelIt;
+    return lt.labelFr;
+  };
+
   const rate = selectedType.rate;
   const mr = rate / 100 / 12;
   const monthly = amount > 0 && duration > 0 && mr > 0
@@ -47,11 +54,14 @@ export default function LoanRequestPage() {
 
   const sendRequest = useMutation({
     mutationFn: async () => {
-      const typeLabel = lang === "de" ? selectedType.labelDe : selectedType.labelFr;
-      const content = lang === "de"
-        ? `📋 KREDITANTRAG\n\nArt: ${typeLabel}\nBetrag: ${formatCurrency(amount)}\nLaufzeit: ${duration} Monate\nZinssatz: ${rate}% p.a.\nGeschätzte Monatsrate: ${formatCurrency(monthly)}\nGesamtkosten: ${formatCurrency(totalCost)}\nZweck: ${purpose || "—"}`
-        : `📋 DEMANDE DE PRÊT\n\nType : ${typeLabel}\nMontant : ${formatCurrency(amount)}\nDurée : ${duration} mois\nTaux : ${rate}% p.a.\nMensualité estimée : ${formatCurrency(monthly)}\nCoût total : ${formatCurrency(totalCost)}\nObjet : ${purpose || "—"}`;
-      const r = await apiRequest("POST", "/api/messages", { content, userId: "", fromAdmin: false });
+      const r = await apiRequest("POST", "/api/loan-applications", {
+        loanType: selectedType.value,
+        amount,
+        duration,
+        currency: "CHF",
+        purpose: purpose || null,
+        monthlyPayment: monthly,
+      });
       if (!r.ok) throw new Error(await r.text());
     },
     onSuccess: () => {
@@ -68,17 +78,17 @@ export default function LoanRequestPage() {
           <BadgeCheck className="w-10 h-10 text-green-500" />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-green-700 dark:text-green-400">{t("loans_request_sent")}</h2>
-          <p className="text-sm text-muted-foreground mt-2 max-w-xs">{t("loans_request_sent_desc")}</p>
+          <h2 className="text-xl font-bold text-green-700 dark:text-green-400">{t("loans_request_submit_sent_title")}</h2>
+          <p className="text-sm text-muted-foreground mt-2 max-w-xs">{t("loans_request_submit_sent_desc")}</p>
         </div>
         <div className="w-full max-w-sm space-y-3 pt-2">
           <Button className="w-full" variant="outline" onClick={() => setSubmitted(false)}>
-            {lang === "de" ? "Neuen Antrag stellen" : "Nouvelle demande"}
+            {t("loans_request_submit_new_button")}
           </Button>
           <a href="/loans">
             <Button className="w-full gap-2">
               <TrendingUp className="w-4 h-4" />
-              {lang === "de" ? "Meine Vorgänge ansehen" : "Voir mes dossiers"}
+              {t("loans_request_submit_view_button")}
             </Button>
           </a>
         </div>
@@ -87,20 +97,18 @@ export default function LoanRequestPage() {
   );
 
   return (
-    <div className="p-4 md:p-6 space-y-6 max-w-2xl mx-auto">
+    <div className="p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 max-w-2xl mx-auto pb-20 md:pb-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl font-bold">{lang === "de" ? "Kreditantrag" : "Demande de prêt"}</h1>
-        <p className="text-sm text-muted-foreground">
-          {lang === "de" ? "Simulieren und stellen Sie Ihren Finanzierungsantrag" : "Simulez et soumettez votre demande de financement"}
-        </p>
+        <h1 className="text-xl font-bold">{t("loans_request_header_title")}</h1>
+        <p className="text-sm text-muted-foreground">{t("loans_request_header_subtitle")}</p>
       </div>
 
       {/* Step 1 — Loan type */}
       <div className="space-y-3">
         <div className="flex items-center gap-2">
           <span className="w-6 h-6 rounded-full bg-[hsl(var(--gold))]/20 text-[hsl(var(--gold))] text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
-          <h2 className="text-sm font-semibold">{lang === "de" ? "Kreditart wählen" : "Choisir le type de prêt"}</h2>
+          <h2 className="text-sm font-semibold">{t("loans_request_step1_title")}</h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5">
           {LOAN_TYPES.map(lt => {
@@ -125,9 +133,7 @@ export default function LoanRequestPage() {
                 }`}>
                   <Icon className="w-4.5 h-4.5 w-5 h-5" />
                 </div>
-                <span className="text-xs font-semibold leading-tight">
-                  {lang === "de" ? lt.labelDe : lt.labelFr}
-                </span>
+                <span className="text-xs font-semibold leading-tight">{getLoanTypeLabel(lt)}</span>
                 <span className="text-[10px] text-muted-foreground">{lt.rate}% p.a.</span>
               </button>
             );
@@ -139,14 +145,14 @@ export default function LoanRequestPage() {
       <div className="space-y-3">
         <div className="flex items-center gap-2">
           <span className="w-6 h-6 rounded-full bg-[hsl(var(--gold))]/20 text-[hsl(var(--gold))] text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
-          <h2 className="text-sm font-semibold">{lang === "de" ? "Betrag und Laufzeit" : "Montant et durée"}</h2>
+          <h2 className="text-sm font-semibold">{t("loans_request_step2_title")}</h2>
         </div>
         <Card>
           <CardContent className="pt-5 space-y-6">
             {/* Amount slider */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <Label className="text-sm">{lang === "de" ? "Gewünschter Betrag" : "Montant souhaité"}</Label>
+                <Label className="text-sm">{t("loans_request_amount_label")}</Label>
                 <span className="text-lg font-bold text-[hsl(var(--gold))]">{formatCurrency(amount)}</span>
               </div>
               <Slider
@@ -166,11 +172,11 @@ export default function LoanRequestPage() {
             {/* Duration slider */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <Label className="text-sm">{lang === "de" ? "Laufzeit" : "Durée"}</Label>
+                <Label className="text-sm">{t("loans_request_duration_label")}</Label>
                 <span className="text-lg font-bold text-[hsl(var(--gold))]">
-                  {duration} {lang === "de" ? "Monate" : "mois"}
+                  {duration} {lang === "de" ? "Monate" : lang === "en" ? "months" : lang === "it" ? "mesi" : "mois"}
                   <span className="text-sm font-normal text-muted-foreground ml-1">
-                    ({Math.round(duration / 12 * 10) / 10} {lang === "de" ? "Jahre" : "ans"})
+                    ({Math.round(duration / 12 * 10) / 10} {lang === "de" ? "Jahre" : lang === "en" ? "years" : lang === "it" ? "anni" : "ans"})
                   </span>
                 </span>
               </div>
@@ -183,8 +189,8 @@ export default function LoanRequestPage() {
                 className="[&_[role=slider]]:bg-[hsl(var(--gold))] [&_[role=slider]]:border-[hsl(var(--gold))] [&_.relative>div]:bg-[hsl(var(--gold))]"
               />
               <div className="flex justify-between text-xs text-muted-foreground">
-                <span>12 {lang === "de" ? "Monate" : "mois"}</span>
-                <span>{selectedType.durMax} {lang === "de" ? "Monate" : "mois"}</span>
+                <span>12 {lang === "de" ? "Monate" : lang === "en" ? "months" : lang === "it" ? "mesi" : "mois"}</span>
+                <span>{selectedType.durMax} {lang === "de" ? "Monate" : lang === "en" ? "months" : lang === "it" ? "mesi" : "mois"}</span>
               </div>
             </div>
 
@@ -192,19 +198,19 @@ export default function LoanRequestPage() {
             <div className="grid grid-cols-3 gap-3 pt-1">
               <div className="rounded-xl bg-[hsl(var(--gold))]/10 border border-[hsl(var(--gold))]/20 p-3 text-center">
                 <p className="text-[10px] text-[hsl(var(--gold))]/80 mb-1.5 font-medium uppercase tracking-wide">
-                  {lang === "de" ? "Monatsrate" : "Mensualité"}
+                  {t("loans_request_monthly_label")}
                 </p>
                 <p className="text-base font-bold text-[hsl(var(--gold))]">{formatCurrency(monthly)}</p>
               </div>
               <div className="rounded-xl bg-muted/60 p-3 text-center">
                 <p className="text-[10px] text-muted-foreground mb-1.5 font-medium uppercase tracking-wide">
-                  {lang === "de" ? "Gesamtkosten" : "Coût total"}
+                  {t("loans_request_total_cost_label")}
                 </p>
                 <p className="text-base font-bold">{formatCurrency(totalCost)}</p>
               </div>
               <div className="rounded-xl bg-muted/60 p-3 text-center">
                 <p className="text-[10px] text-muted-foreground mb-1.5 font-medium uppercase tracking-wide">
-                  {lang === "de" ? "Gesamtzinsen" : "Total intérêts"}
+                  {t("loans_request_total_interest_label")}
                 </p>
                 <p className="text-base font-bold">{formatCurrency(totalInterest)}</p>
               </div>
@@ -213,11 +219,7 @@ export default function LoanRequestPage() {
             {/* Rate info */}
             <div className="flex items-center gap-2 text-xs text-muted-foreground bg-muted/40 rounded-lg px-3 py-2">
               <Info className="w-3.5 h-3.5 flex-shrink-0" />
-              <span>
-                {lang === "de"
-                  ? `Richtzinssatz: ${rate}% p.a. (effektiver Jahreszins). Tatsächlicher Zinssatz nach individueller Bonitätsprüfung.`
-                  : `Taux indicatif : ${rate}% p.a. (TAEG). Taux réel déterminé après étude personnalisée de votre dossier.`}
-              </span>
+              <span>{t("loans_request_rate_info", { rate: rate.toString() })}</span>
             </div>
           </CardContent>
         </Card>
@@ -227,21 +229,21 @@ export default function LoanRequestPage() {
       <div className="space-y-3">
         <div className="flex items-center gap-2">
           <span className="w-6 h-6 rounded-full bg-[hsl(var(--gold))]/20 text-[hsl(var(--gold))] text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
-          <h2 className="text-sm font-semibold">{lang === "de" ? "Antrag einreichen" : "Soumettre la demande"}</h2>
+          <h2 className="text-sm font-semibold">{t("loans_request_step3_title")}</h2>
         </div>
         <Card>
           <CardContent className="pt-5 space-y-4">
             {/* Summary */}
             <div className="rounded-xl bg-muted/50 p-4 space-y-2.5">
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
-                {lang === "de" ? "Zusammenfassung" : "Récapitulatif"}
+                {t("loans_request_summary_title")}
               </p>
               {[
-                [lang === "de" ? "Kreditart" : "Type", lang === "de" ? selectedType.labelDe : selectedType.labelFr],
-                [lang === "de" ? "Betrag" : "Montant", formatCurrency(amount)],
-                [lang === "de" ? "Laufzeit" : "Durée", `${duration} ${lang === "de" ? "Monate" : "mois"}`],
-                [lang === "de" ? "Zinssatz" : "Taux", `${rate}% p.a.`],
-                [lang === "de" ? "Monatsrate" : "Mensualité", formatCurrency(monthly)],
+                [t("loans_request_type"), getLoanTypeLabel(selectedType)],
+                [t("loans_request_amount"), formatCurrency(amount)],
+                [t("loans_request_duration"), `${duration} ${lang === "de" ? "Monate" : lang === "en" ? "months" : lang === "it" ? "mesi" : "mois"}`],
+                [t("loans_rate"), `${rate}% p.a.`],
+                [t("loans_request_monthly_label"), formatCurrency(monthly)],
               ].map(([k, v]) => (
                 <div key={k} className="flex items-center justify-between gap-2">
                   <span className="text-xs text-muted-foreground">{k}</span>
@@ -252,11 +254,11 @@ export default function LoanRequestPage() {
 
             {/* Purpose */}
             <div className="space-y-1.5">
-              <Label className="text-sm">{t("loans_request_purpose")}</Label>
+              <Label className="text-sm">{t("loans_request_purpose_label")}</Label>
               <Textarea
                 value={purpose}
                 onChange={e => setPurpose(e.target.value)}
-                placeholder={t("loans_request_purpose_ph")}
+                placeholder={t("loans_request_purpose_placeholder")}
                 rows={3}
                 className="resize-none text-sm"
               />
@@ -266,9 +268,7 @@ export default function LoanRequestPage() {
             <div className="flex items-start gap-2.5 rounded-xl border border-blue-200 dark:border-blue-900 bg-blue-50 dark:bg-blue-950/20 p-3">
               <FileText className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
               <p className="text-xs text-blue-700 dark:text-blue-400 leading-relaxed">
-                {lang === "de"
-                  ? "Ihre Anfrage wird direkt an Ihren persönlichen Berater übermittelt, der sich innerhalb von 24 Stunden bei Ihnen meldet. Sie können den Fortschritt in \"Meine Vorgänge\" verfolgen."
-                  : "Votre demande sera transmise directement à votre conseiller dédié qui vous contactera dans les 24h. Vous pourrez suivre l'avancement dans \"Mes dossiers\"."}
+                {t("loans_request_info_box")}
               </p>
             </div>
 
@@ -280,13 +280,17 @@ export default function LoanRequestPage() {
             >
               {sendRequest.isPending
                 ? <><Loader2 className="w-4 h-4 animate-spin" />{t("loans_request_submitting")}</>
-                : <><Send className="w-4 h-4" />{t("loans_request_submit")}</>
+                : <><Send className="w-4 h-4" />{t("loans_request_submit_button")}</>
               }
             </Button>
 
             <p className="text-center text-xs text-muted-foreground">
               {lang === "de"
                 ? "Ihre Daten werden vertraulich behandelt · FINMA-zugelassen"
+                : lang === "en"
+                ? "Your data is treated confidentially · FINMA licensed"
+                : lang === "it"
+                ? "I tuoi dati sono trattati in modo confidenziale · Autorizzato FINMA"
                 : "Vos données sont traitées confidentiellement · Agréé FINMA"}
             </p>
           </CardContent>

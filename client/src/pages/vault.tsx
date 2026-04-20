@@ -11,7 +11,7 @@ import type { Document } from "@shared/schema";
 import { FolderLock, Upload, FileText, Trash2, Shield, Lock, CheckCircle2, Eye, Download, FileCheck, FileBadge, FileKey } from "lucide-react";
 import { useRef, useState } from "react";
 import { format } from "date-fns";
-import { fr, de } from "date-fns/locale";
+import { fr, de, enGB, it } from "date-fns/locale";
 
 function formatSize(bytes: number | null) {
   if (!bytes) return "N/A";
@@ -40,7 +40,15 @@ export default function VaultPage() {
   const { t, lang } = useI18n();
   const { toast } = useToast();
   const fileRef = useRef<HTMLInputElement>(null);
-  const locale = lang === "de" ? de : fr;
+  
+  const getLocale = () => {
+    if (lang === "de") return de;
+    if (lang === "en") return enGB;
+    if (lang === "it") return it;
+    return fr;
+  };
+  const locale = getLocale();
+  
   const de_lang = lang === "de";
   const [filterType, setFilterType] = useState("all");
   const [dragOver, setDragOver] = useState(false);
@@ -82,7 +90,7 @@ export default function VaultPage() {
   const filteredDocs = filterType === "all" ? documents : documents?.filter(d => d.type === filterType);
 
   return (
-    <div className="p-4 md:p-6 space-y-6 max-w-4xl mx-auto">
+    <div className="p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 max-w-4xl mx-auto pb-20 md:pb-6">
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
@@ -123,10 +131,10 @@ export default function VaultPage() {
       >
         <Upload className={`w-8 h-8 mx-auto mb-2 transition-colors ${dragOver ? "text-gold" : "text-muted-foreground/40"}`} />
         <p className="text-sm font-medium text-muted-foreground">
-          {de_lang ? "Dateien hier ablegen oder klicken um hochzuladen" : "Déposez des fichiers ici ou cliquez pour uploader"}
+          {de_lang ? "Dateien hier ablegen oder klicken um hochzuladen" : lang === "en" ? "Drop files here or click to upload" : lang === "it" ? "Trascina i file qui o clicca per caricare" : "Déposez des fichiers ici ou cliquez pour uploader"}
         </p>
         <p className="text-xs text-muted-foreground/60 mt-1">
-          {de_lang ? "PDF, JPEG, PNG bis 10 MB" : "PDF, JPEG, PNG jusqu'à 10 Mo"}
+          {de_lang ? "PDF, JPEG, PNG bis 10 MB" : lang === "en" ? "PDF, JPEG, PNG up to 10 MB" : lang === "it" ? "PDF, JPEG, PNG fino a 10 MB" : "PDF, JPEG, PNG jusqu'à 10 Mo"}
         </p>
       </div>
 
@@ -144,7 +152,7 @@ export default function VaultPage() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{de_lang ? "Alle Typen" : "Tous les types"}</SelectItem>
+                <SelectItem value="all">{de_lang ? "Alle Typen" : lang === "en" ? "All types" : lang === "it" ? "Tutti i tipi" : "Tous les types"}</SelectItem>
                 <SelectItem value="passport">{t("vault_type_passport")}</SelectItem>
                 <SelectItem value="contract">{t("vault_type_contract")}</SelectItem>
                 <SelectItem value="statement">{t("vault_type_statement")}</SelectItem>
@@ -178,7 +186,7 @@ export default function VaultPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button variant="ghost" size="icon" className="h-8 w-8" title={de_lang ? "Anzeigen" : "Voir"}>
+                      <Button variant="ghost" size="icon" className="h-8 w-8" title={de_lang ? "Anzeigen" : lang === "en" ? "View" : lang === "it" ? "Visualizza" : "Voir"}>
                         <Eye className="w-3.5 h-3.5 text-muted-foreground" />
                       </Button>
                       <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => deleteDoc.mutate(doc.id)} data-testid={`button-delete-doc-${doc.id}`}>
@@ -192,7 +200,7 @@ export default function VaultPage() {
           ) : (
             <div className="text-center py-12">
               <FolderLock className="w-10 h-10 mx-auto text-muted-foreground/30 mb-3" />
-              <p className="text-sm text-muted-foreground">{filterType !== "all" ? (de_lang ? "Keine Dokumente in dieser Kategorie" : "Aucun document dans cette catégorie") : t("vault_empty")}</p>
+              <p className="text-sm text-muted-foreground">{filterType !== "all" ? (de_lang ? "Keine Dokumente in dieser Kategorie" : lang === "en" ? "No documents in this category" : lang === "it" ? "Nessun documento in questa categoria" : "Aucun document dans cette catégorie") : t("vault_empty")}</p>
               {filterType === "all" && (
                 <Button variant="secondary" className="mt-4" onClick={() => fileRef.current?.click()}>{t("vault_upload_first")}</Button>
               )}

@@ -115,7 +115,7 @@ export default function LoginPage() {
         <div className="relative space-y-6">
           <div>
             <p className="text-gold text-sm font-medium uppercase tracking-widest mb-3">
-              {lang === "de" ? "Seit 1874" : lang === "en" ? "Since 1874" : lang === "it" ? "Dal 1874" : "Depuis 1874"}
+              {lang === "de" ? "Seit 2001" : lang === "en" ? "Since 2001" : lang === "it" ? "Dal 2001" : "Depuis 2001"}
             </p>
             <h2 className="text-3xl xl:text-4xl font-bold text-white leading-tight">
               {lang === "de"

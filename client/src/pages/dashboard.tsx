@@ -135,15 +135,30 @@ function NotificationBell({ count }: { count: number }) {
   const { t, lang } = useI18n();
   const de_lang = lang === "de";
 
-  const notifs = de_lang ? [
-    { id: 1, text: "Neue Überweisung eingegangen", time: "vor 5 Min.", icon: Send, color: "text-green-500" },
-    { id: 2, text: "Ihre Karte läuft in 30 Tagen ab", time: "heute", icon: CreditCard, color: "text-gold" },
-    { id: 3, text: "Neues Beratergespräch verfügbar", time: "gestern", icon: MessageSquare, color: "text-blue-400" },
-  ] : [
-    { id: 1, text: "Nouveau virement reçu", time: "il y a 5 min", icon: Send, color: "text-green-500" },
-    { id: 2, text: "Votre carte expire dans 30 jours", time: "aujourd'hui", icon: CreditCard, color: "text-gold" },
-    { id: 3, text: "Nouveau message de votre conseiller", time: "hier", icon: MessageSquare, color: "text-blue-400" },
-  ];
+  type NotifItem = { id: number; text: string; time: string; icon: any; color: string };
+  const notifsByLang: Record<string, NotifItem[]> = {
+    de: [
+      { id: 1, text: "Neue Überweisung eingegangen", time: "vor 5 Min.", icon: Send, color: "text-green-500" },
+      { id: 2, text: "Ihre Karte läuft in 30 Tagen ab", time: "heute", icon: CreditCard, color: "text-gold" },
+      { id: 3, text: "Neues Beratergespräch verfügbar", time: "gestern", icon: MessageSquare, color: "text-blue-400" },
+    ],
+    en: [
+      { id: 1, text: "New transfer received", time: "5 min ago", icon: Send, color: "text-green-500" },
+      { id: 2, text: "Your card expires in 30 days", time: "today", icon: CreditCard, color: "text-gold" },
+      { id: 3, text: "New message from your advisor", time: "yesterday", icon: MessageSquare, color: "text-blue-400" },
+    ],
+    it: [
+      { id: 1, text: "Nuovo bonifico ricevuto", time: "5 min fa", icon: Send, color: "text-green-500" },
+      { id: 2, text: "La sua carta scade tra 30 giorni", time: "oggi", icon: CreditCard, color: "text-gold" },
+      { id: 3, text: "Nuovo messaggio dal suo consulente", time: "ieri", icon: MessageSquare, color: "text-blue-400" },
+    ],
+    fr: [
+      { id: 1, text: "Nouveau virement reçu", time: "il y a 5 min", icon: Send, color: "text-green-500" },
+      { id: 2, text: "Votre carte expire dans 30 jours", time: "aujourd'hui", icon: CreditCard, color: "text-gold" },
+      { id: 3, text: "Nouveau message de votre conseiller", time: "hier", icon: MessageSquare, color: "text-blue-400" },
+    ],
+  };
+  const notifs = notifsByLang[lang] ?? notifsByLang.fr;
 
   return (
     <div className="relative">
@@ -160,9 +175,9 @@ function NotificationBell({ count }: { count: number }) {
       {open && (
         <div className="absolute right-0 top-full mt-2 w-80 max-w-[calc(100vw-2rem)] bg-card border rounded-xl shadow-xl z-50 overflow-hidden">
           <div className="flex items-center justify-between px-4 py-3 border-b">
-            <span className="text-sm font-semibold">{de_lang ? "Benachrichtigungen" : "Notifications"}</span>
+            <span className="text-sm font-semibold">{lang === "de" ? "Benachrichtigungen" : lang === "en" ? "Notifications" : lang === "it" ? "Notifiche" : "Notifications"}</span>
             <button onClick={() => setOpen(false)} className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              {de_lang ? "Alle als gelesen markieren" : "Tout marquer comme lu"}
+              {lang === "de" ? "Alle als gelesen markieren" : lang === "en" ? "Mark all as read" : lang === "it" ? "Segna tutto come letto" : "Tout marquer comme lu"}
             </button>
           </div>
           <div className="divide-y">
@@ -184,7 +199,7 @@ function NotificationBell({ count }: { count: number }) {
           </div>
           <div className="px-4 py-2.5 border-t text-center">
             <Link href="/messages" className="text-xs text-gold hover:underline">
-              {de_lang ? "Alle Nachrichten anzeigen" : "Voir tous les messages"} →
+              {lang === "de" ? "Alle Nachrichten anzeigen" : lang === "en" ? "View all messages" : lang === "it" ? "Vedi tutti i messaggi" : "Voir tous les messages"} →
             </Link>
           </div>
         </div>
@@ -276,29 +291,28 @@ export default function DashboardPage() {
     });
   }, [totalBalance, lang]);
 
-  // Quick actions data
+  // Quick actions data - all 4 languages
   const quickActions = [
-    { label: de_lang ? "Überweisung" : lang === "en" ? "Transfer" : lang === "it" ? "Bonifico" : "Virement", icon: Send, href: "/transfers", color: "text-blue-400" },
-    { label: de_lang ? "Konten" : lang === "en" ? "Accounts" : lang === "it" ? "Conti" : "Comptes", icon: Wallet, href: "/accounts", color: "text-gold" },
-    { label: de_lang ? "Karten" : lang === "en" ? "Cards" : lang === "it" ? "Carte" : "Cartes", icon: CreditCard, href: "/cards", color: "text-purple-400" },
-    { label: de_lang ? "Kredit" : lang === "en" ? "Loan" : lang === "it" ? "Prestito" : "Prêt", icon: PiggyBank, href: "/loan-request", color: "text-green-400" },
-    { label: de_lang ? "Tresor" : lang === "en" ? "Vault" : lang === "it" ? "Cassaforte" : "Coffre", icon: Shield, href: "/vault", color: "text-orange-400" },
-    { label: de_lang ? "Nachrichten" : lang === "en" ? "Messages" : lang === "it" ? "Messaggi" : "Messages", icon: MessageSquare, href: "/messages", color: "text-pink-400" },
+    { label: lang === "de" ? "Überweisung" : lang === "en" ? "Transfer" : lang === "it" ? "Bonifico" : "Virement", icon: Send, href: "/transfers", color: "text-blue-400" },
+    { label: lang === "de" ? "Konten" : lang === "en" ? "Accounts" : lang === "it" ? "Conti" : "Comptes", icon: Wallet, href: "/accounts", color: "text-gold" },
+    { label: lang === "de" ? "Karten" : lang === "en" ? "Cards" : lang === "it" ? "Carte" : "Cartes", icon: CreditCard, href: "/cards", color: "text-purple-400" },
+    { label: lang === "de" ? "Kredit" : lang === "en" ? "Loan" : lang === "it" ? "Prestito" : "Prêt", icon: PiggyBank, href: "/loan-request", color: "text-green-400" },
+    { label: lang === "de" ? "Tresor" : lang === "en" ? "Vault" : lang === "it" ? "Cassaforte" : "Coffre", icon: Shield, href: "/vault", color: "text-orange-400" },
+    { label: lang === "de" ? "Nachrichten" : lang === "en" ? "Messages" : lang === "it" ? "Messaggi" : "Messages", icon: MessageSquare, href: "/messages", color: "text-pink-400" },
   ];
 
   return (
-    <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 max-w-7xl mx-auto pb-20 md:pb-6">
       {/* ── Header ── */}
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="text-xl font-bold tracking-tight" data-testid="text-welcome">
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-lg sm:text-xl font-bold tracking-tight truncate" data-testid="text-welcome">
             {t("dash_hello")}, {user?.fullName?.split(" ")[0]} 👋
           </h1>
-          <p className="text-sm text-muted-foreground">{t("dash_subtitle")}</p>
-          {/* Last login info */}
+          <p className="text-xs sm:text-sm text-muted-foreground">{t("dash_subtitle")}</p>
           {previousLogin && (
-            <div className="flex items-center gap-1.5 mt-1.5 text-xs text-muted-foreground/70">
-              <LogIn className="w-3 h-3 text-gold/60" />
+            <div className="flex items-center gap-1 mt-1 text-[10px] sm:text-xs text-muted-foreground/70 flex-wrap">
+              <LogIn className="w-3 h-3 text-gold/60 flex-shrink-0" />
               <span>{lastLoginLabel} : </span>
               <span className="font-medium text-muted-foreground">
                 {format(new Date(previousLogin), "dd MMM yyyy, HH:mm", { locale })}
@@ -306,12 +320,11 @@ export default function DashboardPage() {
             </div>
           )}
         </div>
-        <div className="flex items-center gap-2 flex-wrap">
-          {/* Statement buttons */}
+        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
           <Button
             variant="outline"
             size="sm"
-            className="gap-1.5 text-xs border-gold/30 hover:border-gold/60 hover:bg-gold/5"
+            className="h-8 w-8 sm:w-auto sm:px-3 gap-1.5 text-xs border-gold/30 hover:border-gold/60 hover:bg-gold/5 p-0 sm:p-2"
             onClick={handleDownloadStatement}
             title={t("dash_download_statement")}
           >
@@ -321,7 +334,7 @@ export default function DashboardPage() {
           <Button
             variant="outline"
             size="sm"
-            className="gap-1.5 text-xs border-gold/30 hover:border-gold/60 hover:bg-gold/5"
+            className="h-8 w-8 sm:w-auto sm:px-3 gap-1.5 text-xs border-gold/30 hover:border-gold/60 hover:bg-gold/5 p-0 sm:p-2"
             onClick={handlePrintStatement}
             title={t("dash_print_statement")}
           >
@@ -329,34 +342,34 @@ export default function DashboardPage() {
             <span className="hidden sm:inline">{t("dash_print_statement")}</span>
           </Button>
           <NotificationBell count={3} />
-          <Button variant="ghost" size="icon" onClick={() => setShowBalance(!showBalance)} data-testid="button-toggle-balance">
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setShowBalance(!showBalance)} data-testid="button-toggle-balance">
             {showBalance ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
           </Button>
         </div>
       </div>
 
       {/* ── Balance Cards ── */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Total balance - spans 2 on large screens */}
-        <Card className="sm:col-span-2 bg-gradient-to-br from-[hsl(222,40%,14%)] to-[hsl(222,35%,9%)] border-[hsl(222,30%,20%)] text-white overflow-hidden relative">
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
+        {/* Total balance - spans full width on mobile, 2 cols on sm+ */}
+        <Card className="col-span-2 bg-gradient-to-br from-[hsl(222,40%,14%)] to-[hsl(222,35%,9%)] border-[hsl(222,30%,20%)] text-white overflow-hidden relative">
           <div className="absolute top-0 right-0 w-32 h-32 bg-gold/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
-          <CardContent className="p-5">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2 text-white/70 text-sm">
+          <CardContent className="p-4 sm:p-5">
+            <div className="flex items-center justify-between mb-2 sm:mb-3">
+              <div className="flex items-center gap-2 text-white/70 text-xs sm:text-sm">
                 <Wallet className="w-4 h-4 text-gold" />
                 {t("dash_total_balance")}
               </div>
-              <Badge className="bg-gold/20 text-gold border-0 text-xs">{t("dash_all_accounts")}</Badge>
+              <Badge className="bg-gold/20 text-gold border-0 text-[10px] sm:text-xs">{t("dash_all_accounts")}</Badge>
             </div>
-            {accountsLoading ? <Skeleton className="h-10 w-48 bg-white/10" /> : (
-              <p className="text-3xl font-bold tracking-tight text-white" data-testid="text-total-balance">
+            {accountsLoading ? <Skeleton className="h-8 sm:h-10 w-36 sm:w-48 bg-white/10" /> : (
+              <p className="text-2xl sm:text-3xl font-bold tracking-tight text-white" data-testid="text-total-balance">
                 {showBalance ? formatCurrency(totalBalance) : "CHF ••• •••"}
               </p>
             )}
-            <div className="flex items-center gap-1 mt-2">
+            <div className="flex items-center gap-1 mt-1.5 sm:mt-2">
               <TrendingUp className="w-3 h-3 text-green-400" />
               <span className="text-xs text-green-400 font-medium">+2.4%</span>
-              <span className="text-xs text-white/50 ml-1">{t("dash_this_month")}</span>
+              <span className="text-[10px] sm:text-xs text-white/50 ml-1">{t("dash_this_month")}</span>
             </div>
           </CardContent>
         </Card>
@@ -364,7 +377,7 @@ export default function DashboardPage() {
         {/* Main account */}
         <MiniStat
           icon={Wallet}
-          label={de_lang ? "Hauptkonto" : "Compte principal"}
+          label={lang === "de" ? "Hauptkonto" : lang === "en" ? "Main account" : lang === "it" ? "Conto principale" : "Compte principal"}
           value={showBalance ? formatCurrency(mainAccount?.balance || 0) : "CHF •••"}
           color="text-gold"
         />
@@ -372,32 +385,32 @@ export default function DashboardPage() {
         {/* Active transfers */}
         <MiniStat
           icon={Activity}
-          label={de_lang ? "Aktive Überweisungen" : "Virements actifs"}
+          label={lang === "de" ? "Aktive Überweisungen" : lang === "en" ? "Active transfers" : lang === "it" ? "Bonifici attivi" : "Virements actifs"}
           value={String(activeTransfers.length)}
-          trend={completedTransfers.length > 0 ? `${completedTransfers.length} ${de_lang ? "erledigt" : "terminés"}` : undefined}
+          trend={completedTransfers.length > 0 ? `${completedTransfers.length} ${lang === "de" ? "erledigt" : lang === "en" ? "done" : lang === "it" ? "completati" : "terminés"}` : undefined}
           color="text-blue-400"
         />
       </div>
 
       {/* ── Quick Actions ── */}
       <Card>
-        <CardHeader className="pb-2">
+        <CardHeader className="pb-2 px-3 sm:px-6">
           <div className="flex items-center gap-2">
             <Zap className="w-4 h-4 text-gold" />
             <span className="text-sm font-medium">{t("dash_quick_actions")}</span>
           </div>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+        <CardContent className="px-3 sm:px-6">
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-1 sm:gap-2">
             {quickActions.map((action) => {
               const Icon = action.icon;
               return (
                 <Link key={action.href} href={action.href}>
-                  <div className="flex flex-col items-center gap-1.5 p-3 rounded-xl hover:bg-muted transition-colors cursor-pointer group">
-                    <div className="w-10 h-10 rounded-xl bg-muted group-hover:bg-background flex items-center justify-center transition-colors">
-                      <Icon className={`w-5 h-5 ${action.color}`} />
+                  <div className="flex flex-col items-center gap-1 sm:gap-1.5 p-2 sm:p-3 rounded-xl hover:bg-muted transition-colors cursor-pointer group">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-muted group-hover:bg-background flex items-center justify-center transition-colors">
+                      <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${action.color}`} />
                     </div>
-                    <span className="text-[10px] font-medium text-center leading-tight text-muted-foreground group-hover:text-foreground transition-colors">{action.label}</span>
+                    <span className="text-[9px] sm:text-[10px] font-medium text-center leading-tight text-muted-foreground group-hover:text-foreground transition-colors">{action.label}</span>
                   </div>
                 </Link>
               );
@@ -407,17 +420,17 @@ export default function DashboardPage() {
       </Card>
 
       {/* ── Chart + Active Transfers ── */}
-      <div className="grid gap-4 lg:grid-cols-3">
+      <div className="grid gap-3 sm:gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2">
-          <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2 px-3 sm:px-6">
             <div className="flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-gold" />
               <span className="text-sm font-medium">{t("dash_wealth_chart")}</span>
             </div>
             <Badge variant="secondary">{t("dash_six_months")}</Badge>
           </CardHeader>
-          <CardContent>
-            <div className="h-[200px]">
+          <CardContent className="px-3 sm:px-6">
+            <div className="h-[160px] sm:h-[200px]">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={chartData}>
                   <defs>
@@ -427,10 +440,10 @@ export default function DashboardPage() {
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(222, 30%, 20%)" opacity={0.3} />
-                  <XAxis dataKey="month" tick={{ fontSize: 11 }} stroke="hsl(220, 15%, 60%)" />
-                  <YAxis tick={{ fontSize: 11 }} stroke="hsl(220, 15%, 60%)" tickFormatter={v => `${(v/1000).toFixed(0)}k`} width={40} />
+                  <XAxis dataKey="month" tick={{ fontSize: 10 }} stroke="hsl(220, 15%, 60%)" />
+                  <YAxis tick={{ fontSize: 10 }} stroke="hsl(220, 15%, 60%)" tickFormatter={v => `${(v/1000).toFixed(0)}k`} width={35} />
                   <Tooltip
-                    contentStyle={{ backgroundColor: "hsl(222, 32%, 12%)", border: "1px solid hsl(222, 30%, 20%)", borderRadius: "8px", color: "hsl(220, 20%, 95%)" }}
+                    contentStyle={{ backgroundColor: "hsl(222, 32%, 12%)", border: "1px solid hsl(222, 30%, 20%)", borderRadius: "8px", color: "hsl(220, 20%, 95%)", fontSize: "12px" }}
                     formatter={(value: number) => [formatCurrency(value), t("balance")]}
                   />
                   <Area type="monotone" dataKey="balance" stroke="hsl(42, 80%, 55%)" strokeWidth={2} fillOpacity={1} fill="url(#colorBalance)" />
@@ -473,7 +486,7 @@ export default function DashboardPage() {
                 ))}
                 <Link href="/transfers">
                   <button className="w-full text-xs text-gold hover:underline flex items-center justify-center gap-1 pt-1">
-                    {de_lang ? "Alle anzeigen" : "Voir tout"} <ChevronRight className="w-3 h-3" />
+                    {lang === "de" ? "Alle anzeigen" : lang === "en" ? "See all" : lang === "it" ? "Vedi tutto" : "Voir tout"} <ChevronRight className="w-3 h-3" />
                   </button>
                 </Link>
               </CardContent>
@@ -486,7 +499,7 @@ export default function DashboardPage() {
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-2">
                   <PiggyBank className="w-4 h-4 text-gold" />
-                  <span className="text-sm font-medium">{de_lang ? "Sparkonto" : "Épargne"}</span>
+                  <span className="text-sm font-medium">{lang === "de" ? "Sparkonto" : lang === "en" ? "Savings" : lang === "it" ? "Risparmio" : "Épargne"}</span>
                 </div>
               </CardHeader>
               <CardContent>
@@ -495,7 +508,7 @@ export default function DashboardPage() {
                 </p>
                 <div className="flex items-center gap-1 mt-1">
                   <Star className="w-3 h-3 text-gold" />
-                  <span className="text-xs text-gold">{de_lang ? "4% Zinsen / Jahr" : "4% intérêts / an"}</span>
+                  <span className="text-xs text-gold">{lang === "de" ? "4% Zinsen / Jahr" : lang === "en" ? "4% interest / year" : lang === "it" ? "4% interessi / anno" : "4% intérêts / an"}</span>
                 </div>
               </CardContent>
             </Card>
@@ -509,8 +522,8 @@ export default function DashboardPage() {
                   <Shield className="w-4 h-4 text-gold" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-medium">{de_lang ? "Digitaler Tresor" : "Coffre numérique"}</p>
-                  <p className="text-xs text-muted-foreground">{de_lang ? "Dokumente sicher aufbewahren" : "Documents sécurisés"}</p>
+                  <p className="text-sm font-medium">{lang === "de" ? "Digitaler Tresor" : lang === "en" ? "Digital Vault" : lang === "it" ? "Cassaforte digitale" : "Coffre numérique"}</p>
+                  <p className="text-xs text-muted-foreground">{lang === "de" ? "Dokumente sicher aufbewahren" : lang === "en" ? "Secure documents" : lang === "it" ? "Documenti sicuri" : "Documents sécurisés"}</p>
                 </div>
                 <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0 ml-auto" />
               </CardContent>
@@ -556,7 +569,7 @@ export default function DashboardPage() {
               <p className="text-sm text-muted-foreground">{t("dash_no_tx")}</p>
               <Link href="/transfers">
                 <Button variant="outline" size="sm" className="mt-2">
-                  {de_lang ? "Erste Überweisung tätigen" : "Effectuer un virement"}
+                  {lang === "de" ? "Erste Überweisung tätigen" : lang === "en" ? "Make a transfer" : lang === "it" ? "Effettua un bonifico" : "Effectuer un virement"}
                 </Button>
               </Link>
             </div>

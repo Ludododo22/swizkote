@@ -55,7 +55,6 @@ const accountTypeColors: Record<string, string> = {
 export default function AccountsPage() {
   const { t, lang } = useI18n();
   const { toast } = useToast();
-  const de = lang === "de";
   const [showCreate, setShowCreate] = useState(false);
   const [newAccount, setNewAccount] = useState({ name: "", type: "savings", currency: "CHF" });
 
@@ -81,8 +80,29 @@ export default function AccountsPage() {
   const totalInterest = savingsAccounts.reduce((sum, a) => sum + (a.balance * (a.interestRate || 0) / 100), 0);
   const mainAccount = accounts?.find(a => a.type === "main");
 
+  const getMainIbanLabel = () => {
+    if (lang === "de") return "Hauptkonto IBAN";
+    if (lang === "en") return "Main Account IBAN";
+    if (lang === "it") return "IBAN Conto Principale";
+    return "IBAN Principal";
+  };
+
+  const getActiveLabel = () => {
+    if (lang === "de") return "Aktiv";
+    if (lang === "en") return "Active";
+    if (lang === "it") return "Attivo";
+    return "Actif(s)";
+  };
+
+  const getInactiveLabel = () => {
+    if (lang === "de") return "Inaktiv";
+    if (lang === "en") return "Inactive";
+    if (lang === "it") return "Inattivo";
+    return "Inactif(s)";
+  };
+
   return (
-    <div className="p-4 md:p-6 space-y-6 max-w-4xl mx-auto">
+    <div className="p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 max-w-4xl mx-auto pb-20 md:pb-6">
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
@@ -125,7 +145,7 @@ export default function AccountsPage() {
           <CardContent className="p-4">
             <div className="flex items-center gap-2 text-muted-foreground text-xs mb-2">
               <Landmark className="w-3.5 h-3.5 text-gold" />
-              {de ? "Hauptkonto IBAN" : "IBAN Principal"}
+              {getMainIbanLabel()}
             </div>
             {isLoading ? <Skeleton className="h-8 w-32" /> : (
               <div className="mt-1">
@@ -203,10 +223,10 @@ export default function AccountsPage() {
               <Select value={newAccount.currency} onValueChange={v => setNewAccount({ ...newAccount, currency: v })}>
                 <SelectTrigger data-testid="select-account-currency"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="CHF">🇨🇭 CHF – Schweizer Franken</SelectItem>
+                  <SelectItem value="CHF">🇨🇭 CHF – {lang === "de" ? "Schweizer Franken" : lang === "en" ? "Swiss Franc" : lang === "it" ? "Franco svizzero" : "Franc suisse"}</SelectItem>
                   <SelectItem value="EUR">🇪🇺 EUR – Euro</SelectItem>
-                  <SelectItem value="USD">🇺🇸 USD – US-Dollar</SelectItem>
-                  <SelectItem value="GBP">🇬🇧 GBP – Britisches Pfund</SelectItem>
+                  <SelectItem value="USD">🇺🇸 USD – {lang === "de" ? "US-Dollar" : lang === "en" ? "US Dollar" : lang === "it" ? "Dollaro USA" : "Dollar US"}</SelectItem>
+                  <SelectItem value="GBP">🇬🇧 GBP – {lang === "de" ? "Britisches Pfund" : lang === "en" ? "British Pound" : lang === "it" ? "Sterlina britannica" : "Livre sterling"}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -219,4 +239,3 @@ export default function AccountsPage() {
     </div>
   );
 }
-

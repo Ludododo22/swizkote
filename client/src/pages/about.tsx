@@ -30,81 +30,85 @@ const LEGACY_TEXT = {
   fr: {
     title: "Notre héritage : la Banque Leclerc & Cie",
     badge: "Héritage historique",
-    body: `SWIZKOTE est l'héritière directe de la Banque Leclerc & Cie, institution bancaire genevoise fondée en 1874, qui a marqué de son empreinte plus d'un siècle de finance privée suisse. Reconnue pour sa discrétion, sa rigueur et son excellence dans la gestion de fortune, la Banque Leclerc & Cie a servi des générations de familles et d'entrepreneurs à Genève et en Suisse romande jusqu'à sa fermeture en 1977.`,
-    body2: `Fondée par la famille Leclerc, l'institution a traversé deux guerres mondiales, les turbulences financières du XXe siècle et a su préserver intacte la confiance de sa clientèle privée. Sa fermeture en 1977, après plus de cent ans d'existence, a marqué la fin d'une époque — mais non celle des valeurs qui l'animaient.`,
-    body3: `En 1987, des banquiers genevois visionnaires, gardiens de cet héritage, ont fondé SWIZKOTE SA avec la mission de perpétuer cette tradition d'excellence, de confidentialité et d'innovation au service d'une clientèle internationale exigeante. Aujourd'hui, SWIZKOTE honore chaque jour cet héritage centenaire en alliant la sagesse de la finance suisse traditionnelle aux outils technologiques les plus modernes.`,
-    years: "150 ans d'héritage",
-    closed: "Banque Leclerc & Cie fermée en 1977",
-    refounded: "Refondée sous SWIZKOTE en 1987",
+    body: `SWIZKOTE est l'héritière directe de la Banque Leclerc & Cie, institution bancaire genevoise fondée en 1951, reconnue pour sa discrétion, sa rigueur et son excellence dans la gestion de fortune. La Banque Leclerc & Cie a servi des familles et des entrepreneurs à Genève et en Suisse romande, posant les bases d'une tradition bancaire d'exception.`,
+    body2: `Fondée par la famille Leclerc, l'institution a su préserver intacte la confiance de sa clientèle privée au fil des décennies, à travers les turbulences financières de la seconde moitié du XXe siècle. Son héritage de valeurs — intégrité, confidentialité et excellence — constitue encore aujourd'hui le socle de l'identité de SWIZKOTE.`,
+    body3: `En 2001, des banquiers genevois visionnaires, gardiens de cet héritage, ont fondé SWIZKOTE SA avec la mission de perpétuer cette tradition d'excellence, de confidentialité et d'innovation au service d'une clientèle internationale exigeante. Aujourd'hui, SWIZKOTE honore chaque jour cet héritage en alliant la sagesse de la finance suisse traditionnelle aux outils technologiques les plus modernes.`,
+    years: "25 ans d'héritage",
+    closed: "Héritage Banque Leclerc & Cie",
+    refounded: "Fondée sous SWIZKOTE en 2001",
   },
   de: {
     title: "Unser Erbe: die Banque Leclerc & Cie",
     badge: "Historisches Erbe",
-    body: `SWIZKOTE ist die direkte Nachfolgerin der Banque Leclerc & Cie, einem Genfer Bankinstitut, das 1874 gegründet wurde und über ein Jahrhundert Schweizer Privatfinanzwesen massgeblich geprägt hat. Die Banque Leclerc & Cie war für ihre Diskretion, Strenge und Exzellenz in der Vermögensverwaltung bekannt und betreute Generationen von Familien und Unternehmern in Genf und der Westschweiz bis zu ihrer Schliessung im Jahr 1977.`,
-    body2: `Das von der Familie Leclerc gegründete Institut überstand zwei Weltkriege und die finanziellen Turbulenzen des 20. Jahrhunderts, wobei das Vertrauen seiner Privatkundschaft stets unversehrt blieb. Die Schliessung im Jahr 1977, nach über hundert Jahren, markierte das Ende einer Ära — aber nicht das der Werte, die sie beseelten.`,
-    body3: `Im Jahr 1987 gründeten visionäre Genfer Banker, Hüter dieses Erbes, die SWIZKOTE SA mit dem Auftrag, diese Tradition der Exzellenz, Vertraulichkeit und Innovation im Dienste einer anspruchsvollen internationalen Kundschaft fortzuführen. Heute ehrt SWIZKOTE dieses jahrhundertealte Erbe täglich, indem es die Weisheit des traditionellen Schweizer Finanzwesens mit modernsten Technologien verbindet.`,
-    years: "150 Jahre Erbe",
-    closed: "Banque Leclerc & Cie 1977 geschlossen",
-    refounded: "1987 als SWIZKOTE neu gegründet",
+    body: `SWIZKOTE ist die direkte Nachfolgerin der Banque Leclerc & Cie, einem Genfer Bankinstitut, das 1951 gegründet wurde und für seine Diskretion, Strenge und Exzellenz in der Vermögensverwaltung bekannt war. Die Bank betreute Familien und Unternehmer in Genf und der Westschweiz und legte den Grundstein für eine außergewöhnliche Banktradition.`,
+    body2: `Das von der Familie Leclerc gegründete Institut bewahrte das Vertrauen seiner Privatkundschaft über Jahrzehnte hinweg durch die finanziellen Turbulenzen der zweiten Hälfte des 20. Jahrhunderts. Ihr Wertefundament — Integrität, Vertraulichkeit und Exzellenz — bildet noch heute den Kern der Identität von SWIZKOTE.`,
+    body3: `Im Jahr 2001 gründeten visionäre Genfer Banker, Hüter dieses Erbes, die SWIZKOTE SA mit dem Auftrag, diese Tradition der Exzellenz, Vertraulichkeit und Innovation im Dienste einer anspruchsvollen internationalen Kundschaft fortzuführen. Heute ehrt SWIZKOTE dieses Erbe täglich, indem es die Weisheit des traditionellen Schweizer Finanzwesens mit modernsten Technologien verbindet.`,
+    years: "25 Jahre Erbe",
+    closed: "Erbe der Banque Leclerc & Cie",
+    refounded: "2001 als SWIZKOTE gegründet",
   },
   en: {
     title: "Our Heritage: Banque Leclerc & Cie",
     badge: "Historical Heritage",
-    body: `SWIZKOTE is the direct heir to Banque Leclerc & Cie, a Genevan banking institution founded in 1874, which left its mark on over a century of Swiss private finance. Known for its discretion, rigour and excellence in wealth management, Banque Leclerc & Cie served generations of families and entrepreneurs in Geneva and French-speaking Switzerland until its closure in 1977.`,
-    body2: `Founded by the Leclerc family, the institution survived two World Wars and the financial turbulences of the 20th century, preserving the trust of its private clientele intact throughout. Its closure in 1977, after more than a hundred years of existence, marked the end of an era — but not of the values that inspired it.`,
-    body3: `In 1987, visionary Genevan bankers, guardians of this heritage, founded SWIZKOTE SA with the mission of perpetuating this tradition of excellence, confidentiality and innovation in the service of a demanding international clientele. Today, SWIZKOTE honours this century-old heritage daily by combining the wisdom of traditional Swiss finance with the most modern technological tools.`,
-    years: "150 years of heritage",
-    closed: "Banque Leclerc & Cie closed in 1977",
-    refounded: "Refounded as SWIZKOTE in 1987",
+    body: `SWIZKOTE is the direct heir to Banque Leclerc & Cie, a Genevan banking institution founded in 1951, renowned for its discretion, rigour and excellence in wealth management. The bank served families and entrepreneurs in Geneva and French-speaking Switzerland, laying the foundations for an exceptional banking tradition.`,
+    body2: `Founded by the Leclerc family, the institution preserved the trust of its private clientele over decades, through the financial turbulences of the second half of the 20th century. Its legacy of values — integrity, confidentiality and excellence — still forms the bedrock of SWIZKOTE's identity today.`,
+    body3: `In 2001, visionary Genevan bankers, guardians of this heritage, founded SWIZKOTE SA with the mission of perpetuating this tradition of excellence, confidentiality and innovation in the service of a demanding international clientele. Today, SWIZKOTE honours this heritage daily by combining the wisdom of traditional Swiss finance with the most modern technological tools.`,
+    years: "25 years of heritage",
+    closed: "Legacy of Banque Leclerc & Cie",
+    refounded: "Founded as SWIZKOTE in 2001",
   },
   it: {
     title: "Il nostro patrimonio: la Banque Leclerc & Cie",
     badge: "Patrimonio storico",
-    body: `SWIZKOTE è l'erede diretta della Banque Leclerc & Cie, istituto bancario ginevrino fondato nel 1874, che ha segnato oltre un secolo di finanza privata svizzera. Rinomata per la sua discrezione, il rigore e l'eccellenza nella gestione patrimoniale, la Banque Leclerc & Cie ha servito generazioni di famiglie e imprenditori a Ginevra e nella Svizzera romanda fino alla sua chiusura nel 1977.`,
-    body2: `Fondata dalla famiglia Leclerc, l'istituzione ha attraversato due guerre mondiali e le turbolenze finanziarie del XX secolo, preservando intatta la fiducia della sua clientela privata. La chiusura nel 1977, dopo oltre cento anni di esistenza, ha segnato la fine di un'epoca — ma non dei valori che la animavano.`,
-    body3: `Nel 1987, visionari banchieri ginevrini, custodi di questa eredità, hanno fondato SWIZKOTE SA con la missione di perpetuare questa tradizione di eccellenza, riservatezza e innovazione al servizio di una clientela internazionale esigente. Oggi, SWIZKOTE onora ogni giorno questo patrimonio centenario unendo la saggezza della finanza svizzera tradizionale agli strumenti tecnologici più moderni.`,
-    years: "150 anni di patrimonio",
-    closed: "Banque Leclerc & Cie chiusa nel 1977",
-    refounded: "Rifondata come SWIZKOTE nel 1987",
+    body: `SWIZKOTE è l'erede diretta della Banque Leclerc & Cie, istituto bancario ginevrino fondato nel 1951, rinomato per la sua discrezione, il rigore e l'eccellenza nella gestione patrimoniale. La banca ha servito famiglie e imprenditori a Ginevra e nella Svizzera romanda, gettando le basi di una tradizione bancaria eccezionale.`,
+    body2: `Fondata dalla famiglia Leclerc, l'istituzione ha preservato la fiducia della sua clientela privata nel corso dei decenni, attraverso le turbolenze finanziarie della seconda metà del XX secolo. Il suo patrimonio di valori — integrità, riservatezza ed eccellenza — costituisce ancora oggi il fondamento dell'identità di SWIZKOTE.`,
+    body3: `Nel 2001, visionari banchieri ginevrini, custodi di questa eredità, hanno fondato SWIZKOTE SA con la missione di perpetuare questa tradizione di eccellenza, riservatezza e innovazione al servizio di una clientela internazionale esigente. Oggi, SWIZKOTE onora ogni giorno questo patrimonio unendo la saggezza della finanza svizzera tradizionale agli strumenti tecnologici più moderni.`,
+    years: "25 anni di patrimonio",
+    closed: "Eredità della Banque Leclerc & Cie",
+    refounded: "Fondata come SWIZKOTE nel 2001",
   },
 };
 
 const TIMELINE = {
   fr: [
-    { year: "1874", title: "Fondation de la Banque Leclerc & Cie", desc: "La Banque Leclerc & Cie est fondée à Genève, inaugurant une longue tradition d'excellence dans la banque privée suisse." },
-    { year: "1977", title: "Fermeture de la Banque Leclerc & Cie", desc: "Après plus d'un siècle d'activité, la Banque Leclerc & Cie ferme ses portes, laissant un héritage exceptionnel dans la finance genevoise." },
-    { year: "1987", title: "Fondation de SWIZKOTE", desc: "Des banquiers héritiers de la tradition Leclerc fondent SWIZKOTE SA à Genève, avec un capital initial de CHF 50 millions, perpétuant l'héritage." },
-    { year: "1995", title: "Expansion européenne", desc: "Ouverture de bureaux à Zurich, Bâle et Luxembourg. Lancement des services de gestion de fortune pour clients privés." },
-    { year: "2003", title: "Certification FINMA", desc: "Obtention de l'agrément complet de l'Autorité fédérale de surveillance des marchés financiers (FINMA)." },
-    { year: "2010", title: "Banking Digital", desc: "Lancement de la première plateforme de banque en ligne sécurisée, précurseur de la transformation digitale." },
-    { year: "2024", title: "Plateforme nouvelle génération", desc: "Déploiement de la plateforme digitale de nouvelle génération avec IA intégrée et sécurité renforcée." },
+    { year: "2001", title: "Fondation de SWIZKOTE", desc: "Des banquiers héritiers de la tradition Leclerc fondent SWIZKOTE SA à Genève, avec un capital initial de CHF 50 millions, perpétuant l'héritage." },
+    { year: "2003", title: "Certification FINMA", desc: "Obtention de l'agrément complet de l'Autorité fédérale de surveillance des marchés financiers (FINMA), gage de confiance et de sécurité." },
+    { year: "2007", title: "Expansion en France et en Italie", desc: "Ouverture de bureaux à Paris et Milan. Lancement des services de prêt bancaire pour particuliers et entreprises dans ces marchés stratégiques." },
+    { year: "2010", title: "Banking Digital", desc: "Lancement de la première plateforme de banque en ligne sécurisée. Spécialisation dans les services de prêt bancaire pour particuliers et entreprises." },
+    { year: "2022", title: "Récompense Meilleure Satisfaction Client", desc: "SWIZKOTE reçoit la distinction de meilleure satisfaction client, récompensant l'excellence de son service et l'engagement envers sa clientèle." },
+    { year: "2023", title: "Récompense Meilleure Satisfaction Client", desc: "Deuxième année consécutive de distinction pour la meilleure satisfaction client, confirmant la qualité et la constance du service SWIZKOTE." },
+    { year: "2024", title: "Récompense Meilleure Satisfaction Client", desc: "Troisième distinction consécutive pour la meilleure satisfaction client, une performance exceptionnelle qui témoigne de l'engagement durable de SWIZKOTE." },
+    { year: "2026", title: "Plateforme nouvelle génération", desc: "Déploiement de la plateforme digitale de nouvelle génération avec IA intégrée et sécurité renforcée, ouvrant une nouvelle ère bancaire." },
   ],
   de: [
-    { year: "1874", title: "Gründung der Banque Leclerc & Cie", desc: "Die Banque Leclerc & Cie wird in Genf gegründet und legt den Grundstein für eine lange Tradition der Schweizer Privatbank-Exzellenz." },
-    { year: "1977", title: "Schliessung der Banque Leclerc & Cie", desc: "Nach über einem Jahrhundert Tätigkeit schliesst die Banque Leclerc & Cie ihre Türen und hinterlässt ein aussergewöhnliches Erbe im Genfer Finanzwesen." },
-    { year: "1987", title: "Gründung von SWIZKOTE", desc: "Banker, Erben der Leclerc-Tradition, gründen die SWIZKOTE SA in Genf mit einem Anfangskapital von 50 Millionen CHF und führen das Erbe fort." },
-    { year: "1995", title: "Europäische Expansion", desc: "Eröffnung von Büros in Zürich, Basel und Luxemburg. Einführung von Vermögensverwaltungsdienstleistungen für Privatkunden." },
-    { year: "2003", title: "FINMA-Zertifizierung", desc: "Erhalt der vollständigen Zulassung durch die Eidgenössische Finanzmarktaufsicht (FINMA)." },
-    { year: "2010", title: "Digital Banking", desc: "Einführung der ersten sicheren Online-Banking-Plattform, Vorreiter der digitalen Transformation." },
-    { year: "2024", title: "Next-Generation-Plattform", desc: "Einführung der digitalen Plattform der nächsten Generation mit integrierter KI und erweiterter Sicherheit." },
+    { year: "2001", title: "Gründung von SWIZKOTE", desc: "Banker, Erben der Leclerc-Tradition, gründen die SWIZKOTE SA in Genf mit einem Anfangskapital von 50 Millionen CHF und führen das Erbe fort." },
+    { year: "2003", title: "FINMA-Zertifizierung", desc: "Erhalt der vollständigen Zulassung durch die Eidgenössische Finanzmarktaufsicht (FINMA), Garant für Vertrauen und Sicherheit." },
+    { year: "2007", title: "Expansion nach Frankreich und Italien", desc: "Eröffnung von Büros in Paris und Mailand. Einführung von Bankdarlehensdienstleistungen für Privat- und Firmenkunden in diesen strategischen Märkten." },
+    { year: "2010", title: "Digital Banking", desc: "Einführung der ersten sicheren Online-Banking-Plattform. Spezialisierung auf Bankdarlehen für Privat- und Firmenkunden." },
+    { year: "2022", title: "Auszeichnung Beste Kundenzufriedenheit", desc: "SWIZKOTE erhält die Auszeichnung für die beste Kundenzufriedenheit als Anerkennung für exzellenten Service und Kundenbindung." },
+    { year: "2023", title: "Auszeichnung Beste Kundenzufriedenheit", desc: "Zweites Jahr in Folge mit der Auszeichnung für die beste Kundenzufriedenheit, was die Qualität und Beständigkeit des SWIZKOTE-Services bestätigt." },
+    { year: "2024", title: "Auszeichnung Beste Kundenzufriedenheit", desc: "Dritte Auszeichnung in Folge für die beste Kundenzufriedenheit — eine außergewöhnliche Leistung, die das dauerhafte Engagement von SWIZKOTE belegt." },
+    { year: "2026", title: "Next-Generation-Plattform", desc: "Einführung der digitalen Plattform der nächsten Generation mit integrierter KI und erweiterter Sicherheit, die eine neue Bankära einläutet." },
   ],
   en: [
-    { year: "1874", title: "Foundation of Banque Leclerc & Cie", desc: "Banque Leclerc & Cie is founded in Geneva, inaugurating a long tradition of excellence in Swiss private banking." },
-    { year: "1977", title: "Closure of Banque Leclerc & Cie", desc: "After more than a century of activity, Banque Leclerc & Cie closes its doors, leaving an exceptional legacy in Genevan finance." },
-    { year: "1987", title: "Foundation of SWIZKOTE", desc: "Bankers inheriting the Leclerc tradition found SWIZKOTE SA in Geneva with initial capital of CHF 50 million, perpetuating the legacy." },
-    { year: "1995", title: "European Expansion", desc: "Opening of offices in Zurich, Basel and Luxembourg. Launch of wealth management services for private clients." },
-    { year: "2003", title: "FINMA Certification", desc: "Obtaining full approval from the Swiss Financial Market Supervisory Authority (FINMA)." },
-    { year: "2010", title: "Digital Banking", desc: "Launch of the first secure online banking platform, a precursor of the digital transformation." },
-    { year: "2024", title: "Next-Generation Platform", desc: "Deployment of the next-generation digital platform with integrated AI and enhanced security." },
+    { year: "2001", title: "Foundation of SWIZKOTE", desc: "Bankers inheriting the Leclerc tradition found SWIZKOTE SA in Geneva with initial capital of CHF 50 million, perpetuating the legacy." },
+    { year: "2003", title: "FINMA Certification", desc: "Obtaining full approval from the Swiss Financial Market Supervisory Authority (FINMA), a guarantee of trust and security." },
+    { year: "2007", title: "Expansion into France and Italy", desc: "Opening of offices in Paris and Milan. Launch of banking loan services for individuals and businesses in these strategic markets." },
+    { year: "2010", title: "Digital Banking", desc: "Launch of the first secure online banking platform. Specialisation in banking loan services for individuals and businesses." },
+    { year: "2022", title: "Best Customer Satisfaction Award", desc: "SWIZKOTE receives the best customer satisfaction distinction, recognising the excellence of its service and commitment to its clients." },
+    { year: "2023", title: "Best Customer Satisfaction Award", desc: "Second consecutive year of distinction for best customer satisfaction, confirming the quality and consistency of SWIZKOTE's service." },
+    { year: "2024", title: "Best Customer Satisfaction Award", desc: "Third consecutive distinction for best customer satisfaction — an exceptional performance reflecting SWIZKOTE's lasting commitment." },
+    { year: "2026", title: "Next-Generation Platform", desc: "Deployment of the next-generation digital platform with integrated AI and enhanced security, opening a new era in banking." },
   ],
   it: [
-    { year: "1874", title: "Fondazione della Banque Leclerc & Cie", desc: "La Banque Leclerc & Cie viene fondata a Ginevra, inaugurando una lunga tradizione di eccellenza nella banca privata svizzera." },
-    { year: "1977", title: "Chiusura della Banque Leclerc & Cie", desc: "Dopo oltre un secolo di attività, la Banque Leclerc & Cie chiude le sue porte, lasciando un'eredità eccezionale nella finanza ginevrina." },
-    { year: "1987", title: "Fondazione di SWIZKOTE", desc: "Banchieri eredi della tradizione Leclerc fondano SWIZKOTE SA a Ginevra con un capitale iniziale di CHF 50 milioni, perpetuando l'eredità." },
-    { year: "1995", title: "Espansione europea", desc: "Apertura di uffici a Zurigo, Basilea e Lussemburgo. Lancio dei servizi di gestione patrimoniale per clienti privati." },
-    { year: "2003", title: "Certificazione FINMA", desc: "Ottenimento dell'approvazione completa dall'Autorità federale di vigilanza sui mercati finanziari (FINMA)." },
-    { year: "2010", title: "Digital Banking", desc: "Lancio della prima piattaforma di online banking sicura, precursore della trasformazione digitale." },
-    { year: "2024", title: "Piattaforma di nuova generazione", desc: "Implementazione della piattaforma digitale di nuova generazione con IA integrata e sicurezza rafforzata." },
+    { year: "2001", title: "Fondazione di SWIZKOTE", desc: "Banchieri eredi della tradizione Leclerc fondano SWIZKOTE SA a Ginevra con un capitale iniziale di CHF 50 milioni, perpetuando l'eredità." },
+    { year: "2003", title: "Certificazione FINMA", desc: "Ottenimento dell'approvazione completa dall'Autorità federale di vigilanza sui mercati finanziari (FINMA), garanzia di fiducia e sicurezza." },
+    { year: "2007", title: "Espansione in Francia e Italia", desc: "Apertura di uffici a Parigi e Milano. Lancio dei servizi di prestito bancario per privati e aziende in questi mercati strategici." },
+    { year: "2010", title: "Digital Banking", desc: "Lancio della prima piattaforma di online banking sicura. Specializzazione nei servizi di prestito bancario per privati e aziende." },
+    { year: "2022", title: "Premio Miglior Soddisfazione Clienti", desc: "SWIZKOTE riceve il riconoscimento per la miglior soddisfazione clienti, premiando l'eccellenza del servizio e l'impegno verso la clientela." },
+    { year: "2023", title: "Premio Miglior Soddisfazione Clienti", desc: "Secondo anno consecutivo di riconoscimento per la miglior soddisfazione clienti, confermando qualità e costanza del servizio SWIZKOTE." },
+    { year: "2024", title: "Premio Miglior Soddisfazione Clienti", desc: "Terzo riconoscimento consecutivo per la miglior soddisfazione clienti — una performance eccezionale che testimonia l'impegno duraturo di SWIZKOTE." },
+    { year: "2026", title: "Piattaforma di nuova generazione", desc: "Implementazione della piattaforma digitale di nuova generazione con IA integrata e sicurezza rafforzata, aprendo una nuova era bancaria." },
   ],
 };
 
@@ -190,10 +194,10 @@ const STATS = {
 };
 
 const HERO_TEXT = {
-  fr: { badge: "Fondée en 1874 à Genève", title: "À propos de", sub: "Depuis plus de 35 ans, nous incarnons l'excellence bancaire suisse — alliant tradition, innovation et rigueur au service de nos clients à travers le monde." },
-  de: { badge: "Gegründet 1874 in Genf", title: "Über", sub: "Seit über 35 Jahren verkörpern wir die Schweizer Bankexzellenz – Tradition, Innovation und Präzision im Dienste unserer Kunden weltweit." },
-  en: { badge: "Founded in 1874 in Geneva", title: "About", sub: "For over 35 years, we have embodied Swiss banking excellence — combining tradition, innovation and rigour in the service of our clients worldwide." },
-  it: { badge: "Fondata nel 1874 a Ginevra", title: "Chi siamo —", sub: "Da oltre 35 anni incarniamo l'eccellenza bancaria svizzera — unendo tradizione, innovazione e rigore al servizio dei nostri clienti in tutto il mondo." },
+  fr: { badge: "Fondée en 1951 à Genève", title: "À propos de", sub: "Depuis plus de 25 ans, nous incarnons l'excellence bancaire suisse — alliant tradition, innovation et rigueur au service de nos clients à travers le monde." },
+  de: { badge: "Gegründet 1951 in Genf", title: "Über", sub: "Seit über 25 Jahren verkörpern wir die Schweizer Bankexzellenz – Tradition, Innovation und Präzision im Dienste unserer Kunden weltweit." },
+  en: { badge: "Founded in 1951 in Geneva", title: "About", sub: "For over 25 years, we have embodied Swiss banking excellence — combining tradition, innovation and rigour in the service of our clients worldwide." },
+  it: { badge: "Fondata nel 1951 a Ginevra", title: "Chi siamo", sub: "Da oltre 25 anni incarniamo l'eccellenza bancaria svizzera — unendo tradizione, innovazione e rigore al servizio dei nostri clienti in tutto il mondo." },
 };
 
 const MISSION_TEXT = {
@@ -344,14 +348,13 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <p className="font-bold text-white">Banque Leclerc & Cie</p>
-                    <p className="text-xs text-gold">Genève · 1874 – 1977</p>
+                    <p className="text-xs text-gold">Genève · 1951</p>
                   </div>
                 </div>
-                <div className="grid grid-cols-3 gap-3 text-center">
+                <div className="grid grid-cols-2 gap-3 text-center">
                   {[
-                    { val: "1874", lbl: lang === "de" ? "Gründung" : lang === "en" ? "Founded" : lang === "it" ? "Fondata" : "Fondée" },
-                    { val: "103", lbl: lang === "de" ? "Jahre" : lang === "en" ? "years" : lang === "it" ? "anni" : "ans" },
-                    { val: "1977", lbl: lang === "de" ? "Schliessung" : lang === "en" ? "Closed" : lang === "it" ? "Chiusura" : "Fermeture" },
+                    { val: "1951", lbl: lang === "de" ? "Gründung" : lang === "en" ? "Founded" : lang === "it" ? "Fondata" : "Fondée" },
+                    { val: "2001", lbl: lang === "de" ? "SWIZKOTE" : lang === "en" ? "SWIZKOTE" : lang === "it" ? "SWIZKOTE" : "SWIZKOTE" },
                   ].map((s, i) => (
                     <div key={i} className="p-3 rounded-lg bg-[hsl(222,40%,10%)]">
                       <div className="text-2xl font-bold text-gold">{s.val}</div>
@@ -443,13 +446,13 @@ export default function AboutPage() {
               {timeline.map((item, i) => (
                 <div key={i} className={`flex items-center gap-8 ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}>
                   <div className={`flex-1 ${i % 2 === 0 ? "md:text-right" : "md:text-left"} text-left`}>
-                    <div className={`p-6 rounded-xl border bg-card inline-block w-full md:max-w-sm ${item.year === "1874" || item.year === "1977" ? "border-gold/40 bg-gold/5" : ""}`}>
+                    <div className={`p-6 rounded-xl border bg-card inline-block w-full md:max-w-sm ${item.year === "2001" ? "border-gold/40 bg-gold/5" : ""}`}>
                       <div className="text-gold font-bold text-xl mb-1">{item.year}</div>
                       <div className="font-semibold mb-2">{item.title}</div>
                       <p className="text-sm text-muted-foreground">{item.desc}</p>
                     </div>
                   </div>
-                  <div className={`hidden md:flex w-4 h-4 rounded-full border-4 border-background flex-shrink-0 z-10 ${item.year === "1874" || item.year === "1977" ? "bg-gold w-5 h-5" : "bg-gold"}`} />
+                  <div className={`hidden md:flex w-4 h-4 rounded-full border-4 border-background flex-shrink-0 z-10 ${item.year === "2001" ? "bg-gold w-5 h-5" : "bg-gold"}`} />
                   <div className="flex-1 hidden md:block" />
                 </div>
               ))}

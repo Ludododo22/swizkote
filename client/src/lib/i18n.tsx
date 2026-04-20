@@ -78,7 +78,7 @@ const T = {
     loans_request_type: "Type de prêt", loans_request_amount: "Montant souhaité",
     loans_request_duration: "Durée (mois)", loans_request_purpose: "Objet du prêt",
     loans_request_purpose_ph: "Ex : Achat immobilier, Travaux, Véhicule...",
-    loans_request_submit: "Soumettre la demande", loans_request_submitting: "Envoi en cours...",
+    loans_request_submit: "Soumettre la demande",
     loans_request_sent: "Demande envoyée",
     loans_request_sent_desc: "Votre conseiller vous contactera dans les 24h.",
     loans_type_immo: "Prêt immobilier", loans_type_conso: "Prêt consommation",
@@ -90,6 +90,30 @@ const T = {
     loans_code_msg: "Contactez votre conseiller pour recevoir ce code par email.",
     loans_progress: "Progression globale", loans_steps_title: "Étapes du dossier",
     loans_updated: "Mis à jour",
+    
+    // Nouveaux clés pour loan-request
+    loans_request_header_title: "Demande de prêt",
+    loans_request_header_subtitle: "Simulez et soumettez votre demande de financement",
+    loans_request_step1_title: "1. Choisir le type de prêt",
+    loans_request_step2_title: "2. Montant et durée",
+    loans_request_step3_title: "3. Soumettre la demande",
+    loans_request_amount_label: "Montant souhaité",
+    loans_request_duration_label: "Durée",
+    loans_request_monthly_label: "Mensualité estimée",
+    loans_request_total_cost_label: "Coût total",
+    loans_request_total_interest_label: "Total intérêts",
+    loans_request_rate_info: "Taux indicatif : {rate}% p.a. (TAEG). Taux réel déterminé après étude personnalisée de votre dossier.",
+    loans_request_summary_title: "Récapitulatif",
+    loans_request_purpose_label: "Objet du prêt (optionnel)",
+    loans_request_purpose_placeholder: "Ex : Achat immobilier, Travaux, Véhicule...",
+    loans_request_info_box: "Votre demande sera transmise directement à votre conseiller dédié qui vous contactera dans les 24h. Vous pourrez suivre l'avancement dans \"Mes dossiers\".",
+    loans_request_submit_button: "Soumettre la demande",
+    loans_request_submit_sent_title: "Demande envoyée !",
+    loans_request_submit_sent_desc: "Votre conseiller vous contactera dans les 24h.",
+    loans_request_submit_new_button: "Nouvelle demande",
+    loans_request_submit_view_button: "Voir mes dossiers",
+    loans_request_submitting: "Envoi en cours...",
+
     msg_title: "Messagerie sécurisée",
     msg_subtitle: "Communication chiffrée avec votre conseiller",
     msg_encrypted: "Chiffrement de bout en bout", msg_advisor: "Conseiller dédié",
@@ -105,6 +129,78 @@ const T = {
     vault_deleted: "Document supprimé", vault_type_passport: "Passeport",
     vault_type_contract: "Contrat", vault_type_statement: "Relevé",
     vault_type_id: "Pièce d'identité", vault_type_other: "Autre",
+    
+    // Services page
+    services_about_title: "À propos de ce service",
+    services_features_title: "Fonctionnalités incluses",
+    services_business_title: "Financement entreprise",
+    services_personal_title: "Financement particulier",
+    services_conditions_title: "Conditions & Tarifs",
+    services_open_account_button: "Ouvrir un compte",
+    services_contact_button: "Contacter un conseiller",
+    services_other_title: "Autres services",
+
+    // Clés pour accounts.tsx
+    acc_main_iban_label: "IBAN Principal",
+    acc_active_label: "Actif(s)",
+    acc_inactive_label: "Inactif(s)",
+
+    // Clés pour cards.tsx
+    cards_active_label: "Active(s)",
+    cards_blocked_label: "Bloquée(s)",
+    cards_monthly_limit_label: "Limite mois",
+    cards_blocked_message: "Cette carte est bloquée. Débloquez-la via les paramètres.",
+    cards_no_card_message: "Contactez votre conseiller pour une nouvelle carte",
+
+    // Clés pour loans.tsx
+    loans_months_label: "mois",
+    loans_code_validated: "Code validé",
+    
+    // Careers page
+    careers_hero_title: "Rejoignez l'équipe",
+    careers_hero_subtitle: "Construisez la banque de demain avec nous. Des opportunités exceptionnelles pour des talents exceptionnels.",
+    careers_benefits_title: "Ce que nous offrons",
+    careers_jobs_title: "Postes ouverts",
+    careers_jobs_filter_all: "Tous",
+    careers_jobs_apply_button: "Postuler à ce poste",
+    careers_jobs_applied_message: "Votre candidature a été envoyée avec succès !",
+    
+    // Partnerships page
+    partnerships_hero_title: "Partenariats & Alliances",
+    partnerships_types_title: "Types de partenariats",
+    partnerships_benefits_title: "Avantages partenaires",
+    partnerships_partners_title: "Nos partenaires actuels",
+    partnerships_form_title: "Devenir partenaire",
+    partnerships_form_subtitle: "Remplissez ce formulaire et notre équipe vous contactera sous 48h ouvrables.",
+    partnerships_form_company: "Société *",
+    partnerships_form_name: "Nom complet *",
+    partnerships_form_email: "Email professionnel *",
+    partnerships_form_type: "Type de partenariat",
+    partnerships_form_message: "Description du projet",
+    partnerships_form_submit: "Envoyer la demande",
+    partnerships_form_sent_title: "Demande envoyée !",
+    partnerships_form_sent_desc: "Notre équipe Partenariats vous contactera dans les 48h.",
+    
+    // Press page
+    press_hero_title: "Espace Presse",
+    press_news_title: "Dernières actualités",
+    press_resources_title: "Ressources médias",
+    press_contact_title: "Contact presse",
+    press_accreditation_title: "Accréditation presse",
+    press_accreditation_button: "Demander une accréditation",
+    press_source_label: "Source",
+    
+    // Security page
+    security_hero_title: "Votre sécurité, notre priorité absolue",
+    security_hero_subtitle: "SwizKote Bank déploie les technologies de sécurité les plus avancées au monde pour protéger vos avoirs et vos données personnelles.",
+    security_pillars_title: "6 piliers de sécurité",
+    security_certs_title: "Certifications & Standards",
+    security_tips_title: "Bonnes pratiques clients",
+    security_report_title: "Signalez une fraude",
+    security_report_desc: "Vous suspectez une tentative de phishing, un accès frauduleux ou avez reçu un message suspect au nom de SwizKote Bank ?",
+    security_dashboard_title: "Tableau de bord sécurité",
+    security_access_title: "Accédez à votre espace sécurisé",
+
     admin_title: "Administration", admin_subtitle: "Panneau de gestion SWIZKOTE",
     admin_tab_create: "Créer compte", admin_tab_clients: "Clients",
     admin_tab_loans: "Dossiers", admin_tab_transfers: "Virements",
@@ -129,12 +225,26 @@ const T = {
     admin_step_remove_code: "Retirer", admin_step_completed: "Complétée",
     admin_step_active: "En cours", admin_step_code_req: "Code requis",
     admin_step_pending: "En attente", admin_step_validated: "Code validé",
+    admin_stats_total_clients: "Kunden / Clients",
+    admin_stats_total_balance: "Verwaltete Aktiven / Actifs gérés",
+    admin_stats_total_transfers: "Überweisungen / Virements",
+    admin_stats_total_loans: "Vorgänge / Dossiers",
+    admin_recent_transactions: "Letzte Transaktionen / Dernières transactions",
+    admin_clients_list_title: "Kunden / Clients",
+    admin_client_detail_title: "Client",
+    admin_client_detail_back: "Zurück / Retour",
+    admin_client_detail_total_assets: "Patrimoine total",
+    admin_client_detail_accounts: "Konten / Comptes",
+    admin_client_detail_operations: "Opérations manuelles",
+    admin_client_detail_transactions: "Transaktionen / Transactions",
+    admin_client_detail_issue_card: "Carte",
+
     land_bank_name: "SWIZKOTE", land_tagline: "L'excellence bancaire suisse",
     land_nav_services: "Services", land_nav_security: "Sécurité",
     land_nav_numbers: "Chiffres clés", land_nav_contact: "Contact",
     land_nav_features: "Avantages", land_nav_about: "À propos",
     land_login: "E-Banking", land_open_account: "Ouvrir un compte",
-    land_hero_badge: "Banque Privée Suisse depuis 1874",
+    land_hero_badge: "Banque Privée Suisse depuis 2001",
     land_hero_title1: "L'excellence bancaire",
     land_hero_title2: "au service de votre patrimoine",
     land_hero_desc: "Découvrez une expérience bancaire numérique premium, alliant la tradition de la finance suisse à l'innovation technologique de pointe.",
@@ -143,7 +253,6 @@ const T = {
     land_calc_amount: "Montant", land_calc_duration: "Durée", land_calc_years: "ans",
     land_calc_rate: "Taux indicatif", land_calc_monthly: "Mensualité estimée",
     land_calc_interest: "Total des intérêts", land_calc_cta: "Simuler mon projet",
-    // Nouvelles clés pour le calculateur de prêt
     land_calc_personal_label: "Crédit particulier",
     land_calc_business_label: "Crédit entreprise",
     land_calc_mortgage_label: "Crédit immobilier",
@@ -151,7 +260,7 @@ const T = {
     land_calc_investment_label: "Crédit investissement",
     land_calc_operating_label: "Crédit d'exploitation",
     land_calc_real_estate_label: "Immobilier commercial",
-    land_stats: ["CHF 12Mrd+","150+","99.99%","50'000+"],
+    land_stats: ["CHF 12Mrd+","25+","99.99%","50'000+"],
     land_stats_labels: ["Actifs sous gestion","Experts financiers","Disponibilité service","Clients satisfaits"],
     land_services_title: "Services",
     land_services_sub: "Une gamme complète de services bancaires numériques, conçus pour répondre aux exigences les plus élevées de notre clientèle privée.",
@@ -178,7 +287,7 @@ const T = {
     land_secure_vals: ["100%","99.99%","< 50ms"],
     land_numbers_title: "Chiffres", land_numbers_gold: "clés",
     land_numbers_sub: "Des résultats concrets qui témoignent de la confiance de nos clients et de la solidité de notre institution.",
-    land_kpi_vals: ["45 000+","12.8 Mrd CHF","99.99%","150 ans"],
+    land_kpi_vals: ["45 000+","12.8 Mrd CHF","99.99%","25 ans"],
     land_kpi_labels: ["Clients actifs","Actifs gérés","Sécurité","Expertise"],
     land_kpi_descs: ["Particuliers et entreprises","Patrimoine sous gestion","Taux de disponibilité","D'expérience bancaire"],
     land_cta_title: "Rejoignez l'élite", land_cta_gold: "bancaire suisse",
@@ -295,7 +404,6 @@ const T = {
     loans_request_duration: "Laufzeit (Monate)", loans_request_purpose: "Verwendungszweck",
     loans_request_purpose_ph: "z.B. Immobilienkauf, Renovierung, Fahrzeug...",
     loans_request_submit: "Antrag einreichen",
-    loans_request_submitting: "Wird gesendet...",
     loans_request_sent: "Antrag gesendet",
     loans_request_sent_desc: "Ihr Berater meldet sich innerhalb von 24 Stunden.",
     loans_type_immo: "Immobilienkredit", loans_type_conso: "Konsumkredit",
@@ -308,6 +416,30 @@ const T = {
     loans_code_msg: "Kontaktieren Sie Ihren Berater, um diesen Code per E-Mail zu erhalten.",
     loans_progress: "Gesamtfortschritt", loans_steps_title: "Vorgangsschritte",
     loans_updated: "Aktualisiert",
+    
+    // Neue Schlüssel für loan-request
+    loans_request_header_title: "Kreditantrag",
+    loans_request_header_subtitle: "Simulieren und stellen Sie Ihren Finanzierungsantrag",
+    loans_request_step1_title: "1. Kreditart wählen",
+    loans_request_step2_title: "2. Betrag und Laufzeit",
+    loans_request_step3_title: "3. Antrag einreichen",
+    loans_request_amount_label: "Gewünschter Betrag",
+    loans_request_duration_label: "Laufzeit",
+    loans_request_monthly_label: "Geschätzte Monatsrate",
+    loans_request_total_cost_label: "Gesamtkosten",
+    loans_request_total_interest_label: "Gesamtzinsen",
+    loans_request_rate_info: "Richtzinssatz: {rate}% p.a. (effektiver Jahreszins). Tatsächlicher Zinssatz nach individueller Bonitätsprüfung.",
+    loans_request_summary_title: "Zusammenfassung",
+    loans_request_purpose_label: "Verwendungszweck (optional)",
+    loans_request_purpose_placeholder: "z.B. Immobilienkauf, Renovierung, Fahrzeug...",
+    loans_request_info_box: "Ihre Anfrage wird direkt an Ihren persönlichen Berater übermittelt, der sich innerhalb von 24 Stunden bei Ihnen meldet. Sie können den Fortschritt in \"Meine Vorgänge\" verfolgen.",
+    loans_request_submit_button: "Antrag einreichen",
+    loans_request_submit_sent_title: "Antrag gesendet!",
+    loans_request_submit_sent_desc: "Ihr Berater wird sich innerhalb von 24 Stunden bei Ihnen melden.",
+    loans_request_submit_new_button: "Neuen Antrag stellen",
+    loans_request_submit_view_button: "Meine Vorgänge ansehen",
+    loans_request_submitting: "Wird gesendet...",
+
     msg_title: "Sichere Nachrichtenübermittlung",
     msg_subtitle: "Verschlüsselte Kommunikation mit Ihrem Berater",
     msg_encrypted: "Ende-zu-Ende-Verschlüsselung", msg_advisor: "Persönlicher Berater",
@@ -323,6 +455,78 @@ const T = {
     vault_deleted: "Dokument gelöscht", vault_type_passport: "Reisepass",
     vault_type_contract: "Vertrag", vault_type_statement: "Kontoauszug",
     vault_type_id: "Ausweis", vault_type_other: "Sonstiges",
+
+    // Clés pour accounts.tsx
+    acc_main_iban_label: "Hauptkonto IBAN",
+    acc_active_label: "Aktiv",
+    acc_inactive_label: "Inaktiv",
+
+    // Clés pour cards.tsx
+    cards_active_label: "Aktiv",
+    cards_blocked_label: "Gesperrt",
+    cards_monthly_limit_label: "Monatslimit",
+    cards_blocked_message: "Diese Karte ist gesperrt. Entsperren Sie sie über die Einstellungen.",
+    cards_no_card_message: "Kontaktieren Sie Ihren Berater für eine neue Karte",
+
+    // Clés pour loans.tsx
+    loans_months_label: "Monate",
+    loans_code_validated: "Code bestätigt",
+    
+    // Services page
+    services_about_title: "Über diesen Service",
+    services_features_title: "Enthaltene Funktionen",
+    services_business_title: "Unternehmensfinanzierung",
+    services_personal_title: "Privatfinanzierung",
+    services_conditions_title: "Konditionen & Tarife",
+    services_open_account_button: "Konto eröffnen",
+    services_contact_button: "Berater kontaktieren",
+    services_other_title: "Weitere Dienstleistungen",
+    
+    // Careers page
+    careers_hero_title: "Dem Team beitreten",
+    careers_hero_subtitle: "Bauen Sie mit uns die Bank von morgen. Aussergewöhnliche Chancen für aussergewöhnliche Talente.",
+    careers_benefits_title: "Was wir bieten",
+    careers_jobs_title: "Offene Stellen",
+    careers_jobs_filter_all: "Alle",
+    careers_jobs_apply_button: "Auf diese Stelle bewerben",
+    careers_jobs_applied_message: "Ihre Bewerbung wurde erfolgreich gesendet!",
+    
+    // Partnerships page
+    partnerships_hero_title: "Partnerschaften & Allianzen",
+    partnerships_types_title: "Arten von Partnerschaften",
+    partnerships_benefits_title: "Partnervorteile",
+    partnerships_partners_title: "Unsere aktuellen Partner",
+    partnerships_form_title: "Partner werden",
+    partnerships_form_subtitle: "Füllen Sie dieses Formular aus und unser Team meldet sich innerhalb von 48 Stunden bei Ihnen.",
+    partnerships_form_company: "Unternehmen *",
+    partnerships_form_name: "Vollständiger Name *",
+    partnerships_form_email: "Geschäftliche E-Mail *",
+    partnerships_form_type: "Art der Partnerschaft",
+    partnerships_form_message: "Projektbeschreibung",
+    partnerships_form_submit: "Anfrage senden",
+    partnerships_form_sent_title: "Anfrage gesendet!",
+    partnerships_form_sent_desc: "Unser Partnerschaftsteam wird sich innerhalb von 48 Stunden bei Ihnen melden.",
+    
+    // Press page
+    press_hero_title: "Pressebereich",
+    press_news_title: "Aktuelle Neuigkeiten",
+    press_resources_title: "Medienressourcen",
+    press_contact_title: "Pressekontakt",
+    press_accreditation_title: "Presseakkreditierung",
+    press_accreditation_button: "Akkreditierung beantragen",
+    press_source_label: "Quelle",
+    
+    // Security page
+    security_hero_title: "Ihre Sicherheit, unser oberstes Gebot",
+    security_hero_subtitle: "SwizKote Bank setzt die fortschrittlichsten Sicherheitstechnologien der Welt ein, um Ihr Vermögen und Ihre persönlichen Daten zu schützen.",
+    security_pillars_title: "6 Sicherheitssäulen",
+    security_certs_title: "Zertifizierungen & Standards",
+    security_tips_title: "Sicherheitstipps für Kunden",
+    security_report_title: "Betrug melden",
+    security_report_desc: "Verdächtigen Sie einen Phishing-Versuch, einen betrügerischen Zugang oder haben Sie eine verdächtige Nachricht im Namen von SwizKote Bank erhalten?",
+    security_dashboard_title: "Sicherheits-Dashboard",
+    security_access_title: "Zugang zu Ihrem sicheren Bereich",
+
     admin_title: "Verwaltung", admin_subtitle: "SWIZKOTE Verwaltungspanel",
     admin_tab_create: "Konto erstellen", admin_tab_clients: "Kunden",
     admin_tab_loans: "Vorgänge", admin_tab_transfers: "Überweisungen",
@@ -348,12 +552,26 @@ const T = {
     admin_step_remove_code: "Entfernen", admin_step_completed: "Abgeschlossen",
     admin_step_active: "Aktiv", admin_step_code_req: "Code erforderlich",
     admin_step_pending: "Ausstehend", admin_step_validated: "Code bestätigt",
+    admin_stats_total_clients: "Kunden / Clients",
+    admin_stats_total_balance: "Verwaltete Aktiven / Actifs gérés",
+    admin_stats_total_transfers: "Überweisungen / Virements",
+    admin_stats_total_loans: "Vorgänge / Dossiers",
+    admin_recent_transactions: "Letzte Transaktionen / Dernières transactions",
+    admin_clients_list_title: "Kunden / Clients",
+    admin_client_detail_title: "Client",
+    admin_client_detail_back: "Zurück / Retour",
+    admin_client_detail_total_assets: "Patrimoine total",
+    admin_client_detail_accounts: "Konten / Comptes",
+    admin_client_detail_operations: "Opérations manuelles",
+    admin_client_detail_transactions: "Transaktionen / Transactions",
+    admin_client_detail_issue_card: "Carte",
+
     land_bank_name: "SWIZKOTE", land_tagline: "Schweizer Bankexzellenz",
     land_nav_services: "Dienstleistungen", land_nav_security: "Sicherheit",
     land_nav_numbers: "Kennzahlen", land_nav_contact: "Kontakt",
     land_nav_features: "Vorteile", land_nav_about: "Über uns",
     land_login: "E-Banking", land_open_account: "Konto eröffnen",
-    land_hero_badge: "Schweizer Privatbank seit 1874",
+    land_hero_badge: "Schweizer Privatbank seit 2001",
     land_hero_title1: "Schweizer Bankexzellenz",
     land_hero_title2: "im Dienst Ihres Vermögens",
     land_hero_desc: "Entdecken Sie ein erstklassiges digitales Bankerlebnis, das die Tradition des Schweizer Finanzwesens mit modernster Technologie verbindet.",
@@ -362,7 +580,6 @@ const T = {
     land_calc_amount: "Betrag", land_calc_duration: "Laufzeit", land_calc_years: "Jahre",
     land_calc_rate: "Richtzinssatz", land_calc_monthly: "Geschätzte Monatsrate",
     land_calc_interest: "Gesamtzinsen", land_calc_cta: "Mein Projekt simulieren",
-    // Nouvelles clés pour le calculateur de prêt
     land_calc_personal_label: "Privatkredit",
     land_calc_business_label: "Unternehmenskredit",
     land_calc_mortgage_label: "Hypothekarkredit",
@@ -370,7 +587,7 @@ const T = {
     land_calc_investment_label: "Investitionskredit",
     land_calc_operating_label: "Betriebskredit",
     land_calc_real_estate_label: "Gewerbeimmobilien",
-    land_stats: ["CHF 12 Mrd+","150+","99.99%","50'000+"],
+    land_stats: ["CHF 12 Mrd+","25+","99.99%","50'000+"],
     land_stats_labels: ["Verwaltete Vermögen","Finanzexperten","Service-Verfügbarkeit","Zufriedene Kunden"],
     land_services_title: "Dienstleistungen",
     land_services_sub: "Ein umfassendes Angebot digitaler Bankdienstleistungen, konzipiert für die höchsten Ansprüche unserer Privatkunden.",
@@ -397,7 +614,7 @@ const T = {
     land_secure_vals: ["100%","99.99%","< 50ms"],
     land_numbers_title: "Kenn", land_numbers_gold: "zahlen",
     land_numbers_sub: "Konkrete Ergebnisse, die das Vertrauen unserer Kunden und die Solidität unserer Institution bezeugen.",
-    land_kpi_vals: ["45 000+","12.8 Mrd CHF","99.99%","150 Jahre"],
+    land_kpi_vals: ["45 000+","12.8 Mrd CHF","99.99%","25 Jahre"],
     land_kpi_labels: ["Aktive Kunden","Verwaltete Vermögen","Sicherheit","Expertise"],
     land_kpi_descs: ["Privat- und Firmenkunden","Vermögen unter Verwaltung","Verfügbarkeitsrate","Bankerfahrung"],
     land_cta_title: "Treten Sie der Schweizer", land_cta_gold: "Bankelite bei",
@@ -509,7 +726,7 @@ const T = {
     loans_request_type: "Loan type", loans_request_amount: "Desired amount",
     loans_request_duration: "Duration (months)", loans_request_purpose: "Loan purpose",
     loans_request_purpose_ph: "E.g. Real estate, Works, Vehicle...",
-    loans_request_submit: "Submit request", loans_request_submitting: "Sending...",
+    loans_request_submit: "Submit request",
     loans_request_sent: "Request sent",
     loans_request_sent_desc: "Your advisor will contact you within 24 hours.",
     loans_type_immo: "Mortgage loan", loans_type_conso: "Consumer loan",
@@ -522,6 +739,30 @@ const T = {
     loans_code_msg: "Contact your advisor to receive this code by email.",
     loans_progress: "Overall progress", loans_steps_title: "File steps",
     loans_updated: "Updated",
+    
+    // New keys for loan-request
+    loans_request_header_title: "Loan Request",
+    loans_request_header_subtitle: "Simulate and submit your financing request",
+    loans_request_step1_title: "1. Choose loan type",
+    loans_request_step2_title: "2. Amount and duration",
+    loans_request_step3_title: "3. Submit request",
+    loans_request_amount_label: "Desired amount",
+    loans_request_duration_label: "Duration",
+    loans_request_monthly_label: "Estimated monthly payment",
+    loans_request_total_cost_label: "Total cost",
+    loans_request_total_interest_label: "Total interest",
+    loans_request_rate_info: "Indicative rate: {rate}% p.a. (APR). Actual rate determined after personalized credit assessment.",
+    loans_request_summary_title: "Summary",
+    loans_request_purpose_label: "Loan purpose (optional)",
+    loans_request_purpose_placeholder: "E.g. Real estate purchase, Renovation, Vehicle...",
+    loans_request_info_box: "Your request will be transmitted directly to your dedicated advisor who will contact you within 24 hours. You can track progress in \"My Files\".",
+    loans_request_submit_button: "Submit request",
+    loans_request_submit_sent_title: "Request sent!",
+    loans_request_submit_sent_desc: "Your advisor will contact you within 24 hours.",
+    loans_request_submit_new_button: "New request",
+    loans_request_submit_view_button: "View my files",
+    loans_request_submitting: "Sending...",
+
     msg_title: "Secure Messaging", msg_subtitle: "Encrypted communication with your advisor",
     msg_encrypted: "End-to-end encryption", msg_advisor: "Dedicated advisor",
     msg_start: "Start a conversation with your advisor",
@@ -535,6 +776,78 @@ const T = {
     vault_deleted: "Document deleted", vault_type_passport: "Passport",
     vault_type_contract: "Contract", vault_type_statement: "Statement",
     vault_type_id: "ID document", vault_type_other: "Other",
+
+    // Clés pour accounts.tsx
+    acc_main_iban_label: "Main Account IBAN",
+    acc_active_label: "Active",
+    acc_inactive_label: "Inactive",
+
+    // Clés pour cards.tsx
+    cards_active_label: "Active",
+    cards_blocked_label: "Blocked",
+    cards_monthly_limit_label: "Monthly limit",
+    cards_blocked_message: "This card is blocked. Unblock it via settings.",
+    cards_no_card_message: "Contact your advisor for a new card",
+
+    // Clés pour loans.tsx
+    loans_months_label: "months",
+    loans_code_validated: "Code validated",
+    
+    // Services page
+    services_about_title: "About this service",
+    services_features_title: "Included features",
+    services_business_title: "Business financing",
+    services_personal_title: "Personal financing",
+    services_conditions_title: "Conditions & Fees",
+    services_open_account_button: "Open account",
+    services_contact_button: "Contact advisor",
+    services_other_title: "Other services",
+    
+    // Careers page
+    careers_hero_title: "Join the team",
+    careers_hero_subtitle: "Build the bank of tomorrow with us. Exceptional opportunities for exceptional talents.",
+    careers_benefits_title: "What we offer",
+    careers_jobs_title: "Open positions",
+    careers_jobs_filter_all: "All",
+    careers_jobs_apply_button: "Apply for this position",
+    careers_jobs_applied_message: "Your application has been sent successfully!",
+    
+    // Partnerships page
+    partnerships_hero_title: "Partnerships & Alliances",
+    partnerships_types_title: "Types of partnerships",
+    partnerships_benefits_title: "Partner benefits",
+    partnerships_partners_title: "Our current partners",
+    partnerships_form_title: "Become a partner",
+    partnerships_form_subtitle: "Fill out this form and our team will contact you within 48 business hours.",
+    partnerships_form_company: "Company *",
+    partnerships_form_name: "Full name *",
+    partnerships_form_email: "Professional email *",
+    partnerships_form_type: "Type of partnership",
+    partnerships_form_message: "Project description",
+    partnerships_form_submit: "Send request",
+    partnerships_form_sent_title: "Request sent!",
+    partnerships_form_sent_desc: "Our Partnerships team will contact you within 48 hours.",
+    
+    // Press page
+    press_hero_title: "Press Area",
+    press_news_title: "Latest news",
+    press_resources_title: "Media resources",
+    press_contact_title: "Press contact",
+    press_accreditation_title: "Press accreditation",
+    press_accreditation_button: "Request accreditation",
+    press_source_label: "Source",
+    
+    // Security page
+    security_hero_title: "Your security, our absolute priority",
+    security_hero_subtitle: "SwizKote Bank deploys the most advanced security technologies in the world to protect your assets and personal data.",
+    security_pillars_title: "6 security pillars",
+    security_certs_title: "Certifications & Standards",
+    security_tips_title: "Customer security tips",
+    security_report_title: "Report fraud",
+    security_report_desc: "Do you suspect a phishing attempt, fraudulent access or have you received a suspicious message in the name of SwizKote Bank?",
+    security_dashboard_title: "Security dashboard",
+    security_access_title: "Access your secure area",
+
     admin_title: "Administration", admin_subtitle: "SWIZKOTE Management Panel",
     admin_tab_create: "Create account", admin_tab_clients: "Clients",
     admin_tab_loans: "Files", admin_tab_transfers: "Transfers",
@@ -559,12 +872,26 @@ const T = {
     admin_step_remove_code: "Remove", admin_step_completed: "Completed",
     admin_step_active: "Active", admin_step_code_req: "Code required",
     admin_step_pending: "Pending", admin_step_validated: "Code validated",
+    admin_stats_total_clients: "Kunden / Clients",
+    admin_stats_total_balance: "Verwaltete Aktiven / Actifs gérés",
+    admin_stats_total_transfers: "Überweisungen / Virements",
+    admin_stats_total_loans: "Vorgänge / Dossiers",
+    admin_recent_transactions: "Letzte Transaktionen / Dernières transactions",
+    admin_clients_list_title: "Kunden / Clients",
+    admin_client_detail_title: "Client",
+    admin_client_detail_back: "Zurück / Retour",
+    admin_client_detail_total_assets: "Patrimoine total",
+    admin_client_detail_accounts: "Konten / Comptes",
+    admin_client_detail_operations: "Opérations manuelles",
+    admin_client_detail_transactions: "Transaktionen / Transactions",
+    admin_client_detail_issue_card: "Carte",
+
     land_bank_name: "SWIZKOTE", land_tagline: "Swiss Banking Excellence",
     land_nav_services: "Services", land_nav_security: "Security",
     land_nav_numbers: "Key Figures", land_nav_contact: "Contact",
     land_nav_features: "Features", land_nav_about: "About us",
     land_login: "E-Banking", land_open_account: "Open an account",
-    land_hero_badge: "Swiss Private Bank since 1874",
+    land_hero_badge: "Swiss Private Bank since 2001",
     land_hero_title1: "Swiss banking excellence",
     land_hero_title2: "at the service of your wealth",
     land_hero_desc: "Discover a premium digital banking experience combining the tradition of Swiss finance with cutting-edge technological innovation.",
@@ -573,7 +900,6 @@ const T = {
     land_calc_amount: "Amount", land_calc_duration: "Duration", land_calc_years: "years",
     land_calc_rate: "Indicative rate", land_calc_monthly: "Estimated monthly payment",
     land_calc_interest: "Total interest", land_calc_cta: "Simulate my project",
-    // Nouvelles clés pour le calculateur de prêt
     land_calc_personal_label: "Personal loan",
     land_calc_business_label: "Business loan",
     land_calc_mortgage_label: "Mortgage",
@@ -581,7 +907,7 @@ const T = {
     land_calc_investment_label: "Investment loan",
     land_calc_operating_label: "Operating loan",
     land_calc_real_estate_label: "Commercial real estate",
-    land_stats: ["CHF 12B+","150+","99.99%","50,000+"],
+    land_stats: ["CHF 12B+","25+","99.99%","50,000+"],
     land_stats_labels: ["Assets under management","Financial experts","Service availability","Satisfied clients"],
     land_services_title: "Services",
     land_services_sub: "A complete range of digital banking services, designed to meet the highest demands of our private clientele.",
@@ -608,7 +934,7 @@ const T = {
     land_secure_vals: ["100%","99.99%","< 50ms"],
     land_numbers_title: "Key", land_numbers_gold: "Figures",
     land_numbers_sub: "Concrete results that testify to our clients' trust and the strength of our institution.",
-    land_kpi_vals: ["45,000+","CHF 12.8B","99.99%","150 years"],
+    land_kpi_vals: ["45,000+","CHF 12.8B","99.99%","25 years"],
     land_kpi_labels: ["Active clients","Managed assets","Security","Expertise"],
     land_kpi_descs: ["Individuals and companies","Assets under management","Availability rate","Banking experience"],
     land_cta_title: "Join the Swiss", land_cta_gold: "banking elite",
@@ -726,7 +1052,7 @@ const T = {
     loans_request_type: "Tipo di prestito", loans_request_amount: "Importo desiderato",
     loans_request_duration: "Durata (mesi)", loans_request_purpose: "Scopo del prestito",
     loans_request_purpose_ph: "Es. Acquisto immobile, Ristrutturazione, Veicolo...",
-    loans_request_submit: "Invia richiesta", loans_request_submitting: "Invio in corso...",
+    loans_request_submit: "Invia richiesta",
     loans_request_sent: "Richiesta inviata",
     loans_request_sent_desc: "Il tuo consulente ti contatterà entro 24 ore.",
     loans_type_immo: "Mutuo immobiliare", loans_type_conso: "Prestito personale",
@@ -739,6 +1065,30 @@ const T = {
     loans_code_msg: "Contatta il tuo consulente per ricevere questo codice via email.",
     loans_progress: "Avanzamento globale", loans_steps_title: "Fasi della pratica",
     loans_updated: "Aggiornato",
+    
+    // Nuove chiavi per loan-request
+    loans_request_header_title: "Richiesta prestito",
+    loans_request_header_subtitle: "Simula e invia la tua richiesta di finanziamento",
+    loans_request_step1_title: "1. Scegli il tipo di prestito",
+    loans_request_step2_title: "2. Importo e durata",
+    loans_request_step3_title: "3. Invia richiesta",
+    loans_request_amount_label: "Importo desiderato",
+    loans_request_duration_label: "Durata",
+    loans_request_monthly_label: "Rata mensile stimata",
+    loans_request_total_cost_label: "Costo totale",
+    loans_request_total_interest_label: "Totale interessi",
+    loans_request_rate_info: "Tasso indicativo: {rate}% annuo (TAEG). Tasso reale determinato dopo valutazione personalizzata del merito creditizio.",
+    loans_request_summary_title: "Riepilogo",
+    loans_request_purpose_label: "Scopo del prestito (opzionale)",
+    loans_request_purpose_placeholder: "Es. Acquisto immobile, Ristrutturazione, Veicolo...",
+    loans_request_info_box: "La tua richiesta sarà trasmessa direttamente al tuo consulente dedicato che ti contatterà entro 24 ore. Puoi monitorare l'avanzamento in \"Le mie pratiche\".",
+    loans_request_submit_button: "Invia richiesta",
+    loans_request_submit_sent_title: "Richiesta inviata!",
+    loans_request_submit_sent_desc: "Il tuo consulente ti contatterà entro 24 ore.",
+    loans_request_submit_new_button: "Nuova richiesta",
+    loans_request_submit_view_button: "Vedi le mie pratiche",
+    loans_request_submitting: "Invio in corso...",
+
     msg_title: "Messaggistica sicura",
     msg_subtitle: "Comunicazione cifrata con il tuo consulente",
     msg_encrypted: "Crittografia end-to-end", msg_advisor: "Consulente dedicato",
@@ -755,6 +1105,78 @@ const T = {
     vault_deleted: "Documento eliminato", vault_type_passport: "Passaporto",
     vault_type_contract: "Contratto", vault_type_statement: "Estratto conto",
     vault_type_id: "Documento d'identità", vault_type_other: "Altro",
+
+    // Clés pour accounts.tsx
+    acc_main_iban_label: "IBAN Conto Principale",
+    acc_active_label: "Attivo",
+    acc_inactive_label: "Inattivo",
+
+    // Clés pour cards.tsx
+    cards_active_label: "Attive",
+    cards_blocked_label: "Bloccate",
+    cards_monthly_limit_label: "Limite mensile",
+    cards_blocked_message: "Questa carta è bloccata. Sbloccala tramite le impostazioni.",
+    cards_no_card_message: "Contatta il tuo consulente per una nuova carta",
+
+    // Clés pour loans.tsx
+    loans_months_label: "mesi",
+    loans_code_validated: "Codice convalidato",
+    
+    // Services page
+    services_about_title: "Informazioni su questo servizio",
+    services_features_title: "Funzionalità incluse",
+    services_business_title: "Finanziamento aziendale",
+    services_personal_title: "Finanziamento personale",
+    services_conditions_title: "Condizioni & Tariffe",
+    services_open_account_button: "Apri conto",
+    services_contact_button: "Contatta consulente",
+    services_other_title: "Altri servizi",
+    
+    // Careers page
+    careers_hero_title: "Unisciti al team",
+    careers_hero_subtitle: "Costruisci la banca di domani con noi. Opportunità eccezionali per talenti eccezionali.",
+    careers_benefits_title: "Cosa offriamo",
+    careers_jobs_title: "Posizioni aperte",
+    careers_jobs_filter_all: "Tutti",
+    careers_jobs_apply_button: "Candidati per questa posizione",
+    careers_jobs_applied_message: "La tua candidatura è stata inviata con successo!",
+    
+    // Partnerships page
+    partnerships_hero_title: "Partnership & Alleanze",
+    partnerships_types_title: "Tipi di partnership",
+    partnerships_benefits_title: "Vantaggi partner",
+    partnerships_partners_title: "I nostri partner attuali",
+    partnerships_form_title: "Diventa partner",
+    partnerships_form_subtitle: "Compila questo modulo e il nostro team ti contatterà entro 48 ore lavorative.",
+    partnerships_form_company: "Società *",
+    partnerships_form_name: "Nome completo *",
+    partnerships_form_email: "Email professionale *",
+    partnerships_form_type: "Tipo di partnership",
+    partnerships_form_message: "Descrizione del progetto",
+    partnerships_form_submit: "Invia richiesta",
+    partnerships_form_sent_title: "Richiesta inviata!",
+    partnerships_form_sent_desc: "Il nostro team Partnership ti contatterà entro 48 ore.",
+    
+    // Press page
+    press_hero_title: "Area Stampa",
+    press_news_title: "Ultime notizie",
+    press_resources_title: "Risorse media",
+    press_contact_title: "Contatto stampa",
+    press_accreditation_title: "Accreditamento stampa",
+    press_accreditation_button: "Richiedi accreditamento",
+    press_source_label: "Fonte",
+    
+    // Security page
+    security_hero_title: "La tua sicurezza, la nostra priorità assoluta",
+    security_hero_subtitle: "SwizKote Bank implementa le tecnologie di sicurezza più avanzate al mondo per proteggere il tuo patrimonio e i tuoi dati personali.",
+    security_pillars_title: "6 pilastri di sicurezza",
+    security_certs_title: "Certificazioni & Standard",
+    security_tips_title: "Consigli di sicurezza per i clienti",
+    security_report_title: "Segnala una frode",
+    security_report_desc: "Sospetti un tentativo di phishing, un accesso fraudolento o hai ricevuto un messaggio sospetto a nome di SwizKote Bank?",
+    security_dashboard_title: "Dashboard di sicurezza",
+    security_access_title: "Accedi alla tua area sicura",
+
     admin_title: "Amministrazione", admin_subtitle: "Pannello di gestione SWIZKOTE",
     admin_tab_create: "Crea account", admin_tab_clients: "Clienti",
     admin_tab_loans: "Pratiche", admin_tab_transfers: "Bonifici",
@@ -780,12 +1202,26 @@ const T = {
     admin_step_remove_code: "Rimuovi", admin_step_completed: "Completato",
     admin_step_active: "Attivo", admin_step_code_req: "Codice richiesto",
     admin_step_pending: "In attesa", admin_step_validated: "Codice validato",
+    admin_stats_total_clients: "Kunden / Clients",
+    admin_stats_total_balance: "Verwaltete Aktiven / Actifs gérés",
+    admin_stats_total_transfers: "Überweisungen / Virements",
+    admin_stats_total_loans: "Vorgänge / Dossiers",
+    admin_recent_transactions: "Letzte Transaktionen / Dernières transactions",
+    admin_clients_list_title: "Kunden / Clients",
+    admin_client_detail_title: "Client",
+    admin_client_detail_back: "Zurück / Retour",
+    admin_client_detail_total_assets: "Patrimoine total",
+    admin_client_detail_accounts: "Konten / Comptes",
+    admin_client_detail_operations: "Opérations manuelles",
+    admin_client_detail_transactions: "Transaktionen / Transactions",
+    admin_client_detail_issue_card: "Carte",
+
     land_bank_name: "SWIZKOTE", land_tagline: "Eccellenza bancaria svizzera",
     land_nav_services: "Servizi", land_nav_security: "Sicurezza",
     land_nav_numbers: "Cifre chiave", land_nav_contact: "Contatto",
     land_nav_features: "Vantaggi", land_nav_about: "Chi siamo",
     land_login: "E-Banking", land_open_account: "Apri un conto",
-    land_hero_badge: "Banca Privata Svizzera dal 1874",
+    land_hero_badge: "Banca Privata Svizzera dal 2001",
     land_hero_title1: "Eccellenza bancaria svizzera",
     land_hero_title2: "al servizio del tuo patrimonio",
     land_hero_desc: "Scopri un'esperienza bancaria digitale premium, che unisce la tradizione della finanza svizzera all'innovazione tecnologica d'avanguardia.",
@@ -794,7 +1230,6 @@ const T = {
     land_calc_amount: "Importo", land_calc_duration: "Durata", land_calc_years: "anni",
     land_calc_rate: "Tasso indicativo", land_calc_monthly: "Rata mensile stimata",
     land_calc_interest: "Totale interessi", land_calc_cta: "Simula il mio progetto",
-    // Nouvelles clés pour le calculateur de prêt
     land_calc_personal_label: "Prestito personale",
     land_calc_business_label: "Credito aziendale",
     land_calc_mortgage_label: "Mutuo immobiliare",
@@ -802,7 +1237,7 @@ const T = {
     land_calc_investment_label: "Credito investimento",
     land_calc_operating_label: "Credito operativo",
     land_calc_real_estate_label: "Immobiliare commerciale",
-    land_stats: ["CHF 12 Mld+","150+","99,99%","50.000+"],
+    land_stats: ["CHF 12 Mld+","25+","99,99%","50.000+"],
     land_stats_labels: ["Attivi in gestione","Esperti finanziari","Disponibilità servizio","Clienti soddisfatti"],
     land_services_title: "Servizi",
     land_services_sub: "Una gamma completa di servizi bancari digitali, progettata per soddisfare le esigenze più elevate della nostra clientela privata.",
@@ -829,7 +1264,7 @@ const T = {
     land_secure_vals: ["100%","99,99%","< 50ms"],
     land_numbers_title: "Cifre", land_numbers_gold: "chiave",
     land_numbers_sub: "Risultati concreti che testimoniano la fiducia dei nostri clienti e la solidità della nostra istituzione.",
-    land_kpi_vals: ["45.000+","CHF 12,8 Mld","99,99%","150 anni"],
+    land_kpi_vals: ["45.000+","CHF 12,8 Mld","99,99%","25 anni"],
     land_kpi_labels: ["Clienti attivi","Attivi gestiti","Sicurezza","Esperienza"],
     land_kpi_descs: ["Privati e aziende","Patrimonio in gestione","Tasso di disponibilità","Di esperienza bancaria"],
     land_cta_title: "Unisciti all'élite", land_cta_gold: "bancaria svizzera",
@@ -868,7 +1303,7 @@ type TranslationKey = keyof typeof T.fr;
 interface I18nCtx {
   lang: Lang;
   setLang: (l: Lang) => void;
-  t: (key: TranslationKey) => string;
+  t: (key: TranslationKey, params?: Record<string, string | number>) => string;
 }
 
 const I18nContext = createContext<I18nCtx | null>(null);
@@ -883,8 +1318,15 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("swiz_lang", l);
   };
 
-  const t = (key: TranslationKey): string =>
-    (T[lang] as any)[key] ?? (T.fr as any)[key] ?? key;
+  const t = (key: TranslationKey, params?: Record<string, string | number>): string => {
+    let text = (T[lang] as any)[key] ?? (T.fr as any)[key] ?? key;
+    if (params) {
+      Object.entries(params).forEach(([k, v]) => {
+        text = text.replace(`{${k}}`, String(v));
+      });
+    }
+    return text;
+  };
 
   return <I18nContext.Provider value={{ lang, setLang, t }}>{children}</I18nContext.Provider>;
 }
@@ -893,8 +1335,15 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
 export function useForcedFrench() {
   const ctx = useContext(I18nContext);
   if (!ctx) throw new Error("useForcedFrench must be used within I18nProvider");
-  const tFr = (key: TranslationKey): string =>
-    (T.fr as any)[key] ?? key;
+  const tFr = (key: TranslationKey, params?: Record<string, string | number>): string => {
+    let text = (T.fr as any)[key] ?? key;
+    if (params) {
+      Object.entries(params).forEach(([k, v]) => {
+        text = text.replace(`{${k}}`, String(v));
+      });
+    }
+    return text;
+  };
   return { ...ctx, t: tFr, lang: "fr" as Lang };
 }
 
