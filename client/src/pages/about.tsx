@@ -515,7 +515,7 @@ export default function AboutPage() {
             <Link href="/privacy" className="hover:text-foreground">{lang === "de" ? "Datenschutz" : lang === "en" ? "Privacy" : lang === "it" ? "Privacy" : "Confidentialité"}</Link>
             <Link href="/legal" className="hover:text-foreground">{lang === "de" ? "Impressum" : lang === "en" ? "Legal" : lang === "it" ? "Note legali" : "Mentions légales"}</Link>
           </div>
-          <p className="text-xs text-muted-foreground mt-4">© 2024 SWIZKOTE SA. {lang === "de" ? "Alle Rechte vorbehalten." : lang === "en" ? "All rights reserved." : lang === "it" ? "Tutti i diritti riservati." : "Tous droits réservés."}</p>
+          <p className="text-xs text-muted-foreground mt-4">© 2026 SWIZKOTE SA. {lang === "de" ? "Alle Rechte vorbehalten." : lang === "en" ? "All rights reserved." : lang === "it" ? "Tutti i diritti riservati." : "Tous droits réservés."}</p>
         </div>
       </footer>
     </div>

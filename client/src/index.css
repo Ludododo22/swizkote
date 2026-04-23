@@ -342,37 +342,3 @@
     width: 100%;
   }
 }
-
-/* ─── UTILITY: HIDE SCROLLBAR ───────────────────────────────────────────────── */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* ─── MOBILE RESPONSIVE: SAFE AREA ─────────────────────────────────────────── */
-.safe-area-bottom {
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-
-/* ─── RESPONSIVE TOUCH TARGETS ──────────────────────────────────────────────── */
-@media (max-width: 640px) {
-  /* Ensure touch targets are large enough on mobile */
-  button, [role="button"] {
-    min-height: 36px;
-  }
-  /* Better text readability on small screens */
-  .text-\[10px\], .text-\[9px\], .text-\[8px\] {
-    letter-spacing: 0.01em;
-  }
-  /* Better card spacing on mobile */
-  .hover-elevate {
-    transition: box-shadow 0.15s ease;
-  }
-  .hover-elevate:active {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    transform: scale(0.99);
-  }
-}

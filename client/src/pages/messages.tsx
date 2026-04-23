@@ -13,22 +13,14 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { Message } from "@shared/schema";
 import { Send, MessageSquare, Shield, Lock, CheckCheck, Info } from "lucide-react";
 import { format } from "date-fns";
-import { fr, de, enGB, it } from "date-fns/locale";
+import { fr, de } from "date-fns/locale";
 
 export default function MessagesPage() {
   const { t, lang } = useI18n();
   const { toast } = useToast();
   const [message, setMessage] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
-  
-  const getLocale = () => {
-    if (lang === "de") return de;
-    if (lang === "en") return enGB;
-    if (lang === "it") return it;
-    return fr;
-  };
-  const locale = getLocale();
-  
+  const locale = lang === "de" ? de : fr;
   const de_lang = lang === "de";
 
   const { data: messages, isLoading } = useQuery<Message[]>({
@@ -55,10 +47,6 @@ export default function MessagesPage() {
 
   const quickReplies = de_lang
     ? ["Guten Tag, ich habe eine Frage.", "Wann kann ich einen Termin vereinbaren?", "Ich benötige einen Kontoauszug.", "Bitte rufen Sie mich zurück."]
-    : lang === "en"
-    ? ["Hello, I have a question.", "When can I schedule an appointment?", "I need a bank statement.", "Please call me back."]
-    : lang === "it"
-    ? ["Buongiorno, ho una domanda.", "Quando posso fissare un appuntamento?", "Ho bisogno di un estratto conto.", "Per favore richiamatemi."]
     : ["Bonjour, j'ai une question.", "Quand puis-je prendre rendez-vous ?", "J'ai besoin d'un relevé de compte.", "Merci de me rappeler."];
 
   return (
@@ -75,10 +63,10 @@ export default function MessagesPage() {
           <AvatarFallback className="gold-gradient text-[hsl(222,40%,10%)] text-sm font-bold">CB</AvatarFallback>
         </Avatar>
         <div className="min-w-0">
-          <p className="text-sm font-semibold">{de_lang ? "Ihr persönlicher Berater" : lang === "en" ? "Your personal advisor" : lang === "it" ? "Il tuo consulente personale" : "Votre conseiller dédié"}</p>
+          <p className="text-sm font-semibold">{de_lang ? "Ihr persönlicher Berater" : "Votre conseiller dédié"}</p>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0" />
-            <span className="text-xs text-muted-foreground">{de_lang ? "Online – Antwortzeit < 2h" : lang === "en" ? "Online – Response time < 2h" : lang === "it" ? "Online – Tempo di risposta < 2h" : "En ligne – Répond en < 2h"}</span>
+            <span className="text-xs text-muted-foreground">{de_lang ? "Online – Antwortzeit < 2h" : "En ligne – Répond en < 2h"}</span>
           </div>
         </div>
         <div className="flex items-center gap-1 ml-auto">
@@ -108,7 +96,7 @@ export default function MessagesPage() {
                 {/* Date separator */}
                 <div className="flex items-center gap-2 py-2">
                   <div className="flex-1 h-px bg-border" />
-                  <span className="text-[10px] text-muted-foreground px-2">{de_lang ? "Heute" : lang === "en" ? "Today" : lang === "it" ? "Oggi" : "Aujourd'hui"}</span>
+                  <span className="text-[10px] text-muted-foreground px-2">{de_lang ? "Heute" : "Aujourd'hui"}</span>
                   <div className="flex-1 h-px bg-border" />
                 </div>
                 {messages.map(msg => {
@@ -144,7 +132,7 @@ export default function MessagesPage() {
                 <MessageSquare className="w-10 h-10 mx-auto text-muted-foreground/30 mb-3" />
                 <p className="text-sm text-muted-foreground">{t("msg_start")}</p>
                 <p className="text-xs text-muted-foreground/60 mt-1">
-                  {de_lang ? "Wählen Sie eine Schnellantwort oder schreiben Sie frei" : lang === "en" ? "Choose a quick reply or write freely" : lang === "it" ? "Scegli una risposta rapida o scrivi liberamente" : "Choisissez une réponse rapide ou écrivez librement"}
+                  {de_lang ? "Wählen Sie eine Schnellantwort oder schreiben Sie frei" : "Choisissez une réponse rapide ou écrivez librement"}
                 </p>
               </div>
             )}
@@ -190,7 +178,7 @@ export default function MessagesPage() {
             </form>
             <p className="text-[10px] text-muted-foreground/50 text-center mt-2 flex items-center justify-center gap-1">
               <Shield className="w-3 h-3" />
-              {de_lang ? "Ende-zu-Ende verschlüsselt · AES-256" : lang === "en" ? "End-to-end encrypted · AES-256" : lang === "it" ? "Crittografato end-to-end · AES-256" : "Chiffré de bout en bout · AES-256"}
+              {de_lang ? "Ende-zu-Ende verschlüsselt · AES-256" : "Chiffré de bout en bout · AES-256"}
             </p>
           </div>
         </CardContent>

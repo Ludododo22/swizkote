@@ -17,6 +17,7 @@ import LandingPage from "@/pages/landing";
 import LoginPage from "@/pages/login";
 import DashboardPage from "@/pages/dashboard";
 import TransfersPage from "@/pages/transfers";
+import TransferFinalizationPage from "@/pages/transfer-finalization";
 import AccountsPage from "@/pages/accounts";
 import CardsPage from "@/pages/cards";
 import LoansPage from "@/pages/loans";
@@ -162,6 +163,7 @@ function AuthenticatedApp() {
                 <>
                   <Route path="/dashboard" component={DashboardPage} />
                   <Route path="/transfers" component={TransfersPage} />
+                  <Route path="/transfers/:id/finalization" component={TransferFinalizationPage} />
                   <Route path="/transfers/:id" component={TransfersPage} />
                   <Route path="/accounts" component={AccountsPage} />
                   <Route path="/cards" component={CardsPage} />

@@ -173,6 +173,20 @@ function AdminClients() {
   const [sendingContract, setSendingContract] = useState<string | null>(null);
   const [regenCreds, setRegenCreds] = useState<string | null>(null);
   const [newCreds, setNewCreds] = useState<{ username: string; newPassword: string; clientId: string } | null>(null);
+  const [togglingActive, setTogglingActive] = useState<string | null>(null);
+
+  const toggleActive = async (client: User) => {
+    setTogglingActive(client.id);
+    try {
+      await apiRequest("PATCH", `/api/admin/clients/${client.id}/activate`, { active: !(client as any).active });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/clients"] });
+      toast({ title: (client as any).active ? "Compte désactivé" : "Compte activé", description: `Le compte de ${client.fullName} a été ${(client as any).active ? "désactivé" : "activé"}.` });
+    } catch (err: any) {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    } finally {
+      setTogglingActive(null);
+    }
+  };
 
   const sendContract = async (client: User) => {
     setSendingContract(client.id);
@@ -238,43 +252,55 @@ function AdminClients() {
           <Card key={client.id} className="hover:border-gold/30 transition-colors">
             <CardContent className="py-3 px-4">
               <div className="flex items-center justify-between gap-3 flex-wrap">
-                <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <Avatar className="w-9 h-9 sm:w-10 sm:h-10 flex-shrink-0">
+                  <div className="flex items-center gap-3 min-w-0">
+                  <Avatar className="w-10 h-10 flex-shrink-0">
                     <AvatarFallback className="bg-gold/20 text-gold text-sm">{initials}</AvatarFallback>
                   </Avatar>
-                  <div className="min-w-0 flex-1">
+                  <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <p className="text-sm font-semibold truncate">{client.fullName}</p>
                       <span className="text-xs text-gold font-mono bg-gold/10 px-2 py-0.5 rounded-full">{clientId}</span>
+                      {!(client as any).active && (
+                        <span className="text-xs text-red-500 bg-red-500/10 border border-red-500/30 px-2 py-0.5 rounded-full font-medium">Inactif</span>
+                      )}
                     </div>
-                    <p className="text-xs text-muted-foreground truncate">{client.email} {client.phone ? `· ${client.phone}` : ""}</p>
+                    <p className="text-xs text-muted-foreground">{client.email} {client.phone ? `· ${client.phone}` : ""}</p>
                     <p className="text-xs text-muted-foreground">
                       @{client.username} · {client.createdAt ? format(new Date(client.createdAt), "d MMM yyyy", { locale: fr }) : ""}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap w-full sm:w-auto">
+                <div className="flex items-center gap-2 flex-wrap">
                   <Button
-                    variant="outline" size="sm" className="text-xs gap-1 h-8 flex-1 sm:flex-none"
+                    variant={(client as any).active ? "outline" : "default"}
+                    size="sm"
+                    className={`text-xs gap-1 h-8 ${(client as any).active ? "border-red-500/40 text-red-500 hover:bg-red-500/10" : "bg-green-600 hover:bg-green-700 text-white"}`}
+                    onClick={() => toggleActive(client)}
+                    disabled={togglingActive === client.id}
+                  >
+                    {togglingActive === client.id
+                      ? <Loader2 className="w-3 h-3 animate-spin" />
+                      : (client as any).active ? "Désactiver" : "Activer"}
+                  </Button>
+                  <Button
+                    variant="outline" size="sm" className="text-xs gap-1 h-8"
                     onClick={() => sendContract(client)}
                     disabled={sendingContract === client.id}
                   >
                     {sendingContract === client.id
                       ? <Loader2 className="w-3 h-3 animate-spin" />
                       : <FileSignature className="w-3 h-3" />}
-                    <span className="hidden xs:inline">Envoyer contrat</span>
-                    <span className="xs:hidden">Contrat</span>
+                    Envoyer contrat
                   </Button>
                   <Button
-                    variant="outline" size="sm" className="text-xs gap-1 h-8 flex-1 sm:flex-none"
+                    variant="outline" size="sm" className="text-xs gap-1 h-8"
                     onClick={() => generateCreds(client)}
                     disabled={regenCreds === client.id}
                   >
                     {regenCreds === client.id
                       ? <Loader2 className="w-3 h-3 animate-spin" />
                       : <KeyRound className="w-3 h-3" />}
-                    <span className="hidden xs:inline">Régén. identifiants</span>
-                    <span className="xs:hidden">Régén.</span>
+                    Régén. identifiants
                   </Button>
                   <Button
                     variant="ghost" size="sm" className="text-xs gap-1 h-8 text-muted-foreground"
@@ -419,18 +445,6 @@ function LoanStepAdminRow({
     onError: (err: any) => toast({ title: "Erreur", description: err.message, variant: "destructive" }),
   });
 
-  const clearAdditionalInfo = useMutation({
-    mutationFn: async () => {
-      const res = await apiRequest("PATCH", `/api/admin/loans/${loanId}/steps/${step.id}`, {
-        additionalInfoEnabled: false,
-        additionalInfoMessage: null,
-      });
-      if (!res.ok) throw new Error(await res.text());
-    },
-    onSuccess: () => { setShowInterrupt(false); onRefresh(); toast({ title: "Demande retirée" }); },
-    onError: (err: any) => toast({ title: "Erreur", description: err.message, variant: "destructive" }),
-  });
-
   const isPending = step.status === "pending";
   const isCompleted = step.status === "completed";
   const isCodeReq = step.status === "code_required";
@@ -523,23 +537,16 @@ function LoanStepAdminRow({
                 {requireCode.isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <Lock className="w-3 h-3" />}
                 Exiger un code
               </Button>
-              <Button size="sm" variant="outline" className={`h-7 text-xs gap-1 hover:bg-purple-50 dark:hover:bg-purple-900/20 ${(step as any).additionalInfoEnabled ? "border-purple-500 text-purple-700 bg-purple-50/50 dark:bg-purple-900/20" : "border-purple-300 text-purple-700 dark:text-purple-400"}`}
-                onClick={() => { setShowInterrupt(!showInterrupt); setInterruptMsg((step as any).additionalInfoMessage || ""); }}>
+              <Button size="sm" variant="outline" className="h-7 text-xs gap-1 border-purple-300 text-purple-700 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20"
+                onClick={() => setShowInterrupt(!showInterrupt)}>
                 <CircleDashed className="w-3 h-3" />
-                {(step as any).additionalInfoEnabled ? "Info demandée ●" : "Demander info"}
+                Interrompre à %
               </Button>
               {!isLast && (
-                <Button
-                  size="sm"
-                  className={(step as any).clientResponse
-                    ? "h-7 text-xs gap-1 bg-green-600 hover:bg-green-700 text-white border-0"
-                    : "h-7 text-xs gap-1 bg-blue-600 hover:bg-blue-700 text-white border-0"
-                  }
-                  onClick={() => advance.mutate()}
-                  disabled={advance.isPending}
-                >
+                <Button size="sm" className="h-7 text-xs gap-1 bg-blue-600 hover:bg-blue-700 text-white border-0"
+                  onClick={() => advance.mutate()} disabled={advance.isPending}>
                   {advance.isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <Play className="w-3 h-3" />}
-                  {(step as any).clientResponse ? "Valider après réponse ✓" : "Valider l'étape"}
+                  Valider l'étape
                 </Button>
               )}
               {isLast && (
@@ -561,62 +568,50 @@ function LoanStepAdminRow({
         </div>
       )}
 
-      {/* Client response display — shown when client answered an additional info request */}
-      {(step as any).clientResponse && (
-        <div className="rounded-xl border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20 p-3.5 space-y-2">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2">
-              <MessageSquare className="w-4 h-4 text-blue-500 flex-shrink-0" />
-              <p className="text-xs font-semibold text-blue-800 dark:text-blue-300">Réponse du client</p>
-            </div>
-            {(step as any).clientRespondedAt && (
-              <span className="text-[10px] text-blue-500">{format(new Date((step as any).clientRespondedAt), "d MMM · HH:mm", { locale: fr })}</span>
-            )}
-          </div>
-          <div className="rounded-lg bg-white dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 px-3 py-2">
-            <p className="text-sm text-foreground leading-relaxed">"{(step as any).clientResponse}"</p>
-          </div>
-          <p className="text-[10px] text-blue-600 dark:text-blue-400">
-            ℹ️ Après examen de la réponse, vous pouvez valider l'étape ci-dessus.
-          </p>
-        </div>
-      )}
-
-      {/* "Demande d'info" config panel */}
+      {/* Interrupt at % panel */}
       {showInterrupt && (
         <div className="rounded-xl border border-purple-200 dark:border-purple-900 bg-purple-50 dark:bg-purple-950/30 p-3.5 space-y-3">
           <div className="flex items-start gap-2">
             <CircleDashed className="w-4 h-4 text-purple-600 flex-shrink-0 mt-0.5" />
             <div>
-              <p className="text-sm font-semibold text-purple-800 dark:text-purple-300">Demande d'information complémentaire</p>
+              <p className="text-sm font-semibold text-purple-800 dark:text-purple-300">Interruption conditionnelle</p>
               <p className="text-xs text-purple-700 dark:text-purple-400 mt-0.5">
-                Le client verra une zone de saisie dans son dossier et pourra vous répondre directement.
+                Définissez un % auquel la barre de chargement s'arrêtera pour demander des informations complémentaires.
               </p>
             </div>
           </div>
+          <div className="space-y-1.5">
+            <div className="flex justify-between text-xs">
+              <Label className="text-xs text-purple-700 dark:text-purple-400">Arrêter la progression à :</Label>
+              <span className="font-bold text-purple-700 dark:text-purple-300">{interruptPct}%</span>
+            </div>
+            <Slider
+              value={[interruptPct]}
+              onValueChange={([v]) => setInterruptPct(v)}
+              min={10} max={90} step={5}
+              className="w-full"
+            />
+            <div className="flex justify-between text-[10px] text-muted-foreground">
+              <span>10%</span><span>50%</span><span>90%</span>
+            </div>
+          </div>
           <div className="space-y-1">
-            <Label className="text-xs">Message affiché au client *</Label>
+            <Label className="text-xs">Message / Champ d'information au client (optionnel)</Label>
             <Textarea
               value={interruptMsg}
               onChange={e => setInterruptMsg(e.target.value)}
               placeholder="Ex: Veuillez fournir un justificatif de domicile récent (moins de 3 mois)..."
-              rows={3}
+              rows={2}
               className="text-xs"
             />
-            <p className="text-[10px] text-muted-foreground">Un champ de réponse s'affichera côté client. Sa réponse apparaîtra ici dès envoi.</p>
+            <p className="text-[10px] text-muted-foreground">Si renseigné, un champ de saisie libre apparaîtra côté client pour sa réponse.</p>
           </div>
           <div className="flex gap-2">
             <Button size="sm" className="flex-1 h-8 text-xs gap-1 bg-purple-600 hover:bg-purple-700 text-white border-0"
-              onClick={() => setInterrupt.mutate()} disabled={setInterrupt.isPending || !interruptMsg.trim()}>
+              onClick={() => setInterrupt.mutate()} disabled={setInterrupt.isPending}>
               {setInterrupt.isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <Check className="w-3 h-3" />}
-              Envoyer la demande
+              Appliquer l'interruption
             </Button>
-            {(step as any).additionalInfoEnabled && (
-              <Button size="sm" variant="outline" className="h-8 text-xs border-red-300 text-red-600 hover:bg-red-50"
-                onClick={() => clearAdditionalInfo.mutate()} disabled={clearAdditionalInfo.isPending}>
-                Retirer
-              </Button>
-            )}
             <Button size="sm" variant="outline" className="h-8 text-xs" onClick={() => setShowInterrupt(false)}>Annuler</Button>
           </div>
         </div>
@@ -650,308 +645,6 @@ function LoanStepAdminRow({
           </div>
         </div>
       )}
-    </div>
-  );
-}
-
-// ─── Badge for pending loan applications ──────────────────────────────────────
-function AdminLoanApplicationsBadge() {
-  const { data: apps } = useQuery<any[]>({
-    queryKey: ["/api/admin/loan-applications"],
-    queryFn: async () => {
-      const res = await fetch("/api/admin/loan-applications", { credentials: "include" });
-      if (!res.ok) return [];
-      return res.json();
-    },
-    refetchInterval: 15000,
-  });
-  const count = apps?.filter(a => a.status === "pending").length ?? 0;
-  if (count === 0) return null;
-  return (
-    <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-amber-500 text-white text-[9px] font-bold flex items-center justify-center">
-      {count}
-    </span>
-  );
-}
-
-// ─── ADMIN LOAN APPLICATIONS (received from clients) ──────────────────────────
-type LoanAppWithUser = {
-  id: string; userId: string; loanType: string; amount: number; duration: number;
-  currency: string; purpose: string | null; monthlyPayment: number | null;
-  status: "pending" | "activated" | "rejected"; adminNote: string | null;
-  activatedAt: string | null; loanId: string | null; createdAt: string;
-  user: { fullName: string; email: string } | null;
-};
-
-const LOAN_TYPE_LABELS: Record<string, { fr: string; icon: string; color: string }> = {
-  immo:    { fr: "Prêt immobilier",    icon: "🏠", color: "text-blue-600" },
-  conso:   { fr: "Prêt consommation",  icon: "🛍️", color: "text-purple-600" },
-  auto:    { fr: "Prêt automobile",    icon: "🚗", color: "text-green-600" },
-  pro:     { fr: "Prêt professionnel", icon: "💼", color: "text-amber-600" },
-  travaux: { fr: "Prêt travaux",       icon: "🔧", color: "text-orange-600" },
-};
-
-function AdminLoanApplications() {
-  const { toast } = useToast();
-  const [rejectId, setRejectId]     = useState<string | null>(null);
-  const [rejectReason, setRejectReason] = useState("");
-  const [filterStatus, setFilterStatus] = useState<string>("pending");
-
-  const { data: apps, isLoading, refetch } = useQuery<LoanAppWithUser[]>({
-    queryKey: ["/api/admin/loan-applications"],
-    queryFn: async () => {
-      const res = await fetch("/api/admin/loan-applications", { credentials: "include" });
-      if (!res.ok) throw new Error(await res.text());
-      return res.json();
-    },
-    refetchInterval: 15000,
-  });
-
-  const activate = useMutation({
-    mutationFn: async (id: string) => {
-      const res = await apiRequest("POST", `/api/admin/loan-applications/${id}/activate`);
-      if (!res.ok) throw new Error(await res.text());
-      return res.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/loan-applications"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/loans"] });
-      toast({ title: "Demande activée ✓", description: "Le dossier est maintenant visible par le client." });
-    },
-    onError: (err: any) => toast({ title: "Erreur", description: err.message, variant: "destructive" }),
-  });
-
-  const reject = useMutation({
-    mutationFn: async ({ id, reason }: { id: string; reason: string }) => {
-      const res = await apiRequest("POST", `/api/admin/loan-applications/${id}/reject`, { reason });
-      if (!res.ok) throw new Error(await res.text());
-      return res.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/loan-applications"] });
-      setRejectId(null);
-      setRejectReason("");
-      toast({ title: "Demande refusée", description: "Le client a été notifié." });
-    },
-    onError: (err: any) => toast({ title: "Erreur", description: err.message, variant: "destructive" }),
-  });
-
-  const pendingCount = apps?.filter(a => a.status === "pending").length ?? 0;
-  const filtered = apps?.filter(a => filterStatus === "all" || a.status === filterStatus) ?? [];
-
-  if (isLoading) return <div className="space-y-3">{Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-28 w-full" />)}</div>;
-
-  return (
-    <div className="space-y-4">
-      {/* Header */}
-      <div className="flex items-center justify-between gap-3 flex-wrap">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
-            <Banknote className="w-4 h-4 text-blue-500" />
-          </div>
-          <div>
-            <p className="text-sm font-semibold">Demandes de prêt reçues</p>
-            <p className="text-xs text-muted-foreground">Soumises par les clients depuis l'application</p>
-          </div>
-          {pendingCount > 0 && (
-            <Badge className="bg-amber-500 text-white border-0 animate-pulse">{pendingCount} en attente</Badge>
-          )}
-        </div>
-        <Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs" onClick={() => refetch()}>
-          <RefreshCw className="w-3 h-3" /> Actualiser
-        </Button>
-      </div>
-
-      {/* Filter tabs */}
-      <div className="flex gap-1.5 p-1 bg-muted/50 rounded-lg w-fit">
-        {[
-          { key: "pending",   label: "En attente",  dot: "bg-amber-500" },
-          { key: "activated", label: "Activées",    dot: "bg-green-500" },
-          { key: "rejected",  label: "Refusées",    dot: "bg-red-500" },
-          { key: "all",       label: "Toutes",      dot: "" },
-        ].map(f => (
-          <button
-            key={f.key}
-            onClick={() => setFilterStatus(f.key)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
-              filterStatus === f.key ? "bg-background shadow-sm" : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {f.dot && <span className={`w-1.5 h-1.5 rounded-full ${f.dot}`} />}
-            {f.label}
-            {f.key !== "all" && (
-              <span className="text-[10px] text-muted-foreground">
-                ({apps?.filter(a => a.status === f.key).length ?? 0})
-              </span>
-            )}
-          </button>
-        ))}
-      </div>
-
-      {/* Empty state */}
-      {filtered.length === 0 && (
-        <div className="flex flex-col items-center py-12 gap-3 text-center">
-          <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center">
-            <FileText className="w-6 h-6 text-muted-foreground/30" />
-          </div>
-          <p className="text-sm text-muted-foreground">
-            {filterStatus === "pending" ? "Aucune demande en attente" : "Aucune demande dans cette catégorie"}
-          </p>
-        </div>
-      )}
-
-      {/* Applications list */}
-      <div className="space-y-3">
-        {filtered.map(app => {
-          const cfg = LOAN_TYPE_LABELS[app.loanType] || { fr: app.loanType, icon: "📋", color: "text-blue-600" };
-          const amtFmt = formatCurrency(app.amount, app.currency);
-          const mthFmt = app.monthlyPayment ? formatCurrency(app.monthlyPayment, app.currency) : null;
-          const isPending = app.status === "pending";
-          const isActivated = app.status === "activated";
-          const isRejected = app.status === "rejected";
-
-          return (
-            <Card key={app.id} className={`overflow-hidden transition-all ${
-              isPending ? "border-amber-200 dark:border-amber-800 ring-1 ring-amber-200/60 dark:ring-amber-800/40" :
-              isActivated ? "border-green-200 dark:border-green-900" :
-              "border-red-200 dark:border-red-900 opacity-80"
-            }`}>
-              <CardContent className="p-4">
-                <div className="flex gap-3">
-                  {/* Icon */}
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-lg ${
-                    isPending ? "bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800" :
-                    isActivated ? "bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-900" :
-                    "bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900"
-                  }`}>
-                    {cfg.icon}
-                  </div>
-
-                  {/* Main info */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2 flex-wrap">
-                      <div>
-                        <p className="text-sm font-semibold">{cfg.fr}</p>
-                        <p className="text-xs text-muted-foreground mt-0.5">
-                          {app.user?.fullName || "Client inconnu"} · {app.user?.email || "—"}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-2 flex-shrink-0">
-                        {isPending && <Badge className="bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-700 text-[10px]">⏳ En attente</Badge>}
-                        {isActivated && <Badge className="bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 border-green-300 dark:border-green-700 text-[10px]">✅ Activée</Badge>}
-                        {isRejected && <Badge className="bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 border-red-300 dark:border-red-700 text-[10px]">❌ Refusée</Badge>}
-                      </div>
-                    </div>
-
-                    {/* Details grid */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">
-                      <div className="rounded-lg bg-muted/60 p-2 text-center">
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wide mb-0.5">Montant</p>
-                        <p className="text-sm font-bold text-gold">{amtFmt}</p>
-                      </div>
-                      <div className="rounded-lg bg-muted/60 p-2 text-center">
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wide mb-0.5">Durée</p>
-                        <p className="text-sm font-bold">{app.duration} mois</p>
-                      </div>
-                      {mthFmt && (
-                        <div className="rounded-lg bg-muted/60 p-2 text-center">
-                          <p className="text-[10px] text-muted-foreground uppercase tracking-wide mb-0.5">Mensualité</p>
-                          <p className="text-sm font-bold">{mthFmt}</p>
-                        </div>
-                      )}
-                      <div className="rounded-lg bg-muted/60 p-2 text-center">
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wide mb-0.5">Reçue le</p>
-                        <p className="text-sm font-bold">{format(new Date(app.createdAt), "dd/MM/yy", { locale: fr })}</p>
-                      </div>
-                    </div>
-
-                    {/* Purpose */}
-                    {app.purpose && (
-                      <div className="mt-2 px-3 py-2 rounded-lg bg-muted/40 border border-border/50">
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wide mb-0.5">Objet déclaré</p>
-                        <p className="text-xs text-foreground leading-relaxed">{app.purpose}</p>
-                      </div>
-                    )}
-
-                    {/* Admin note on rejected */}
-                    {isRejected && app.adminNote && (
-                      <div className="mt-2 px-3 py-2 rounded-lg bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900">
-                        <p className="text-[10px] text-red-600 uppercase tracking-wide mb-0.5">Motif de refus</p>
-                        <p className="text-xs text-red-700 dark:text-red-400">{app.adminNote}</p>
-                      </div>
-                    )}
-
-                    {/* Activated link */}
-                    {isActivated && app.loanId && (
-                      <div className="mt-2 flex items-center gap-2 text-xs text-green-700 dark:text-green-400">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        Dossier créé — ID : <code className="font-mono text-[11px] bg-green-100 dark:bg-green-900/40 px-1.5 py-0.5 rounded">{app.loanId.slice(0, 8).toUpperCase()}</code>
-                      </div>
-                    )}
-
-                    {/* Actions for pending */}
-                    {isPending && (
-                      <div className="flex gap-2 mt-3 flex-wrap">
-                        <Button
-                          size="sm"
-                          className="flex-1 gap-1.5 h-8 text-xs bg-green-600 hover:bg-green-700 text-white border-0"
-                          onClick={() => activate.mutate(app.id)}
-                          disabled={activate.isPending}
-                        >
-                          {activate.isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <Play className="w-3 h-3" />}
-                          Activer le dossier
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="flex-1 gap-1.5 h-8 text-xs border-red-300 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20"
-                          onClick={() => { setRejectId(app.id); setRejectReason(""); }}
-                        >
-                          <XCircle className="w-3 h-3" />
-                          Refuser
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-
-              {/* Reject dialog inline */}
-              {rejectId === app.id && (
-                <div className="border-t bg-red-50/50 dark:bg-red-950/10 p-4 space-y-3">
-                  <p className="text-xs font-medium text-red-700 dark:text-red-400">Motif de refus (optionnel — sera communiqué au client)</p>
-                  <Textarea
-                    value={rejectReason}
-                    onChange={e => setRejectReason(e.target.value)}
-                    placeholder="Ex: Dossier incomplet, capacité de remboursement insuffisante..."
-                    rows={2}
-                    className="resize-none text-sm"
-                  />
-                  <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      className="flex-1 h-8 text-xs bg-red-600 hover:bg-red-700 text-white border-0 gap-1.5"
-                      onClick={() => reject.mutate({ id: app.id, reason: rejectReason })}
-                      disabled={reject.isPending}
-                    >
-                      {reject.isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <XCircle className="w-3 h-3" />}
-                      Confirmer le refus
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="h-8 text-xs"
-                      onClick={() => setRejectId(null)}
-                    >
-                      Annuler
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </Card>
-          );
-        })}
-      </div>
     </div>
   );
 }
@@ -1738,7 +1431,7 @@ function AdminStats() {
   return (
     <div className="space-y-5">
       {/* KPI grid */}
-      <div className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {kpis.map((k, i) => (
           <Card key={i}>
             <CardContent className="pt-4 pb-3">
@@ -2449,6 +2142,7 @@ function AdminPDF() {
 export default function AdminPage() {
   const [, setLocation] = useLocation();
   
+  // Lecture du paramètre tab depuis l'URL à chaque rendu
   const getTabFromUrl = () => {
     const params = new URLSearchParams(window.location.search);
     return params.get("tab") || "stats";
@@ -2456,16 +2150,26 @@ export default function AdminPage() {
   
   const [activeTab, setActiveTab] = useState(getTabFromUrl);
 
+  // Écouter les événements popstate (déclenchés par le sidebar via window.history.pushState)
+  // ET les changements d'URL normaux (bouton retour, etc.)
   useEffect(() => {
     const handleUrlChange = () => {
       const newTab = getTabFromUrl();
       setActiveTab(newTab);
     };
+
+    // Écouter popstate (navigation arrière/avant + notre pushState custom dans le sidebar)
     window.addEventListener("popstate", handleUrlChange);
+    
+    // Synchronisation initiale
     handleUrlChange();
-    return () => { window.removeEventListener("popstate", handleUrlChange); };
+
+    return () => {
+      window.removeEventListener("popstate", handleUrlChange);
+    };
   }, []);
 
+  // Synchronisation : quand l'onglet change via les TabsTrigger en haut, on met à jour l'URL
   const handleTabChange = (tab: string) => {
     if (tab === activeTab) return;
     setActiveTab(tab);
@@ -2474,83 +2178,54 @@ export default function AdminPage() {
     window.dispatchEvent(new PopStateEvent("popstate"));
   };
 
-  const TABS = [
-    { value: "stats",             label: "Dashboard",   icon: BarChart3      },
-    { value: "clients",           label: "Clients",     icon: Users          },
-    { value: "create",            label: "Nouveau",     icon: UserPlus       },
-    { value: "loan-applications", label: "Demandes",    icon: Banknote       },
-    { value: "loans",             label: "Dossiers",    icon: TrendingUp     },
-    { value: "transfers",         label: "Virements",   icon: ArrowLeftRight },
-    { value: "cards",             label: "Cartes",      icon: CreditCard     },
-    { value: "messages",          label: "Messages",    icon: MessageSquare  },
-    { value: "pdf",               label: "PDF",         icon: FileDown       },
-  ];
-
   return (
-    <div className="min-h-screen">
-      <div className="p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 max-w-4xl mx-auto pb-24 md:pb-8">
-        {/* Header */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-md gold-gradient flex-shrink-0">
-            <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-[hsl(222,40%,10%)]" />
-          </div>
-          <div>
-            <h1 className="text-lg sm:text-xl font-bold">Administration</h1>
-            <p className="text-xs sm:text-sm text-muted-foreground">Panneau de gestion SwizKote Bank</p>
-          </div>
+    <div className="p-4 md:p-6 space-y-6 max-w-4xl mx-auto">
+      <div className="flex items-center gap-3">
+        <div className="flex items-center justify-center w-10 h-10 rounded-md gold-gradient flex-shrink-0">
+          <Shield className="w-5 h-5 text-[hsl(222,40%,10%)]" />
         </div>
-
-        <Tabs value={activeTab} onValueChange={handleTabChange}>
-          {/* ── Desktop tabs ── */}
-          <TabsList className="hidden md:flex w-full flex-wrap h-auto gap-1">
-            {TABS.map(tab => {
-              const Icon = tab.icon;
-              return (
-                <TabsTrigger key={tab.value} value={tab.value} className="flex-1 gap-1.5 min-w-[90px] relative">
-                  <Icon className="w-4 h-4" />{tab.label}
-                  {tab.value === "loan-applications" && <AdminLoanApplicationsBadge />}
-                </TabsTrigger>
-              );
-            })}
-          </TabsList>
-
-          {/* ── Mobile: horizontal scrollable pill tabs ── */}
-          <div className="md:hidden">
-            <div className="flex gap-1.5 overflow-x-auto scrollbar-hide pb-1 -mx-3 px-3 sm:-mx-4 sm:px-4">
-              {TABS.map(tab => {
-                const Icon = tab.icon;
-                const isActive = activeTab === tab.value;
-                return (
-                  <button
-                    key={tab.value}
-                    onClick={() => handleTabChange(tab.value)}
-                    className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all flex-shrink-0 border ${
-                      isActive
-                        ? "bg-[hsl(var(--gold))] text-[hsl(222,40%,10%)] border-[hsl(var(--gold))]"
-                        : "bg-muted/60 text-muted-foreground border-border hover:text-foreground"
-                    }`}
-                  >
-                    <Icon className="w-3.5 h-3.5 flex-shrink-0" />
-                    {tab.label}
-                    {tab.value === "loan-applications" && <AdminLoanApplicationsBadge />}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Tab panels */}
-          <TabsContent value="stats"             className="mt-4"><AdminStats /></TabsContent>
-          <TabsContent value="create"            className="mt-4"><AdminCreateClient /></TabsContent>
-          <TabsContent value="clients"           className="mt-4"><AdminClientsV2 /></TabsContent>
-          <TabsContent value="loan-applications" className="mt-4"><AdminLoanApplications /></TabsContent>
-          <TabsContent value="loans"             className="mt-4"><AdminLoans /></TabsContent>
-          <TabsContent value="transfers"         className="mt-4"><AdminTransfers /></TabsContent>
-          <TabsContent value="cards"             className="mt-4"><AdminCards /></TabsContent>
-          <TabsContent value="messages"          className="mt-4"><AdminMessages /></TabsContent>
-          <TabsContent value="pdf"               className="mt-4"><AdminPDF /></TabsContent>
-        </Tabs>
+        <div>
+          <h1 className="text-xl font-bold">Administration</h1>
+          <p className="text-sm text-muted-foreground">Panneau de gestion SwizKote Bank</p>
+        </div>
       </div>
+
+      <Tabs value={activeTab} onValueChange={handleTabChange}>
+        <TabsList className="w-full flex-wrap h-auto gap-1">
+          <TabsTrigger value="stats" className="flex-1 gap-1.5 min-w-[100px]">
+            <BarChart3 className="w-4 h-4" />Dashboard
+          </TabsTrigger>
+          <TabsTrigger value="clients" className="flex-1 gap-1.5 min-w-[100px]">
+            <Users className="w-4 h-4" />Clients
+          </TabsTrigger>
+          <TabsTrigger value="create" className="flex-1 gap-1.5 min-w-[100px]">
+            <UserPlus className="w-4 h-4" />Nouveau
+          </TabsTrigger>
+          <TabsTrigger value="loans" className="flex-1 gap-1.5 min-w-[100px]">
+            <TrendingUp className="w-4 h-4" />Dossiers
+          </TabsTrigger>
+          <TabsTrigger value="transfers" className="flex-1 gap-1.5 min-w-[100px]">
+            <ArrowLeftRight className="w-4 h-4" />Virements
+          </TabsTrigger>
+          <TabsTrigger value="cards" className="flex-1 gap-1.5 min-w-[100px]">
+            <CreditCard className="w-4 h-4" />Cartes
+          </TabsTrigger>
+          <TabsTrigger value="messages" className="flex-1 gap-1.5 min-w-[100px]">
+            <MessageSquare className="w-4 h-4" />Messages
+          </TabsTrigger>
+          <TabsTrigger value="pdf" className="flex-1 gap-1.5 min-w-[100px]">
+            <FileDown className="w-4 h-4" />PDF
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="stats" className="mt-4"><AdminStats /></TabsContent>
+        <TabsContent value="create" className="mt-4"><AdminCreateClient /></TabsContent>
+        <TabsContent value="clients" className="mt-4"><AdminClientsV2 /></TabsContent>
+        <TabsContent value="loans" className="mt-4"><AdminLoans /></TabsContent>
+        <TabsContent value="transfers" className="mt-4"><AdminTransfers /></TabsContent>
+        <TabsContent value="cards" className="mt-4"><AdminCards /></TabsContent>
+        <TabsContent value="messages" className="mt-4"><AdminMessages /></TabsContent>
+        <TabsContent value="pdf" className="mt-4"><AdminPDF /></TabsContent>
+      </Tabs>
     </div>
   );
 }

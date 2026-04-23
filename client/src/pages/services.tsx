@@ -731,49 +731,84 @@ export const SERVICES = {
 };
 
 // ─── Complete bidirectional ID mapping (without duplicates) ───────────────────
+// Canonical service groups: maps any service ID to a canonical index (0-5)
 const SERVICE_CANONICAL: Record<string, number> = {
+  // de
   "girokonto": 0, "sparkonto": 1, "premium-karten": 2, "kredite": 3, "vermoegensverwaltung": 4, "sicherheit": 5,
+  // fr
   "compte-courant": 0, "epargne": 1, "cartes": 2, "credits": 3, "gestion-fortune": 4, "securite": 5,
+  // en
   "current-account": 0, "savings-account": 1, "premium-cards": 2, "loans": 3, "wealth-management": 4, "security": 5,
+  // it
   "conto-corrente": 0, "conto-risparmio": 1, "carte-premium": 2, "prestiti": 3, "gestione-patrimonio": 4, "sicurezza": 5,
 };
 
 const ID_MAP: Record<string, string> = {
-  "girokonto": "compte-courant", "sparkonto": "epargne", "premium-karten": "cartes",
-  "kredite": "credits", "vermoegensverwaltung": "gestion-fortune", "sicherheit": "securite",
-  "compte-courant": "girokonto", "epargne": "sparkonto", "cartes": "premium-karten",
-  "credits": "kredite", "gestion-fortune": "vermoegensverwaltung", "securite": "sicherheit",
-  "current-account": "girokonto", "savings-account": "sparkonto", "premium-cards": "premium-karten",
-  "loans": "kredite", "wealth-management": "vermoegensverwaltung", "security": "sicherheit",
-  "conto-corrente": "girokonto", "conto-risparmio": "sparkonto", "carte-premium": "premium-karten",
-  "prestiti": "kredite", "gestione-patrimonio": "vermoegensverwaltung", "sicurezza": "sicherheit",
+  "girokonto": "compte-courant",
+  "sparkonto": "epargne",
+  "premium-karten": "cartes",
+  "kredite": "credits",
+  "vermoegensverwaltung": "gestion-fortune",
+  "sicherheit": "securite",
+  "compte-courant": "girokonto",
+  "epargne": "sparkonto",
+  "cartes": "premium-karten",
+  "credits": "kredite",
+  "gestion-fortune": "vermoegensverwaltung",
+  "securite": "sicherheit",
+  "current-account": "girokonto",
+  "savings-account": "sparkonto",
+  "premium-cards": "premium-karten",
+  "loans": "kredite",
+  "wealth-management": "vermoegensverwaltung",
+  "security": "sicherheit",
+  "conto-corrente": "girokonto",
+  "conto-risparmio": "sparkonto",
+  "carte-premium": "premium-karten",
+  "prestiti": "kredite",
+  "gestione-patrimonio": "vermoegensverwaltung",
+  "sicurezza": "sicherheit",
 };
 
+// Helper function to get the correct service ID for current language
 function getLocalizedServiceId(serviceId: string, targetLang: string): string {
   const targetServices = SERVICES[targetLang as keyof typeof SERVICES];
-  if (targetServices?.some(s => s.id === serviceId)) return serviceId;
+  // If the serviceId already exists in the target language, use it directly
+  if (targetServices?.some(s => s.id === serviceId)) {
+    return serviceId;
+  }
+  // Use canonical index to find the equivalent service in the target language
   const canonicalIdx = SERVICE_CANONICAL[serviceId];
-  if (canonicalIdx !== undefined && targetServices?.[canonicalIdx]) return targetServices[canonicalIdx].id;
+  if (canonicalIdx !== undefined && targetServices?.[canonicalIdx]) {
+    return targetServices[canonicalIdx].id;
+  }
+  // Fallback to ID_MAP
   const mapped = ID_MAP[serviceId];
-  if (mapped && targetServices?.some(s => s.id === mapped)) return mapped;
+  if (mapped && targetServices?.some(s => s.id === mapped)) {
+    return mapped;
+  }
   return serviceId;
 }
 
 // ─── Service detail page ──────────────────────────────────────────────────────
 function ServiceDetail({ serviceId }: { serviceId: string }) {
-  const { t, lang } = useI18n();
+  const { lang } = useI18n();
   const [, setLocation] = useLocation();
 
   const safeKey = (lang === "fr" || lang === "de" || lang === "en" || lang === "it") ? lang : "fr";
   const services = SERVICES[safeKey];
+
+  // Resolve the correct service for the current language using canonical index
   const localizedId = getLocalizedServiceId(serviceId, safeKey);
 
+  // Update URL to reflect the current language's service ID (without causing a loop)
   useEffect(() => {
     if (localizedId !== serviceId) {
       setLocation(`/services/${localizedId}`, { replace: true });
     }
-  }, [lang]);
+  }, [lang]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Find service: try localizedId first, then serviceId, then canonical fallback
   let service = services.find(s => s.id === localizedId) || services.find(s => s.id === serviceId);
   if (!service) {
     const canonicalIdx = SERVICE_CANONICAL[serviceId] ?? SERVICE_CANONICAL[localizedId];
@@ -796,13 +831,13 @@ function ServiceDetail({ serviceId }: { serviceId: string }) {
              lang === "it" ? "Servizio non trovato." : 
              "Service introuvable."}
           </p>
-          <Link href="/#services">
+          <Link href="/services">
             <Button variant="outline" className="gap-2">
               <ArrowLeft className="w-4 h-4" />
-              {lang === "de" ? "Zurück zur Startseite" : 
-               lang === "en" ? "Back to home" : 
-               lang === "it" ? "Torna alla home" : 
-               "Retour à l'accueil"}
+              {lang === "de" ? "Zurück zu den Dienstleistungen" :
+               lang === "en" ? "Back to Services" :
+               lang === "it" ? "Torna ai Servizi" :
+               "Retour aux Services"}
             </Button>
           </Link>
         </div>
@@ -819,14 +854,14 @@ function ServiceDetail({ serviceId }: { serviceId: string }) {
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between gap-2 h-16">
             <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
-              <Link href="/#services">
-                <Button variant="ghost" size="sm" className="gap-1.5 px-2 sm:px-3">
+              <Link href="/services">
+                <Button variant="ghost" size="sm" className="gap-1.5 px-2 sm:px-3" data-testid="button-back-to-services">
                   <ArrowLeft className="w-4 h-4" />
                   <span className="hidden sm:inline">
-                    {lang === "de" ? "Startseite" : 
-                     lang === "en" ? "Home" : 
-                     lang === "it" ? "Home" : 
-                     "Accueil"}
+                    {lang === "de" ? "Zurück" :
+                     lang === "en" ? "Back" :
+                     lang === "it" ? "Indietro" :
+                     "Retour"}
                   </span>
                 </Button>
               </Link>
@@ -865,7 +900,10 @@ function ServiceDetail({ serviceId }: { serviceId: string }) {
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/login">
               <Button className="gold-gradient text-[hsl(222,40%,10%)] font-semibold gap-2">
-                {t("services_open_account_button")} <ArrowRight className="w-4 h-4" />
+                {lang === "de" ? "Konto eröffnen" : 
+                 lang === "en" ? "Open account" : 
+                 lang === "it" ? "Apri conto" : 
+                 "Ouvrir un compte"} <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>
             <a href="#details">
@@ -885,14 +923,24 @@ function ServiceDetail({ serviceId }: { serviceId: string }) {
           <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
             <div className="lg:col-span-2 space-y-10">
               <div>
-                <h2 className="text-2xl font-bold mb-4">{t("services_about_title")}</h2>
+                <h2 className="text-2xl font-bold mb-4">
+                  {lang === "de" ? "Über diesen Service" : 
+                   lang === "en" ? "About this service" : 
+                   lang === "it" ? "Informazioni su questo servizio" : 
+                   "À propos de ce service"}
+                </h2>
                 <p className="text-muted-foreground leading-relaxed text-lg">{service.desc}</p>
               </div>
               <div className="rounded-2xl overflow-hidden border">
                 <img src={service.img} alt={service.title} className="w-full h-64 md:h-80 object-cover" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold mb-6">{t("services_features_title")}</h2>
+                <h2 className="text-2xl font-bold mb-6">
+                  {lang === "de" ? <><span className="text-gold">Enthaltene</span> Funktionen</> :
+                   lang === "en" ? <><span className="text-gold">Included</span> features</> :
+                   lang === "it" ? <><span className="text-gold">Funzionalità</span> incluse</> :
+                   <>Fonctionnalités <span className="text-gold">incluses</span></>}
+                </h2>
                 {isLoanService && svc.businessLoans && svc.personalLoans ? (
                   <div className="space-y-8">
                     <div>
@@ -900,7 +948,12 @@ function ServiceDetail({ serviceId }: { serviceId: string }) {
                         <div className="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center">
                           <Building2 className="w-5 h-5 text-gold" />
                         </div>
-                        <h3 className="text-lg font-semibold">{t("services_business_title")}</h3>
+                        <h3 className="text-lg font-semibold">
+                          {lang === "de" ? "Unternehmensfinanzierung" : 
+                           lang === "en" ? "Business financing" : 
+                           lang === "it" ? "Finanziamento aziendale" : 
+                           "Financement entreprise"}
+                        </h3>
                       </div>
                       <div className="grid sm:grid-cols-2 gap-3">
                         {svc.businessLoans.map((loan: any, i: number) => {
@@ -932,7 +985,12 @@ function ServiceDetail({ serviceId }: { serviceId: string }) {
                         <div className="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center">
                           <Users className="w-5 h-5 text-gold" />
                         </div>
-                        <h3 className="text-lg font-semibold">{t("services_personal_title")}</h3>
+                        <h3 className="text-lg font-semibold">
+                          {lang === "de" ? "Privatfinanzierung" : 
+                           lang === "en" ? "Personal financing" : 
+                           lang === "it" ? "Finanziamento personale" : 
+                           "Financement particulier"}
+                        </h3>
                       </div>
                       <div className="grid sm:grid-cols-2 gap-3">
                         {svc.personalLoans.map((loan: any, i: number) => {
@@ -973,11 +1031,14 @@ function ServiceDetail({ serviceId }: { serviceId: string }) {
               </div>
             </div>
 
-            <div className="space-y-6">
-              <div className="p-6 rounded-2xl border bg-card sticky top-24">
+            <div className="space-y-6 lg:sticky lg:top-20 lg:self-start">
+              <div className="p-6 rounded-2xl border bg-card">
                 <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
                   <Shield className="w-4 h-4 text-gold" />
-                  {t("services_conditions_title")}
+                  {lang === "de" ? "Konditionen & Tarife" : 
+                   lang === "en" ? "Conditions & Fees" : 
+                   lang === "it" ? "Condizioni & Tariffe" : 
+                   "Conditions & Tarifs"}
                 </h3>
                 <div className="space-y-0 divide-y divide-border">
                   {service.conditions.map((condition: string[], i: number) => (
@@ -990,19 +1051,38 @@ function ServiceDetail({ serviceId }: { serviceId: string }) {
                 <div className="mt-6 pt-6 border-t space-y-3">
                   <Link href="/login">
                     <Button className="w-full gold-gradient text-[hsl(222,40%,10%)] font-semibold gap-2">
-                      {t("services_open_account_button")} <ArrowRight className="w-4 h-4" />
+                      {lang === "de" ? "Konto eröffnen" : 
+                       lang === "en" ? "Open account" : 
+                       lang === "it" ? "Apri conto" : 
+                       "Ouvrir un compte"} <ArrowRight className="w-4 h-4" />
                     </Button>
                   </Link>
                   <Link href="/#contact">
-                    <Button variant="outline" className="w-full gap-2">
-                      {t("services_contact_button")}
+                    <Button
+                      variant="outline"
+                      className="w-full gap-2"
+                      data-testid="button-contact-advisor"
+                      onClick={() => {
+                        setTimeout(() => {
+                          const el = document.getElementById("contact");
+                          if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                        }, 100);
+                      }}
+                    >
+                      {lang === "de" ? "Berater kontaktieren" :
+                       lang === "en" ? "Contact advisor" :
+                       lang === "it" ? "Contatta consulente" :
+                       "Contacter un conseiller"}
                     </Button>
                   </Link>
                 </div>
               </div>
               <div className="p-5 rounded-2xl border bg-card/50">
                 <h4 className="text-sm font-semibold mb-3 text-muted-foreground uppercase tracking-wide">
-                  {t("services_other_title")}
+                  {lang === "de" ? "Weitere Dienstleistungen" : 
+                   lang === "en" ? "Other services" : 
+                   lang === "it" ? "Altri servizi" : 
+                   "Autres services"}
                 </h4>
                 <div className="space-y-2">
                   {services.filter(s => s.id !== service.id).slice(0, 4).map(s => {
@@ -1033,10 +1113,10 @@ function ServiceDetail({ serviceId }: { serviceId: string }) {
             <span className="font-medium" style={{ whiteSpace: "nowrap" }}>SWIZKOTE</span>
           </div>
           <p>
-            {lang === "de" ? "© 2024 SWIZKOTE AG — Alle Rechte vorbehalten" : 
-             lang === "en" ? "© 2024 SWIZKOTE SA — All rights reserved" : 
-             lang === "it" ? "© 2024 SWIZKOTE SA — Tutti i diritti riservati" : 
-             "© 2024 SWIZKOTE SA — Tous droits réservés"}
+            {lang === "de" ? "© 2026 SWIZKOTE AG — Alle Rechte vorbehalten" : 
+             lang === "en" ? "© 2026 SWIZKOTE SA — All rights reserved" : 
+             lang === "it" ? "© 2026 SWIZKOTE SA — Tutti i diritti riservati" : 
+             "© 2026 SWIZKOTE SA — Tous droits réservés"}
           </p>
           <div className="flex gap-4">
             <Link href="/terms" className="hover:text-gold transition-colors">
@@ -1064,13 +1144,13 @@ export default function ServicesPage() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center">
-      <Link href="/#services">
+      <Link href="/services">
         <Button className="gold-gradient text-[hsl(222,40%,10%)] font-semibold gap-2">
           <ArrowLeft className="w-4 h-4" />
-          {lang === "de" ? "Zurück zur Startseite" : 
-           lang === "en" ? "Back to home" : 
-           lang === "it" ? "Torna alla home" : 
-           "Retour à l'accueil"}
+          {lang === "de" ? "Zu den Dienstleistungen" :
+           lang === "en" ? "Back to Services" :
+           lang === "it" ? "Torna ai Servizi" :
+           "Retour aux Services"}
         </Button>
       </Link>
     </div>

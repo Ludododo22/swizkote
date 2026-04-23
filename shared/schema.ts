@@ -10,7 +10,6 @@ export const cardTypeEnum = pgEnum("card_type", ["visa_infinite", "mastercard_go
 export const cardStatusEnum = pgEnum("card_status", ["active", "inactive", "blocked", "ordered"]);
 export const loanStepStatusEnum = pgEnum("loan_step_status", ["pending", "active", "code_required", "completed"]);
 export const loanTypeEnum = pgEnum("loan_type", ["transfer", "loan_request", "loan_active"]);
-export const loanApplicationStatusEnum = pgEnum("loan_application_status", ["pending", "activated", "rejected"]);
 
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -21,6 +20,7 @@ export const users = pgTable("users", {
   phone: text("phone"),
   role: roleEnum("role").notNull().default("client"),
   avatarUrl: text("avatar_url"),
+  active: boolean("is_active").notNull().default(false),
   createdAt: timestamp("created_at").defaultNow(),
   lastLoginAt: timestamp("last_login_at"),
   previousLoginAt: timestamp("previous_login_at"),
@@ -98,23 +98,6 @@ export const messages = pgTable("messages", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-// ─── LOAN APPLICATIONS (submitted by client) ─────────────────────────────────
-export const loanApplications = pgTable("loan_applications", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  userId: varchar("user_id").notNull().references(() => users.id),
-  loanType: text("loan_type").notNull(), // immo, conso, auto, pro, travaux
-  amount: real("amount").notNull(),
-  duration: integer("duration").notNull(), // months
-  currency: text("currency").notNull().default("CHF"),
-  purpose: text("purpose"),
-  monthlyPayment: real("monthly_payment"),
-  status: loanApplicationStatusEnum("status").notNull().default("pending"),
-  adminNote: text("admin_note"),
-  activatedAt: timestamp("activated_at"),
-  loanId: varchar("loan_id"), // set when admin activates → creates Loan record
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
 // ─── LOANS ────────────────────────────────────────────────────────────────────
 export const loans = pgTable("loans", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -142,12 +125,6 @@ export const loanSteps = pgTable("loan_steps", {
   codeValidated: boolean("code_validated").default(false),
   unlockedAt: timestamp("unlocked_at"),
   createdAt: timestamp("created_at").defaultNow(),
-  // Admin-controlled additional info request
-  additionalInfoEnabled: boolean("additional_info_enabled").default(false),
-  additionalInfoMessage: text("additional_info_message"),
-  // Client response to additional info request
-  clientResponse: text("client_response"),
-  clientRespondedAt: timestamp("client_responded_at"),
 });
 
 // ─── SCHEMAS & TYPES ─────────────────────────────────────────────────────────
@@ -159,7 +136,6 @@ export const insertCardSchema = createInsertSchema(cards).omit({ id: true });
 export const insertDocumentSchema = createInsertSchema(documents).omit({ id: true, uploadedAt: true });
 export const insertMessageSchema = createInsertSchema(messages).omit({ id: true, createdAt: true });
 export const insertLoanSchema = createInsertSchema(loans).omit({ id: true, createdAt: true, updatedAt: true, currentStep: true });
-export const insertLoanApplicationSchema = createInsertSchema(loanApplications).omit({ id: true, createdAt: true, activatedAt: true, loanId: true, status: true });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;

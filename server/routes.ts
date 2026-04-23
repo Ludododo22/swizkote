@@ -162,7 +162,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       const existing = await storage.getUserByUsername(username);
       if (existing) return res.status(409).send("Identifiant deja utilise");
       const hashedPassword = await bcrypt.hash(password, 10);
-      const user = await storage.createUser({ username, password: hashedPassword, fullName, email, phone: phone || null, role: "client", avatarUrl: null });
+      const user = await storage.createUser({ username, password: hashedPassword, fullName, email, phone: phone || null, role: "client", avatarUrl: null, active: false });
       const account = await storage.createAccount({ userId: user.id, type: "main", name: "Compte Courant", balance: 0, currency: "CHF", iban: generateIBAN(), interestRate: 0 });
       (req.session as any).userId = user.id;
       (req.session as any).role = user.role;
@@ -352,23 +352,6 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     } catch (err: any) { res.status(500).send(err.message); }
   });
 
-  // ─── LOAN APPLICATIONS (CLIENT SUBMISSION) ─────────────────────────────────
-  app.post("/api/loan-applications", requireAuth, async (req: Request, res: Response) => {
-    try {
-      const userId = (req.session as any).userId;
-      const { loanType, amount, duration, currency, purpose, monthlyPayment } = req.body;
-      if (!loanType || !amount || !duration) return res.status(400).send("Champs requis manquants");
-      const app = await storage.createLoanApplication({ userId, loanType, amount: parseFloat(amount), duration: parseInt(duration), currency: currency || "CHF", purpose: purpose || null, monthlyPayment: monthlyPayment ? parseFloat(monthlyPayment) : null });
-      res.json(app);
-    } catch (err: any) { res.status(500).send(err.message); }
-  });
-
-  app.get("/api/loan-applications", requireAuth, async (req: Request, res: Response) => {
-    const userId = (req.session as any).userId;
-    const apps = await storage.getLoanApplicationsByUser(userId);
-    res.json(apps);
-  });
-
   // ─── LOANS (CLIENT) ───────────────────────────────────────────────────────
   app.get("/api/loans", requireAuth, async (req: Request, res: Response) => {
     res.json(await storage.getLoansByUser((req.session as any).userId));
@@ -450,7 +433,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       }
       const plainPassword = generatePassword(10);
       const hashedPassword = await bcrypt.hash(plainPassword, 10);
-      const user = await storage.createUser({ username, password: hashedPassword, fullName, email, phone: phone || null, role: "client", avatarUrl: null });
+      const user = await storage.createUser({ username, password: hashedPassword, fullName, email, phone: phone || null, role: "client", avatarUrl: null, active: false });
       const account = await storage.createAccount({ userId: user.id, type: "main", name: "Compte Courant", balance: 0, currency: "CHF", iban: generateIBAN(), interestRate: 0 });
       const { password: _, ...safe } = user;
       const clientId = `SK-${user.id.slice(0, 6).toUpperCase()}`;
@@ -497,6 +480,18 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     } catch (err: any) { res.status(500).send(err.message); }
   });
 
+  // Admin: activate / deactivate a user account
+  app.patch("/api/admin/clients/:id/activate", requireAuth, requireAdmin, async (req: Request, res: Response) => {
+    try {
+      const { active } = req.body;
+      const updated = await storage.updateUser(req.params.id, { active: Boolean(active) });
+      if (!updated) return res.status(404).send("Utilisateur introuvable");
+      res.json(updated);
+    } catch (err: any) {
+      res.status(500).send(err.message);
+    }
+  });
+
   app.get("/api/admin/transfers", requireAuth, requireAdmin, async (_req, res) => {
     res.json(await storage.getAllTransfers());
   });
@@ -533,47 +528,6 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       const { userId, content } = req.body;
       const msg = await storage.createMessage({ userId, content, fromAdmin: true });
       res.json(msg);
-    } catch (err: any) { res.status(500).send(err.message); }
-  });
-
-  // ─── ADMIN LOAN APPLICATIONS ─────────────────────────────────────────────
-  app.get("/api/admin/loan-applications", requireAuth, requireAdmin, async (_req, res) => {
-    try {
-      const apps = await storage.getAllLoanApplications();
-      const clients = await storage.getAllClients();
-      const clientMap = Object.fromEntries(clients.map((c: any) => [c.id, c]));
-      const enriched = apps.map((a: any) => ({ ...a, user: clientMap[a.userId] ? { fullName: clientMap[a.userId].fullName, email: clientMap[a.userId].email } : null }));
-      res.json(enriched);
-    } catch (err: any) { res.status(500).send(err.message); }
-  });
-
-  app.post("/api/admin/loan-applications/:id/activate", requireAuth, requireAdmin, async (req: Request, res: Response) => {
-    try {
-      const app = await storage.getLoanApplication(req.params.id as string);
-      if (!app) return res.status(404).send("Demande introuvable");
-      if (app.status !== "pending") return res.status(400).send("Demande déjà traitée");
-      const LOAN_LABELS: Record<string, string> = { immo: "Prêt immobilier", conso: "Prêt consommation", auto: "Prêt automobile", pro: "Prêt professionnel", travaux: "Prêt travaux" };
-      const label = LOAN_LABELS[app.loanType] || "Demande de prêt";
-      const loan = await storage.createLoan({ userId: app.userId, label, amount: app.amount, currency: app.currency, totalSteps: 4, adminNote: null, type: "loan_request" });
-      const stepDefs = DEFAULT_LOAN_STEPS["loan_request"] || DEFAULT_LOAN_STEPS["transfer"];
-      for (let i = 0; i < stepDefs.length; i++) {
-        await storage.createLoanStep({ loanId: loan.id, stepIndex: i, label: stepDefs[i].label, description: stepDefs[i].desc, status: i === 0 ? "active" : "pending", codeRequired: false, code: null, codeValidated: false, unlockedAt: null });
-      }
-      await storage.updateLoanApplication(app.id, { status: "activated", activatedAt: new Date(), loanId: loan.id });
-      const amtFormatted = new Intl.NumberFormat("de-CH", { style: "currency", currency: app.currency, minimumFractionDigits: 2 }).format(app.amount);
-      await storage.createMessage({ userId: app.userId, content: `✅ Votre demande de ${label} (${amtFormatted}) a été activée. Vous pouvez suivre son avancement dans "Mes dossiers".`, fromAdmin: true });
-      res.json({ loan, applicationId: app.id });
-    } catch (err: any) { res.status(500).send(err.message); }
-  });
-
-  app.post("/api/admin/loan-applications/:id/reject", requireAuth, requireAdmin, async (req: Request, res: Response) => {
-    try {
-      const app = await storage.getLoanApplication(req.params.id as string);
-      if (!app) return res.status(404).send("Demande introuvable");
-      const { reason } = req.body;
-      await storage.updateLoanApplication(app.id, { status: "rejected", adminNote: reason || null });
-      await storage.createMessage({ userId: app.userId, content: `❌ Votre demande de prêt a été refusée.${reason ? " Motif : " + reason : ""} Contactez votre conseiller pour plus d'informations.`, fromAdmin: true });
-      res.json({ success: true });
     } catch (err: any) { res.status(500).send(err.message); }
   });
 
@@ -718,43 +672,12 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     } catch (err: any) { res.status(500).send(err.message); }
   });
 
-  // Admin: update a step's label/description/additionalInfo
+  // Admin: update a step's label/description
   app.patch("/api/admin/loans/:loanId/steps/:stepId", requireAuth, requireAdmin, async (req: Request, res: Response) => {
     try {
-      const { label, description, additionalInfoEnabled, additionalInfoMessage } = req.body;
-      const data: Record<string, any> = {};
-      if (label !== undefined) data.label = label;
-      if (description !== undefined) data.description = description;
-      if (additionalInfoEnabled !== undefined) data.additionalInfoEnabled = additionalInfoEnabled;
-      if (additionalInfoMessage !== undefined) data.additionalInfoMessage = additionalInfoMessage;
-      const updated = await storage.updateLoanStep((req.params.stepId as string), data);
+      const { label, description } = req.body;
+      const updated = await storage.updateLoanStep((req.params.stepId as string), { label, description });
       res.json(updated);
-    } catch (err: any) { res.status(500).send(err.message); }
-  });
-
-  // Client: submit a response to an additional-info request on a step
-  app.post("/api/loans/:loanId/steps/:stepId/respond", requireAuth, async (req: Request, res: Response) => {
-    try {
-      const userId = (req.session as any).userId;
-      const loan = await storage.getLoan(req.params.loanId as string);
-      if (!loan) return res.status(404).send("Prêt introuvable");
-      if (loan.userId !== userId) return res.status(403).send("Accès refusé");
-      const step = await storage.getLoanStep(req.params.stepId as string);
-      if (!step) return res.status(404).send("Étape introuvable");
-      const { response } = req.body;
-      if (!response || !String(response).trim()) return res.status(400).send("Réponse vide");
-      await storage.updateLoanStep(step.id, {
-        clientResponse: String(response).trim(),
-        clientRespondedAt: new Date(),
-      });
-      // Notify admin via a system message
-      const adminMsg = `📩 Réponse client (dossier ${loan.id.slice(0,8).toUpperCase()}, étape "${step.label}") :
-${String(response).trim()}`;
-      // Get admin user id — find first admin
-      const allClients = await storage.getAllClients();
-      // Store as message from client to be visible in admin messages
-      await storage.createMessage({ userId, content: adminMsg, fromAdmin: false });
-      res.json({ ok: true });
     } catch (err: any) { res.status(500).send(err.message); }
   });
 

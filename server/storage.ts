@@ -1,15 +1,12 @@
 import { db } from "./db.js";
 import { eq, desc, and } from "drizzle-orm";
 import {
-  users, accounts, transactions, transfers, cards, documents, messages, loans, loanSteps, loanApplications,
+  users, accounts, transactions, transfers, cards, documents, messages, loans, loanSteps,
   type User, type InsertUser, type Account, type InsertAccount,
   type Transaction, type Transfer, type InsertTransfer,
   type Card, type InsertCard, type Document, type Message,
   type Loan, type LoanStep, type InsertLoan,
 } from "@shared/schema";
-
-type LoanApplication = typeof loanApplications.$inferSelect;
-type InsertLoanApplication = Omit<LoanApplication, "id" | "createdAt" | "activatedAt" | "loanId" | "status">;
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -62,12 +59,6 @@ export interface IStorage {
   getLoanStep(id: string): Promise<LoanStep | undefined>;
   createLoanStep(step: Omit<LoanStep, "id" | "createdAt">): Promise<LoanStep>;
   updateLoanStep(id: string, data: Partial<LoanStep>): Promise<LoanStep | undefined>;
-  // Loan Applications
-  createLoanApplication(app: InsertLoanApplication): Promise<LoanApplication>;
-  getLoanApplicationsByUser(userId: string): Promise<LoanApplication[]>;
-  getAllLoanApplications(): Promise<LoanApplication[]>;
-  getLoanApplication(id: string): Promise<LoanApplication | undefined>;
-  updateLoanApplication(id: string, data: Partial<LoanApplication>): Promise<LoanApplication | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -285,30 +276,6 @@ export class DatabaseStorage implements IStorage {
 
   async updateLoanStep(id: string, data: Partial<LoanStep>) {
     const [updated] = await db.update(loanSteps).set(data).where(eq(loanSteps.id, id)).returning();
-    return updated;
-  }
-
-  // ─── LOAN APPLICATIONS ───────────────────────────────────────────────────────
-  async createLoanApplication(app: InsertLoanApplication) {
-    const [created] = await db.insert(loanApplications).values({ ...app, status: "pending" } as any).returning();
-    return created;
-  }
-
-  async getLoanApplicationsByUser(userId: string) {
-    return db.select().from(loanApplications).where(eq(loanApplications.userId, userId)).orderBy(desc(loanApplications.createdAt));
-  }
-
-  async getAllLoanApplications() {
-    return db.select().from(loanApplications).orderBy(desc(loanApplications.createdAt));
-  }
-
-  async getLoanApplication(id: string) {
-    const [a] = await db.select().from(loanApplications).where(eq(loanApplications.id, id)).limit(1);
-    return a;
-  }
-
-  async updateLoanApplication(id: string, data: Partial<LoanApplication>) {
-    const [updated] = await db.update(loanApplications).set(data).where(eq(loanApplications.id, id)).returning();
     return updated;
   }
 }

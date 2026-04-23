@@ -409,28 +409,28 @@ const AWARDS_DE = [
   { name: "Beste Privatbank Schweiz", year: "2024", issuer: "Euromoney", icon: Award },
   { name: "Innovation im Digital Banking", year: "2024", issuer: "Finews", icon: Sparkles },
   { name: "Top Arbeitgeber Finanzsektor", year: "2024", issuer: "Great Place to Work", icon: Users },
-  { name: "Beste Kundenzufriedenheit", year: "2022 · 2023 · 2024", issuer: "Swiss Banking Report", icon: Heart },
+  { name: "Beste Kundenzufriedenheit", year: "2024", issuer: "Swiss Banking Report", icon: Heart },
 ];
 
 const AWARDS_FR = [
   { name: "Meilleure Banque Privée Suisse", year: "2024", issuer: "Euromoney", icon: Award },
   { name: "Innovation en Digital Banking", year: "2024", issuer: "Finews", icon: Sparkles },
   { name: "Top Employeur Secteur Financier", year: "2024", issuer: "Great Place to Work", icon: Users },
-  { name: "Meilleure Satisfaction Client", year: "2022 · 2023 · 2024", issuer: "Swiss Banking Report", icon: Heart },
+  { name: "Meilleure Satisfaction Client", year: "2024", issuer: "Swiss Banking Report", icon: Heart },
 ];
 
 const AWARDS_EN = [
   { name: "Best Private Bank Switzerland", year: "2024", issuer: "Euromoney", icon: Award },
   { name: "Innovation in Digital Banking", year: "2024", issuer: "Finews", icon: Sparkles },
   { name: "Top Employer Financial Sector", year: "2024", issuer: "Great Place to Work", icon: Users },
-  { name: "Best Customer Satisfaction", year: "2022 · 2023 · 2024", issuer: "Swiss Banking Report", icon: Heart },
+  { name: "Best Customer Satisfaction", year: "2024", issuer: "Swiss Banking Report", icon: Heart },
 ];
 
 const AWARDS_IT = [
   { name: "Miglior Banca Privata Svizzera", year: "2024", issuer: "Euromoney", icon: Award },
   { name: "Innovazione nel Digital Banking", year: "2024", issuer: "Finews", icon: Sparkles },
   { name: "Miglior Datore di Lavoro Settore Finanziario", year: "2024", issuer: "Great Place to Work", icon: Users },
-  { name: "Miglior Soddisfazione Clienti", year: "2022 · 2023 · 2024", issuer: "Swiss Banking Report", icon: Heart },
+  { name: "Miglior Soddisfazione Clienti", year: "2024", issuer: "Swiss Banking Report", icon: Heart },
 ];
 
 // Testimonials with images - COMPLETE 4 LANGUAGES
@@ -461,6 +461,51 @@ const TESTIMONIALS_IT = [
   { name: "Thomas Schmid", role: "Investitore Immobiliare", text: "Le condizioni dei mutui sono imbattibili. Decisioni rapide, tassi equi e servizio di prim'ordine. Assolutamente raccomandato.", rating: 5, img: TESTIMONIAL_IMAGES[2] },
   { name: "Sabine Keller", role: "Consulente Finanziaria", text: "Come investitrice professionista, apprezzo l'eccellente piattaforma, le commissioni trasparenti e il supporto di prim'ordine.", rating: 5, img: TESTIMONIAL_IMAGES[3] },
 ];
+
+/* ── Hero background slider (3 royalty-free images, auto-advance 5s) ── */
+const HERO_SLIDER_IMAGES = [HERO_IMG, ZURICH_SKYLINE_IMG, SWISS_LANDSCAPE_IMG];
+
+function HeroSlider() {
+  const [current, setCurrent] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    timerRef.current = setInterval(() => setCurrent((c) => (c + 1) % HERO_SLIDER_IMAGES.length), 5000);
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, []);
+
+  const goTo = (idx: number) => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    setCurrent(idx);
+    timerRef.current = setInterval(() => setCurrent((c) => (c + 1) % HERO_SLIDER_IMAGES.length), 5000);
+  };
+
+  return (
+    <div className="absolute inset-0 z-0">
+      {HERO_SLIDER_IMAGES.map((src, i) => (
+        <img
+          key={i}
+          src={src}
+          alt={`SWIZKOTE slide ${i + 1}`}
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+          style={{ opacity: i === current ? 1 : 0 }}
+          data-testid={i === 0 ? "img-hero-background" : undefined}
+        />
+      ))}
+      {/* Navigation dots */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        {HERO_SLIDER_IMAGES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => goTo(i)}
+            aria-label={`Slide ${i + 1}`}
+            className={`rounded-full transition-all duration-300 ${i === current ? "w-6 h-2 bg-gold" : "w-2 h-2 bg-white/40 hover:bg-white/70"}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function LandingPage() {
   const { t, lang } = useI18n();
@@ -701,7 +746,8 @@ export default function LandingPage() {
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden">
-        <img src={HERO_IMG} alt="SWIZKOTE" className="absolute inset-0 w-full h-full object-cover" data-testid="img-hero-background" />
+        {/* ── 3-image background slider ── */}
+        <HeroSlider />
         <div className="absolute inset-0 bg-gradient-to-r from-[hsl(222,40%,6%,0.92)] via-[hsl(222,35%,8%,0.85)] to-[hsl(222,30%,10%,0.7)]" />
         <div className="absolute inset-0 bg-gradient-to-t from-[hsl(222,40%,6%,0.6)] to-transparent" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">

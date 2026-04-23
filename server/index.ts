@@ -2,7 +2,6 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes.js";
 import { createServer } from "http";
 import { seedDatabase } from "./seed.js";
-import { addLoanApplications } from "./migrations/add-loan-applications.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import { existsSync } from "fs";
@@ -72,12 +71,6 @@ app.use((req, res, next) => {
   } catch (err) {
     console.error("❌ Erreur lors de l'enregistrement des routes:", err);
     process.exit(1);
-  }
-
-  try {
-    await addLoanApplications();
-  } catch (err) {
-    console.error("⚠️ Migration loan_applications:", err);
   }
 
   try {

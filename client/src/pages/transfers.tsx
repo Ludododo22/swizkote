@@ -9,14 +9,13 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { Account, Transfer } from "@shared/schema";
-import { ArrowUpRight, Send, CheckCircle2, AlertTriangle, ArrowRight, KeyRound } from "lucide-react";
+import { ArrowUpRight, Send, CheckCircle2, ArrowRight, KeyRound, Flag } from "lucide-react";
 import { format } from "date-fns";
-import { fr, de, enGB, it } from "date-fns/locale";
+import { fr, de as deDateLocale } from "date-fns/locale";
 import { Link, useParams } from "wouter";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 
@@ -28,11 +27,11 @@ function StatusBadge({ status }: { status: string }) {
   const { lang } = useI18n();
   const isDe = lang === "de";
   const config: Record<string, { label: string; variant: "default" | "secondary" | "destructive" }> = {
-    pending:    { label: isDe ? "Ausstehend" : lang === "en" ? "Pending" : lang === "it" ? "In attesa" : "En attente", variant: "secondary" },
-    processing: { label: isDe ? "In Bearbeitung" : lang === "en" ? "Processing" : lang === "it" ? "In elaborazione" : "En traitement", variant: "default" },
-    completed:  { label: isDe ? "Abgeschlossen" : lang === "en" ? "Completed" : lang === "it" ? "Completato" : "Complété", variant: "secondary" },
-    blocked:    { label: isDe ? "Blockiert" : lang === "en" ? "Blocked" : lang === "it" ? "Bloccato" : "Bloqué", variant: "destructive" },
-    failed:     { label: isDe ? "Fehlgeschlagen" : lang === "en" ? "Failed" : lang === "it" ? "Fallito" : "Échoué", variant: "destructive" },
+    pending:    { label: isDe ? "Ausstehend"     : "En attente",    variant: "secondary"   },
+    processing: { label: isDe ? "In Bearbeitung" : "En traitement", variant: "default"     },
+    completed:  { label: isDe ? "Abgeschlossen"  : "Complété",      variant: "secondary"   },
+    blocked:    { label: isDe ? "Blockiert"       : "Bloqué",        variant: "destructive" },
+    failed:     { label: isDe ? "Fehlgeschlagen" : "Échoué",        variant: "destructive" },
   };
   const c = config[status] || config.pending;
   return <Badge variant={c.variant}>{c.label}</Badge>;
@@ -42,15 +41,7 @@ function TransferTracker({ transferId }: { transferId: string }) {
   const { toast } = useToast();
   const { lang } = useI18n();
   const isDe = lang === "de";
-  
-  const getLocale = () => {
-    if (lang === "de") return de;
-    if (lang === "en") return enGB;
-    if (lang === "it") return it;
-    return fr;
-  };
-  const locale = getLocale();
-  
+  const locale = isDe ? deDateLocale : fr;
   const [otpValue, setOtpValue] = useState("");
 
   const { data: transfer, isLoading } = useQuery<Transfer>({
@@ -71,13 +62,13 @@ function TransferTracker({ transferId }: { transferId: string }) {
       queryClient.invalidateQueries({ queryKey: ["/api/transfers", transferId] });
       queryClient.invalidateQueries({ queryKey: ["/api/transfers"] });
       toast({
-        title: isDe ? "Code bestätigt" : lang === "en" ? "Code confirmed" : lang === "it" ? "Codice confermato" : "Code validé",
-        description: isDe ? "Der Validierungscode wurde akzeptiert" : lang === "en" ? "The validation code has been accepted" : lang === "it" ? "Il codice di validazione è stato accettato" : "Le code de validation a été accepté",
+        title: isDe ? "Code bestätigt" : "Code validé",
+        description: isDe ? "Der Validierungscode wurde akzeptiert" : "Le code de validation a été accepté",
       });
       setOtpValue("");
     },
     onError: (err: any) => {
-      toast({ title: isDe ? "Fehler" : lang === "en" ? "Error" : lang === "it" ? "Errore" : "Erreur", description: err.message, variant: "destructive" });
+      toast({ title: isDe ? "Fehler" : "Erreur", description: err.message, variant: "destructive" });
     },
   });
 
@@ -92,81 +83,139 @@ function TransferTracker({ transferId }: { transferId: string }) {
   }
 
   if (!transfer) {
-    return <p className="text-center text-muted-foreground p-8">{isDe ? "Überweisung nicht gefunden" : lang === "en" ? "Transfer not found" : lang === "it" ? "Bonifico non trovato" : "Transfert introuvable"}</p>;
+    return <p className="text-center text-muted-foreground p-8">{isDe ? "Überweisung nicht gefunden" : "Transfert introuvable"}</p>;
   }
 
+  // Only show Finalisation step (removed: Création, Vérification interne, Traitement)
   const steps = isDe
-    ? [{ label: "Erstellung", threshold: 0 }, { label: "Prüfung", threshold: 25 }, { label: "Bearbeitung", threshold: 50 }, { label: "Validierung", threshold: 75 }, { label: "Abschluss", threshold: 100 }]
-    : lang === "en"
-    ? [{ label: "Initiation", threshold: 0 }, { label: "Check", threshold: 25 }, { label: "Processing", threshold: 50 }, { label: "Validation", threshold: 75 }, { label: "Completion", threshold: 100 }]
-    : lang === "it"
-    ? [{ label: "Avvio", threshold: 0 }, { label: "Verifica", threshold: 25 }, { label: "Elaborazione", threshold: 50 }, { label: "Validazione", threshold: 75 }, { label: "Completamento", threshold: 100 }]
-    : [{ label: "Création", threshold: 0 }, { label: "Vérification", threshold: 25 }, { label: "Traitement", threshold: 50 }, { label: "Validation", threshold: 75 }, { label: "Finalisation", threshold: 100 }];
+    ? ["Abschluss"]
+    : ["Finalisation"];
 
-  const currentStep = steps.filter((s) => transfer.progress >= s.threshold).length - 1;
+  // Finalisation is active/completed based on otpValidated
+  const finalisationCompleted = transfer.otpValidated;
 
   return (
-    <div className="p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 max-w-3xl mx-auto pb-20 md:pb-6">
+    <div className="p-4 md:p-6 space-y-6 max-w-3xl mx-auto">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <Link href="/transfers">
             <Button variant="ghost" size="sm" className="mb-2" data-testid="button-back-transfers">
-              ← {isDe ? "Zurück" : lang === "en" ? "Back" : lang === "it" ? "Indietro" : "Retour"}
+              ← {isDe ? "Zurück" : "Retour"}
             </Button>
           </Link>
           <h2 className="text-xl font-bold" data-testid="text-tracker-title">
-            {isDe ? "Überweisungsverfolgung" : lang === "en" ? "Transfer Tracking" : lang === "it" ? "Monitoraggio Bonifico" : "Suivi du transfert"}
+            {isDe ? "Überweisungsverfolgung" : "Suivi du transfert"}
           </h2>
           <p className="text-sm text-muted-foreground">
-            {isDe ? "An" : lang === "en" ? "To" : lang === "it" ? "A" : "Vers"} {transfer.recipientName} — {formatCurrency(transfer.amount, transfer.currency)}
+            {isDe ? "An" : "Vers"} {transfer.recipientName} — {formatCurrency(transfer.amount, transfer.currency)}
           </p>
         </div>
         <StatusBadge status={transfer.status} />
       </div>
 
+      {/* ── Steps card — Finalisation uniquement ── */}
+      <Card>
+        <CardHeader className="pb-2">
+          <span className="text-sm font-medium">{isDe ? "Etappe" : "Étape"}</span>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center gap-4">
+            {steps.map((label, i) => {
+              const isCompleted = finalisationCompleted;
+              const isActive = !isCompleted;
+              return (
+                <div key={label} className="flex items-center gap-3">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                    isCompleted ? "bg-green-500 text-white" : isActive ? "bg-gold text-[hsl(222,40%,10%)]" : "bg-muted text-muted-foreground"
+                  }`}>
+                    {isCompleted ? <CheckCircle2 className="w-5 h-5" /> : <Flag className="w-4 h-4" />}
+                  </div>
+                  <p className="text-sm font-semibold">{label}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* CTA text + Continuer button */}
+          {!finalisationCompleted && (
+            <div className="flex items-center justify-between gap-3 pt-2 border-t">
+              <p className="text-sm text-muted-foreground">
+                {isDe ? "Führen Sie die Validierung des letzten Schritts durch" : "Procéder à la validation de la dernière étape"}
+              </p>
+              <Link href={`/transfers/${transfer.id}/finalization`}>
+                <Button size="sm" className="gap-1.5 flex-shrink-0" data-testid="button-go-finalization">
+                  {isDe ? "Weiter" : "Continuer"}
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* ── Détails du transfert ── */}
       <Card>
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-sm font-medium">{isDe ? "Fortschritt" : lang === "en" ? "Progress" : lang === "it" ? "Avanzamento" : "Progression"}</span>
-            <span className="text-sm font-bold text-gold">{transfer.progress}%</span>
+            <span className="text-sm font-medium">
+              {isDe ? "Überweisungsdetails" : "Détails du transfert"}
+            </span>
           </div>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <Progress value={transfer.progress} className="h-3" data-testid="progress-transfer" />
-          <div className="grid grid-cols-5 gap-1">
-            {steps.map((step, i) => (
-              <div key={step.label} className="text-center">
-                <div className={`w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold mb-1 ${i <= currentStep ? "bg-gold text-gold-foreground" : "bg-muted text-muted-foreground"}`}>
-                  {i < currentStep ? <CheckCircle2 className="w-4 h-4" /> : i + 1}
-                </div>
-                <p className="text-[10px] text-muted-foreground leading-tight">{step.label}</p>
+        <CardContent className="space-y-3">
+          <div className="grid gap-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">{isDe ? "Empfänger" : "Bénéficiaire"}</span>
+              <span className="font-medium">{transfer.recipientName}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">IBAN</span>
+              <span className="font-mono text-xs">{transfer.recipientIban}</span>
+            </div>
+            {transfer.recipientBank && (
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">{isDe ? "Bank" : "Banque"}</span>
+                <span>{transfer.recipientBank}</span>
               </div>
-            ))}
+            )}
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">{isDe ? "Betrag" : "Montant"}</span>
+              <span className="font-bold text-gold">{formatCurrency(transfer.amount, transfer.currency)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">{isDe ? "Art" : "Type"}</span>
+              <span>{transfer.isInternational ? "International" : (isDe ? "National" : "National")}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">{isDe ? "Datum" : "Date"}</span>
+              <span>{transfer.createdAt ? format(new Date(transfer.createdAt), "d MMM yyyy HH:mm", { locale }) : ""}</span>
+            </div>
+          </div>
+
+          {/* Option de modification en cas d'erreur */}
+          <div className="pt-3 border-t flex items-center justify-between gap-3">
+            <p className="text-xs text-muted-foreground italic">
+              {isDe ? "Fehler in den Informationen? Sie können die Angaben ändern." : "Une erreur dans les informations ? Vous pouvez modifier les détails."}
+            </p>
+            <Link href={`/transfers/${transfer.id}`}>
+              <Button size="sm" variant="outline" className="h-7 text-xs gap-1.5 border-gold/40 text-gold hover:bg-gold/10 flex-shrink-0" data-testid="button-modify-transfer">
+                ✏️ {isDe ? "Ändern" : "Modifier"}
+              </Button>
+            </Link>
           </div>
         </CardContent>
       </Card>
 
-      {transfer.adminMessage && (
-        <Card>
-          <CardHeader className="flex flex-row items-center gap-2 pb-2">
-            <AlertTriangle className="w-4 h-4 text-gold" />
-            <span className="text-sm font-medium">{isDe ? "Nachricht des Administrators" : lang === "en" ? "Administrator message" : lang === "it" ? "Messaggio dell'amministrazione" : "Message administrateur"}</span>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm" data-testid="text-admin-message">{transfer.adminMessage}</p>
-          </CardContent>
-        </Card>
-      )}
-
+      {/* ── OTP validation if blocked ── */}
       {transfer.status === "blocked" && !transfer.otpValidated && (
         <Card>
           <CardHeader className="flex flex-row items-center gap-2 pb-2">
             <KeyRound className="w-4 h-4 text-gold" />
-            <span className="text-sm font-medium">{isDe ? "Code-Validierung" : lang === "en" ? "Code Validation" : lang === "it" ? "Validazione codice" : "Validation par code"}</span>
+            <span className="text-sm font-medium">{isDe ? "Code-Validierung" : "Validation par code"}</span>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              {isDe ? "Bitte geben Sie den per SMS oder E-Mail erhaltenen Validierungscode ein" : lang === "en" ? "Please enter the validation code received by SMS or email" : lang === "it" ? "Inserisci il codice di validazione ricevuto via SMS o email" : "Veuillez saisir le code de validation reçu par SMS ou email"}
+              {isDe ? "Bitte geben Sie den per SMS oder E-Mail erhaltenen Validierungscode ein" : "Veuillez saisir le code de validation reçu par SMS ou email"}
             </p>
             <div className="flex justify-center">
               <InputOTP maxLength={6} value={otpValue} onChange={setOtpValue} data-testid="input-otp">
@@ -176,58 +225,34 @@ function TransferTracker({ transferId }: { transferId: string }) {
               </InputOTP>
             </div>
             <Button className="w-full" onClick={() => validateOtp.mutate()} disabled={otpValue.length < 6 || validateOtp.isPending} data-testid="button-validate-otp">
-              {validateOtp.isPending ? (isDe ? "Wird validiert..." : lang === "en" ? "Validating..." : lang === "it" ? "Validazione in corso..." : "Validation...") : (isDe ? "Code bestätigen" : lang === "en" ? "Validate code" : lang === "it" ? "Valida codice" : "Valider le code")}
+              {validateOtp.isPending ? (isDe ? "Wird validiert..." : "Validation...") : (isDe ? "Code bestätigen" : "Valider le code")}
             </Button>
           </CardContent>
         </Card>
       )}
-
-      <Card>
-        <CardHeader className="pb-2">
-          <span className="text-sm font-medium">{isDe ? "Überweisungsdetails" : lang === "en" ? "Transfer details" : lang === "it" ? "Dettagli bonifico" : "Détails du transfert"}</span>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-3 text-sm">
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">{isDe ? "Empfänger" : lang === "en" ? "Recipient" : lang === "it" ? "Beneficiario" : "Destinataire"}</span>
-              <span className="font-medium">{transfer.recipientName}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">IBAN</span>
-              <span className="font-mono text-xs">{transfer.recipientIban}</span>
-            </div>
-            {transfer.recipientBank && (
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">{isDe ? "Bank" : lang === "en" ? "Bank" : lang === "it" ? "Banca" : "Banque"}</span>
-                <span>{transfer.recipientBank}</span>
-              </div>
-            )}
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">{isDe ? "Betrag" : lang === "en" ? "Amount" : lang === "it" ? "Importo" : "Montant"}</span>
-              <span className="font-bold text-gold">{formatCurrency(transfer.amount, transfer.currency)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">{isDe ? "Art" : lang === "en" ? "Type" : lang === "it" ? "Tipo" : "Type"}</span>
-              <span>{transfer.isInternational ? (isDe ? "International" : lang === "en" ? "International" : lang === "it" ? "Internazionale" : "International") : (isDe ? "National" : lang === "en" ? "National" : lang === "it" ? "Nazionale" : "National")}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">{isDe ? "Datum" : lang === "en" ? "Date" : lang === "it" ? "Data" : "Date"}</span>
-              <span>{transfer.createdAt ? format(new Date(transfer.createdAt), "d MMM yyyy HH:mm", { locale }) : ""}</span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }
 
 function NewTransferForm({ onSuccess }: { onSuccess: () => void }) {
   const { toast } = useToast();
-  const { lang } = useI18n();
+  const { lang, t } = useI18n();
   const isDe = lang === "de";
   const [isInternational, setIsInternational] = useState(false);
   const { data: accounts } = useQuery<Account[]>({ queryKey: ["/api/accounts"] });
   const [form, setForm] = useState({ fromAccountId: "", recipientName: "", recipientIban: "", recipientBank: "", amount: "", currency: "CHF" });
+
+  /* Map account type to i18n label */
+  const getAccountLabel = (account: Account) => {
+    const typeLabels: Record<string, string> = {
+      main: t("acc_name_main"),
+      savings: t("acc_name_savings"),
+      joint: t("acc_name_joint"),
+      child: t("acc_name_child"),
+    };
+    const label = typeLabels[(account as any).type] || account.name;
+    return `${label} — ${formatCurrency(account.balance, account.currency)}`;
+  };
 
   const createTransfer = useMutation({
     mutationFn: async () => {
@@ -238,40 +263,40 @@ function NewTransferForm({ onSuccess }: { onSuccess: () => void }) {
       queryClient.invalidateQueries({ queryKey: ["/api/accounts"] });
       queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
       toast({
-        title: isDe ? "Überweisung eingeleitet" : lang === "en" ? "Transfer initiated" : lang === "it" ? "Bonifico avviato" : "Transfert initié",
-        description: isDe ? "Ihre Überweisung wurde erfolgreich erstellt" : lang === "en" ? "Your transfer has been successfully created" : lang === "it" ? "Il tuo bonifico è stato creato con successo" : "Votre transfert a été créé avec succès",
+        title: t("tr_sent"),
+        description: t("tr_sent_desc"),
       });
       onSuccess();
     },
     onError: (err: any) => {
-      toast({ title: isDe ? "Fehler" : lang === "en" ? "Error" : lang === "it" ? "Errore" : "Erreur", description: err.message, variant: "destructive" });
+      toast({ title: t("error"), description: err.message, variant: "destructive" });
     },
   });
 
   return (
     <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); createTransfer.mutate(); }}>
       <div className="space-y-2">
-        <Label>{isDe ? "Quellkonto" : lang === "en" ? "Source account" : lang === "it" ? "Conto sorgente" : "Compte source"}</Label>
+        <Label>{isDe ? "Quellkonto" : "Compte source"}</Label>
         <Select value={form.fromAccountId} onValueChange={(v) => setForm({ ...form, fromAccountId: v })}>
           <SelectTrigger data-testid="select-from-account">
-            <SelectValue placeholder={isDe ? "Konto auswählen" : lang === "en" ? "Select account" : lang === "it" ? "Seleziona conto" : "Sélectionner un compte"} />
+            <SelectValue placeholder={isDe ? "Konto auswählen" : "Sélectionner un compte"} />
           </SelectTrigger>
           <SelectContent>
             {accounts?.map((a) => (
-              <SelectItem key={a.id} value={a.id}>{a.name} — {formatCurrency(a.balance, a.currency)}</SelectItem>
+              <SelectItem key={a.id} value={a.id}>{getAccountLabel(a)}</SelectItem>
             ))}
           </SelectContent>
         </Select>
       </div>
 
       <div className="flex items-center justify-between gap-2">
-        <Label>{isDe ? "Internationale Überweisung" : lang === "en" ? "International transfer" : lang === "it" ? "Bonifico internazionale" : "Transfert international"}</Label>
+        <Label>{isDe ? "Internationale Überweisung" : "Transfert international"}</Label>
         <Switch checked={isInternational} onCheckedChange={setIsInternational} data-testid="switch-international" />
       </div>
 
       <div className="space-y-2">
-        <Label>{isDe ? "Name des Empfängers" : lang === "en" ? "Recipient name" : lang === "it" ? "Nome del beneficiario" : "Nom du destinataire"}</Label>
-        <Input value={form.recipientName} onChange={(e) => setForm({ ...form, recipientName: e.target.value })} placeholder={isDe ? "Vollständiger Name" : lang === "en" ? "Full name" : lang === "it" ? "Nome completo" : "Nom complet"} required data-testid="input-recipient-name" />
+        <Label>{isDe ? "Name des Empfängers" : "Nom du destinataire"}</Label>
+        <Input value={form.recipientName} onChange={(e) => setForm({ ...form, recipientName: e.target.value })} placeholder={isDe ? "Vollständiger Name" : "Nom complet"} required data-testid="input-recipient-name" />
       </div>
 
       <div className="space-y-2">
@@ -282,18 +307,18 @@ function NewTransferForm({ onSuccess }: { onSuccess: () => void }) {
       {isInternational && (
         <>
           <div className="space-y-2">
-            <Label>{isDe ? "Bank" : lang === "en" ? "Bank" : lang === "it" ? "Banca" : "Banque"}</Label>
-            <Input value={form.recipientBank} onChange={(e) => setForm({ ...form, recipientBank: e.target.value })} placeholder={isDe ? "Bankname" : lang === "en" ? "Bank name" : lang === "it" ? "Nome della banca" : "Nom de la banque"} data-testid="input-recipient-bank" />
+            <Label>{isDe ? "Bank" : "Banque"}</Label>
+            <Input value={form.recipientBank} onChange={(e) => setForm({ ...form, recipientBank: e.target.value })} placeholder={isDe ? "Bankname" : "Nom de la banque"} data-testid="input-recipient-bank" />
           </div>
           <div className="space-y-2">
-            <Label>{isDe ? "Währung" : lang === "en" ? "Currency" : lang === "it" ? "Valuta" : "Devise"}</Label>
+            <Label>{isDe ? "Währung" : "Devise"}</Label>
             <Select value={form.currency} onValueChange={(v) => setForm({ ...form, currency: v })}>
               <SelectTrigger data-testid="select-currency"><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="CHF">CHF — {isDe ? "Schweizer Franken" : lang === "en" ? "Swiss Franc" : lang === "it" ? "Franco svizzero" : "Franc suisse"}</SelectItem>
+                <SelectItem value="CHF">CHF — {isDe ? "Schweizer Franken" : "Franc suisse"}</SelectItem>
                 <SelectItem value="EUR">EUR — Euro</SelectItem>
-                <SelectItem value="USD">USD — {isDe ? "US-Dollar" : lang === "en" ? "US Dollar" : lang === "it" ? "Dollaro USA" : "Dollar US"}</SelectItem>
-                <SelectItem value="GBP">GBP — {isDe ? "Britisches Pfund" : lang === "en" ? "British Pound" : lang === "it" ? "Sterlina britannica" : "Livre sterling"}</SelectItem>
+                <SelectItem value="USD">USD — {isDe ? "US-Dollar" : "Dollar US"}</SelectItem>
+                <SelectItem value="GBP">GBP — {isDe ? "Britisches Pfund" : "Livre sterling"}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -301,20 +326,20 @@ function NewTransferForm({ onSuccess }: { onSuccess: () => void }) {
       )}
 
       <div className="space-y-2">
-        <Label>{isDe ? "Betrag" : lang === "en" ? "Amount" : lang === "it" ? "Importo" : "Montant"}</Label>
+        <Label>{isDe ? "Betrag" : "Montant"}</Label>
         <Input type="number" step="0.01" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} placeholder="1000.00" required data-testid="input-amount" />
       </div>
 
       <Button type="submit" className="w-full" disabled={createTransfer.isPending} data-testid="button-send-transfer">
         <Send className="w-4 h-4 mr-2" />
-        {createTransfer.isPending ? (isDe ? "Wird gesendet..." : lang === "en" ? "Sending..." : lang === "it" ? "Invio in corso..." : "Envoi en cours...") : (isDe ? "Überweisung senden" : lang === "en" ? "Send transfer" : lang === "it" ? "Invia bonifico" : "Envoyer le virement")}
+        {createTransfer.isPending ? (isDe ? "Wird gesendet..." : "Envoi en cours...") : (isDe ? "Überweisung senden" : "Envoyer le virement")}
       </Button>
     </form>
   );
 }
 
 export default function TransfersPage() {
-  const { lang } = useI18n();
+  const { lang, t } = useI18n();
   const isDe = lang === "de";
   const [showForm, setShowForm] = useState(false);
   const params = useParams<{ id: string }>();
@@ -326,72 +351,122 @@ export default function TransfersPage() {
 
   if (params.id) return <TransferTracker transferId={params.id} />;
 
+  const pendingTransfers = transfers?.filter(t => t.status === "pending" || t.status === "processing" || t.status === "blocked") || [];
+  const completedTransfers = transfers?.filter(t => t.status === "completed" || t.status === "failed") || [];
+
+  const TransferRow = ({ t: tf }: { t: Transfer }) => (
+    <div className="flex items-center justify-between gap-3 p-3 rounded-md hover-elevate" data-testid={`row-transfer-${tf.id}`}>
+      <div className="flex items-center gap-3 min-w-0">
+        <div className="flex items-center justify-center w-10 h-10 rounded-md bg-gold/10 flex-shrink-0">
+          <Send className="w-4 h-4 text-gold" />
+        </div>
+        <div className="min-w-0">
+          <p className="text-sm font-medium truncate">{tf.recipientName}</p>
+          <div className="flex items-center gap-2">
+            <StatusBadge status={tf.status} />
+            <span className="text-xs text-muted-foreground">{tf.createdAt ? format(new Date(tf.createdAt), "d MMM") : ""}</span>
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center gap-2 flex-shrink-0">
+        <span className="text-sm font-semibold">{formatCurrency(tf.amount, tf.currency)}</span>
+        <ArrowRight className="w-4 h-4 text-muted-foreground" />
+      </div>
+    </div>
+  );
+
   return (
-    <div className="p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 max-w-4xl mx-auto pb-20 md:pb-6">
+    <div className="p-4 md:p-6 space-y-6 max-w-4xl mx-auto">
+      {/* ── Header ── */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold" data-testid="text-transfers-title">{isDe ? "Überweisungen" : lang === "en" ? "Transfers" : lang === "it" ? "Bonifici" : "Virements"}</h1>
-          <p className="text-sm text-muted-foreground">{isDe ? "Verwalten Sie Ihre Geldtransfers" : lang === "en" ? "Manage your money transfers" : lang === "it" ? "Gestisci i tuoi bonifici" : "Gérez vos transferts d'argent"}</p>
+          <h1 className="text-xl font-bold" data-testid="text-transfers-title">{isDe ? "Überweisungen" : "Virements"}</h1>
+          <p className="text-sm text-muted-foreground">{isDe ? "Verwalten Sie Ihre Geldtransfers" : "Gérez vos transferts d'argent"}</p>
         </div>
         <Button onClick={() => setShowForm(true)} data-testid="button-new-transfer">
           <ArrowUpRight className="w-4 h-4 mr-2" />
-          {isDe ? "Neue Überweisung" : lang === "en" ? "New transfer" : lang === "it" ? "Nuovo bonifico" : "Nouveau virement"}
+          {isDe ? "Neue Überweisung" : "Nouveau virement"}
         </Button>
       </div>
 
+      {/* ── New transfer dialog ── */}
       <Dialog open={showForm} onOpenChange={setShowForm}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>{isDe ? "Neue Überweisung" : lang === "en" ? "New transfer" : lang === "it" ? "Nuovo bonifico" : "Nouveau virement"}</DialogTitle>
+            <DialogTitle>{isDe ? "Neue Überweisung" : "Nouveau virement"}</DialogTitle>
           </DialogHeader>
           <NewTransferForm onSuccess={() => setShowForm(false)} />
         </DialogContent>
       </Dialog>
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
-          <span className="text-sm font-medium">{isDe ? "Überweisungshistorie" : lang === "en" ? "Transfer history" : lang === "it" ? "Storico bonifici" : "Historique des virements"}</span>
-          <Badge variant="secondary">{transfers?.length || 0}</Badge>
-        </CardHeader>
-        <CardContent>
-          {isLoading ? (
-            <div className="space-y-3">{Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-16 w-full" />)}</div>
-          ) : transfers && transfers.length > 0 ? (
-            <div className="space-y-1">
-              {transfers.map((t) => (
-                <Link key={t.id} href={`/transfers/${t.id}`}>
-                  <div className="flex items-center justify-between gap-3 p-3 rounded-md hover-elevate cursor-pointer" data-testid={`row-transfer-${t.id}`}>
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div className="flex items-center justify-center w-10 h-10 rounded-md bg-gold/10 flex-shrink-0">
-                        <Send className="w-4 h-4 text-gold" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium truncate">{t.recipientName}</p>
-                        <div className="flex items-center gap-2">
-                          <StatusBadge status={t.status} />
-                          <span className="text-xs text-muted-foreground">{t.createdAt ? format(new Date(t.createdAt), "d MMM") : ""}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 flex-shrink-0">
-                      <span className="text-sm font-semibold">{formatCurrency(t.amount, t.currency)}</span>
-                      <ArrowRight className="w-4 h-4 text-muted-foreground" />
+      {/* ── Historique section ── */}
+      <div className="space-y-5">
+        <h2 className="text-base font-semibold">{isDe ? "Überweisungshistorie" : "Historique"}</h2>
+
+        {/* Virements en attente */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
+            <span className="text-sm font-medium">{isDe ? "Ausstehende Überweisungen" : "Virements en attente"}</span>
+            <Badge variant="secondary">{pendingTransfers.length}</Badge>
+          </CardHeader>
+          <CardContent>
+            {isLoading ? (
+              <div className="space-y-3">{Array.from({ length: 2 }).map((_, i) => <Skeleton key={i} className="h-16 w-full" />)}</div>
+            ) : pendingTransfers.length > 0 ? (
+              <div className="space-y-1">
+                {pendingTransfers.map((tf) => (
+                  <div key={tf.id} className="space-y-1">
+                    <Link href={`/transfers/${tf.id}`}>
+                      <TransferRow t={tf} />
+                    </Link>
+                    <div className="pl-3 pb-1">
+                      <Link href={`/transfers/${tf.id}`}>
+                        <Button size="sm" variant="outline" className="h-7 text-xs gap-1.5 border-gold/40 text-gold hover:bg-gold/10" data-testid={`button-track-${tf.id}`}>
+                          <ArrowRight className="w-3 h-3" />
+                          {isDe ? "Überweisung verfolgen" : "Suivre le virement"}
+                        </Button>
+                      </Link>
                     </div>
                   </div>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <Send className="w-10 h-10 mx-auto text-muted-foreground/30 mb-3" />
-              <p className="text-sm text-muted-foreground">{isDe ? "Keine Überweisungen durchgeführt" : lang === "en" ? "No transfers made" : lang === "it" ? "Nessun bonifico effettuato" : "Aucun virement effectué"}</p>
-              <Button variant="secondary" className="mt-4" onClick={() => setShowForm(true)}>
-                {isDe ? "Überweisung durchführen" : lang === "en" ? "Make a transfer" : lang === "it" ? "Effettua un bonifico" : "Effectuer un virement"}
-              </Button>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-sm text-muted-foreground">{isDe ? "Keine ausstehenden Überweisungen" : "Aucun virement en attente"}</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Virements effectués */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
+            <span className="text-sm font-medium">{isDe ? "Abgeschlossene Überweisungen" : "Virements effectués"}</span>
+            <Badge variant="secondary">{completedTransfers.length}</Badge>
+          </CardHeader>
+          <CardContent>
+            {isLoading ? (
+              <div className="space-y-3">{Array.from({ length: 2 }).map((_, i) => <Skeleton key={i} className="h-16 w-full" />)}</div>
+            ) : completedTransfers.length > 0 ? (
+              <div className="space-y-1">
+                {completedTransfers.map((tf) => (
+                  <Link key={tf.id} href={`/transfers/${tf.id}`}>
+                    <TransferRow t={tf} />
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <Send className="w-8 h-8 mx-auto text-muted-foreground/30 mb-3" />
+                <p className="text-sm text-muted-foreground">{isDe ? "Keine abgeschlossenen Überweisungen" : "Aucun virement effectué"}</p>
+                <Button variant="secondary" className="mt-4" onClick={() => setShowForm(true)}>
+                  {isDe ? "Überweisung durchführen" : "Effectuer un virement"}
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

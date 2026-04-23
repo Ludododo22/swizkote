@@ -14,7 +14,7 @@ export default function NotFound() {
       <div className="flex items-center gap-2 mb-10" style={{ whiteSpace: "nowrap" }}>
         <img src={logoImg} alt="SwizKote Bank" className="w-8 h-8 object-contain flex-shrink-0" />
         <span className="text-xl font-bold tracking-tight" style={{ whiteSpace: "nowrap" }}>
-          SwizKote <span className="text-gold">Bank</span>
+           <span className="text-gold">SwizKote</span>
         </span>
       </div>
 

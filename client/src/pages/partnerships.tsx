@@ -27,53 +27,11 @@ const PARTNER_TYPES = {
     { icon: CreditCard, title: "Partenaires commerciaux", desc: "Retailers, e-commerces et plateformes souhaitant proposer des solutions de paiement et financement à leurs clients." },
     { icon: TrendingUp, title: "Gestionnaires de fortune", desc: "Family offices et gérants indépendants cherchant une banque dépositaire de référence pour leurs portefeuilles clients." },
   ],
-  en: [
-    { icon: Building2, title: "Financial Institutions", desc: "Correspondent banks, insurance companies and investment funds seeking clearing and co-distribution solutions." },
-    { icon: Code2, title: "FinTechs & Startups", desc: "Innovative companies wanting to integrate our banking APIs or benefit from our FINMA-regulated infrastructure." },
-    { icon: CreditCard, title: "Commercial Partners", desc: "Retailers, e-commerce and platforms wishing to offer payment and financing solutions to their customers." },
-    { icon: TrendingUp, title: "Wealth Managers", desc: "Family offices and independent asset managers looking for a reference custodian bank for their client portfolios." },
-  ],
-  it: [
-    { icon: Building2, title: "Istituzioni finanziarie", desc: "Banche corrispondenti, compagnie assicurative e fondi d'investimento in cerca di soluzioni di compensazione e co-distribuzione." },
-    { icon: Code2, title: "FinTech & Startup", desc: "Aziende innovative che desiderano integrare le nostre API bancarie o beneficiare della nostra infrastruttura regolamentata FINMA." },
-    { icon: CreditCard, title: "Partner Commerciali", desc: "Retailer, e-commerce e piattaforme che desiderano offrire soluzioni di pagamento e finanziamento ai propri clienti." },
-    { icon: TrendingUp, title: "Gestori patrimoniali", desc: "Family office e gestori patrimoniali indipendenti in cerca di una banca depositaria di riferimento per i portafogli clienti." },
-  ],
 };
 
 const BENEFITS = {
-  de: [
-    "Zugang zu unserer FINMA-lizenzierten Bankinfrastruktur",
-    "Dokumentierte REST-APIs für die technische Integration",
-    "Dedizierter Support durch einen Relationship Manager",
-    "Zugang zu Finanzmärkten über unser Korrespondentennetz",
-    "Co-Branding und White-Label-Lösungen verfügbar",
-    "Attraktives Vergütungsprogramm für Geschäftsvermittlungen",
-  ],
-  fr: [
-    "Accès à notre infrastructure bancaire agréée FINMA",
-    "APIs REST documentées pour l'intégration technique",
-    "Support dédié d'un Relationship Manager",
-    "Accès aux marchés financiers via notre réseau correspondant",
-    "Co-branding et solutions white-label disponibles",
-    "Programme de rémunération attractif sur apports d'affaires",
-  ],
-  en: [
-    "Access to our FINMA-licensed banking infrastructure",
-    "Documented REST APIs for technical integration",
-    "Dedicated support from a Relationship Manager",
-    "Access to financial markets via our correspondent network",
-    "Co-branding and white-label solutions available",
-    "Attractive compensation program for business referrals",
-  ],
-  it: [
-    "Accesso alla nostra infrastruttura bancaria autorizzata FINMA",
-    "API REST documentate per l'integrazione tecnica",
-    "Supporto dedicato da un Relationship Manager",
-    "Accesso ai mercati finanziari tramite la nostra rete di corrispondenti",
-    "Co-branding e soluzioni white-label disponibili",
-    "Programma di compensazione attraente per segnalazioni di affari",
-  ],
+  de: ["Zugang zu unserer FINMA-lizenzierten Bankinfrastruktur","Dokumentierte REST-APIs für die technische Integration","Dedizierter Support durch einen Relationship Manager","Zugang zu Finanzmärkten über unser Korrespondentennetz","Co-Branding und White-Label-Lösungen verfügbar","Attraktives Vergütungsprogramm für Geschäftsvermittlungen"],
+  fr: ["Accès à notre infrastructure bancaire agréée FINMA","APIs REST documentées pour l'intégration technique","Support dédié d'un Relationship Manager","Accès aux marchés financiers via notre réseau correspondant","Co-branding et solutions white-label disponibles","Programme de rémunération attractif sur apports d'affaires"],
 };
 
 const CURRENT_PARTNERS = ["Visa International","Mastercard Europe","SWIFT Network","SIX Group","Temenos","Finastra","Bloomberg LP","Reuters","Euroclear","Clearstream"];
@@ -81,20 +39,17 @@ const CURRENT_PARTNERS = ["Visa International","Mastercard Europe","SWIFT Networ
 const FORM_OPTS = {
   de: ["Finanzinstitution","FinTech / Startup","Handelspartner","Vermögensverwalter","Sonstiges"],
   fr: ["Institution financière","FinTech / Startup","Partenaire commercial","Gestionnaire de fortune","Autre"],
-  en: ["Financial Institution","FinTech / Startup","Commercial Partner","Wealth Manager","Other"],
-  it: ["Istituzione finanziaria","FinTech / Startup","Partner commerciale","Gestore patrimoniale","Altro"],
 };
 
 export default function PartnershipsPage() {
-  const { t, lang } = useI18n();
+  const { lang } = useI18n();
   const de = lang === "de";
-  const safeKey = (lang === "fr" || lang === "de" || lang === "en" || lang === "it") ? lang : "fr";
+  const safeKey = (lang === "fr" || lang === "de") ? lang : "fr";
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ company: "", name: "", email: "", type: "", message: "" });
 
   const types = PARTNER_TYPES[safeKey];
   const benefits = BENEFITS[safeKey];
-  const formOpts = FORM_OPTS[safeKey];
 
   return (
     <div className="min-h-screen bg-background">
@@ -102,7 +57,7 @@ export default function PartnershipsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between gap-4 h-16">
             <div className="flex items-center gap-4">
-              <Link href="/"><Button variant="ghost" size="sm" className="gap-2"><ArrowLeft className="w-4 h-4" />{t("back")}</Button></Link>
+              <Link href="/"><Button variant="ghost" size="sm" className="gap-2"><ArrowLeft className="w-4 h-4" />{de ? "Zurück" : "Retour"}</Button></Link>
               <div className="flex items-center gap-1.5">
                 <img src={logoImg} alt="SwizKote Bank" className="w-7 h-7 object-contain flex-shrink-0" />
                 <span className="text-base sm:text-lg font-bold tracking-tight" style={{ whiteSpace: "nowrap" }}>SwizKote <span className="text-gold">Bank</span></span>
@@ -117,13 +72,10 @@ export default function PartnershipsPage() {
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="w-16 h-16 rounded-2xl bg-gold/10 border border-gold/20 flex items-center justify-center mx-auto mb-6"><Handshake className="w-8 h-8 text-gold" /></div>
           <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-4">
-            {t("partnerships_hero_title")}
+            {de ? <><span className="text-gold">Partnerschaften</span> & Allianzen</> : <><span className="text-gold">Partenariats</span> & Alliances</>}
           </h1>
           <p className="text-[hsl(220,20%,75%)] text-lg max-w-2xl mx-auto">
-            {de ? "Lassen Sie uns gemeinsam innovative Finanzlösungen entwickeln. SwizKote Bank ist offen für alle Formen strategischer Zusammenarbeit." 
-              : lang === "en" ? "Let's build innovative financial solutions together. SwizKote Bank is open to all forms of strategic collaboration."
-              : lang === "it" ? "Costruiamo insieme soluzioni finanziarie innovative. SwizKote Bank è aperta a tutte le forme di collaborazione strategica."
-              : "Construisons ensemble des solutions financières innovantes. SwizKote Bank est ouverte à toutes les formes de collaboration stratégique."}
+            {de ? "Lassen Sie uns gemeinsam innovative Finanzlösungen entwickeln. SwizKote Bank ist offen für alle Formen strategischer Zusammenarbeit." : "Construisons ensemble des solutions financières innovantes. SwizKote Bank est ouverte à toutes les formes de collaboration stratégique."}
           </p>
         </div>
       </section>
@@ -131,7 +83,7 @@ export default function PartnershipsPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">
-            {t("partnerships_types_title")}
+            {de ? <>Arten von <span className="text-gold">Partnerschaften</span></> : <>Types de <span className="text-gold">partenariats</span></>}
           </h2>
           <div className="grid sm:grid-cols-2 gap-6">
             {types.map((p, i) => {
@@ -154,7 +106,7 @@ export default function PartnershipsPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl font-bold mb-8">
-                {t("partnerships_benefits_title")}
+                {de ? <><span className="text-gold">Partner</span>vorteile</> : <>Avantages <span className="text-gold">partenaires</span></>}
               </h2>
               <div className="space-y-4">
                 {benefits.map((b, i) => (
@@ -167,7 +119,7 @@ export default function PartnershipsPage() {
             </div>
             <div>
               <h3 className="font-bold text-xl mb-6">
-                {t("partnerships_partners_title")}
+                {de ? <>Unsere aktuellen <span className="text-gold">Partner</span></> : <>Nos partenaires <span className="text-gold">actuels</span></>}
               </h3>
               <div className="flex flex-wrap gap-3">
                 {CURRENT_PARTNERS.map((p, i) => (
@@ -182,33 +134,33 @@ export default function PartnershipsPage() {
       <section className="py-20">
         <div className="max-w-2xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-4">
-            {t("partnerships_form_title")}
+            {de ? <><span className="text-gold">Partner</span> werden</> : <>Devenir <span className="text-gold">partenaire</span></>}
           </h2>
           <p className="text-muted-foreground text-center mb-10">
-            {t("partnerships_form_subtitle")}
+            {de ? "Füllen Sie dieses Formular aus und unser Team meldet sich innerhalb von 48 Stunden bei Ihnen." : "Remplissez ce formulaire et notre équipe vous contactera sous 48h ouvrables."}
           </p>
           {submitted ? (
             <div className="p-8 rounded-xl border border-green-500/30 bg-green-500/5 text-center">
               <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-4" />
-              <h3 className="font-bold text-xl mb-2">{t("partnerships_form_sent_title")}</h3>
-              <p className="text-muted-foreground">{t("partnerships_form_sent_desc")}</p>
+              <h3 className="font-bold text-xl mb-2">{de ? "Anfrage gesendet!" : "Demande envoyée !"}</h3>
+              <p className="text-muted-foreground">{de ? "Unser Partnerschaftsteam meldet sich innerhalb von 48 Stunden." : "Notre équipe Partenariats vous contactera dans les 48h."}</p>
             </div>
           ) : (
             <div className="p-8 rounded-xl border bg-card space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
-                <div><label className="text-sm font-medium mb-1.5 block">{t("partnerships_form_company")}</label><Input placeholder={de ? "Name Ihres Unternehmens" : lang === "en" ? "Your company name" : lang === "it" ? "Nome della tua azienda" : "Nom de votre société"} value={form.company} onChange={e => setForm({...form, company: e.target.value})} /></div>
-                <div><label className="text-sm font-medium mb-1.5 block">{t("partnerships_form_name")}</label><Input placeholder={de ? "Ihr Name" : lang === "en" ? "Your name" : lang === "it" ? "Il tuo nome" : "Votre nom"} value={form.name} onChange={e => setForm({...form, name: e.target.value})} /></div>
+                <div><label className="text-sm font-medium mb-1.5 block">{de ? "Unternehmen *" : "Société *"}</label><Input placeholder={de ? "Name Ihres Unternehmens" : "Nom de votre société"} value={form.company} onChange={e => setForm({...form, company: e.target.value})} /></div>
+                <div><label className="text-sm font-medium mb-1.5 block">{de ? "Vollständiger Name *" : "Nom complet *"}</label><Input placeholder={de ? "Ihr Name" : "Votre nom"} value={form.name} onChange={e => setForm({...form, name: e.target.value})} /></div>
               </div>
-              <div><label className="text-sm font-medium mb-1.5 block">{t("partnerships_form_email")}</label><Input type="email" placeholder="you@company.com" value={form.email} onChange={e => setForm({...form, email: e.target.value})} /></div>
-              <div><label className="text-sm font-medium mb-1.5 block">{t("partnerships_form_type")}</label>
+              <div><label className="text-sm font-medium mb-1.5 block">{de ? "Geschäftliche E-Mail *" : "Email professionnel *"}</label><Input type="email" placeholder="you@company.com" value={form.email} onChange={e => setForm({...form, email: e.target.value})} /></div>
+              <div><label className="text-sm font-medium mb-1.5 block">{de ? "Art der Partnerschaft" : "Type de partenariat"}</label>
                 <select className="w-full px-3 py-2 rounded-md border bg-background text-sm" value={form.type} onChange={e => setForm({...form, type: e.target.value})}>
-                  <option value="">{de ? "Auswählen..." : lang === "en" ? "Select..." : lang === "it" ? "Seleziona..." : "Sélectionner..."}</option>
-                  {formOpts.map((o, i) => <option key={i}>{o}</option>)}
+                  <option value="">{de ? "Auswählen..." : "Sélectionner..."}</option>
+                  {FORM_OPTS[safeKey].map((o, i) => <option key={i}>{o}</option>)}
                 </select>
               </div>
-              <div><label className="text-sm font-medium mb-1.5 block">{t("partnerships_form_message")}</label><Textarea placeholder={de ? "Beschreiben Sie Ihren Partnerschaftsvorschlag..." : lang === "en" ? "Describe your partnership proposal..." : lang === "it" ? "Descrivi la tua proposta di partnership..." : "Décrivez votre proposition de partenariat..."} className="min-h-[120px]" value={form.message} onChange={e => setForm({...form, message: e.target.value})} /></div>
+              <div><label className="text-sm font-medium mb-1.5 block">{de ? "Projektbeschreibung" : "Description du projet"}</label><Textarea placeholder={de ? "Beschreiben Sie Ihren Partnerschaftsvorschlag..." : "Décrivez votre proposition de partenariat..."} className="min-h-[120px]" value={form.message} onChange={e => setForm({...form, message: e.target.value})} /></div>
               <Button className="w-full gold-gradient text-[hsl(222,40%,10%)] font-semibold gap-2" disabled={!form.company || !form.name || !form.email} onClick={() => setSubmitted(true)}>
-                <Send className="w-4 h-4" /> {t("partnerships_form_submit")}
+                <Send className="w-4 h-4" /> {de ? "Anfrage senden" : "Envoyer la demande"}
               </Button>
             </div>
           )}
@@ -217,7 +169,7 @@ export default function PartnershipsPage() {
 
       <footer className="border-t bg-card/50 py-8">
         <div className="max-w-7xl mx-auto px-4 text-center text-xs text-muted-foreground">
-          <p>© 2026 SwizKote Bank SA — <Link href="/privacy" className="hover:text-foreground">{t("land_footer_privacy")}</Link> · <Link href="/legal" className="hover:text-foreground">{t("land_footer_legal")}</Link></p>
+          <p>{de ? "© 2026 SwizKote Bank AG — " : "© 2026 SwizKote Bank SA — "}<Link href="/privacy" className="hover:text-foreground">{de ? "Datenschutz" : "Confidentialité"}</Link> · <Link href="/legal" className="hover:text-foreground">{de ? "Impressum" : "Mentions légales"}</Link></p>
         </div>
       </footer>
     </div>

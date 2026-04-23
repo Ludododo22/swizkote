@@ -23,7 +23,7 @@ function CardVisual({ card, bankName }: { card: CardType; bankName: string }) {
     : card.status === "blocked" ? t("card_status_blocked")
     : t("card_status_inactive");
   return (
-    <div className={`relative w-full aspect-[1.586/1] max-w-sm rounded-md overflow-visible p-6 flex flex-col justify-between ${isVisa ? "bg-gradient-to-br from-[#c9a84c] to-[#e8c96a]" : "bg-gradient-to-br from-[hsl(222,35%,20%)] to-[hsl(222,40%,12%)]"}`}>
+    <div className={`relative w-full aspect-[1.586/1] max-w-sm rounded-md overflow-visible p-6 flex flex-col justify-between ${isVisa ? "gold-gradient" : "bg-gradient-to-br from-[hsl(222,35%,20%)] to-[hsl(222,40%,12%)]"}`}>
       <div className="flex items-start justify-between">
         <div>
           <p className={`text-xs font-medium ${isVisa ? "text-[hsl(222,40%,10%)]/60" : "text-white/60"}`}>{bankName}</p>
@@ -49,41 +49,7 @@ function CardVisual({ card, bankName }: { card: CardType; bankName: string }) {
 export default function CardsPage() {
   const { t, lang } = useI18n();
   const { toast } = useToast();
-
-  const getActiveLabel = () => {
-    if (lang === "de") return "Aktiv";
-    if (lang === "en") return "Active";
-    if (lang === "it") return "Attive";
-    return "Active(s)";
-  };
-
-  const getBlockedLabel = () => {
-    if (lang === "de") return "Gesperrt";
-    if (lang === "en") return "Blocked";
-    if (lang === "it") return "Bloccate";
-    return "Bloquée(s)";
-  };
-
-  const getMonthlyLimitLabel = () => {
-    if (lang === "de") return "Monatslimit";
-    if (lang === "en") return "Monthly limit";
-    if (lang === "it") return "Limite mensile";
-    return "Limite mois";
-  };
-
-  const getBlockedMessage = () => {
-    if (lang === "de") return "Diese Karte ist gesperrt. Entsperren Sie sie über die Einstellungen.";
-    if (lang === "en") return "This card is blocked. Unblock it via settings.";
-    if (lang === "it") return "Questa carta è bloccata. Sbloccala tramite le impostazioni.";
-    return "Cette carte est bloquée. Débloquez-la via les paramètres.";
-  };
-
-  const getNoCardMessage = () => {
-    if (lang === "de") return "Kontaktieren Sie Ihren Berater für eine neue Karte";
-    if (lang === "en") return "Contact your advisor for a new card";
-    if (lang === "it") return "Contatta il tuo consulente per una nuova carta";
-    return "Contactez votre conseiller pour une nouvelle carte";
-  };
+  const de_lang = lang === "de";
 
   const { data: cards, isLoading } = useQuery<CardType[]>({ queryKey: ["/api/cards"] });
 
@@ -103,7 +69,7 @@ export default function CardsPage() {
   const totalMonthlyLimit = cards?.reduce((sum, c) => sum + (c.monthlyLimit || 20000), 0) || 0;
 
   return (
-    <div className="p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 max-w-4xl mx-auto pb-20 md:pb-6">
+    <div className="p-4 md:p-6 space-y-6 max-w-4xl mx-auto">
       <div>
         <h1 className="text-xl font-bold" data-testid="text-cards-title">{t("cards_title")}</h1>
         <p className="text-sm text-muted-foreground">{t("cards_subtitle")}</p>
@@ -116,21 +82,21 @@ export default function CardsPage() {
             <CardContent className="p-3 text-center">
               <ShieldCheck className="w-4 h-4 text-green-400 mx-auto mb-1" />
               <p className="text-lg font-bold text-green-400">{activeCards.length}</p>
-              <p className="text-[10px] text-muted-foreground">{getActiveLabel()}</p>
+              <p className="text-[10px] text-muted-foreground">{de_lang ? "Aktiv" : "Active(s)"}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-3 text-center">
               <AlertCircle className="w-4 h-4 text-red-400 mx-auto mb-1" />
               <p className="text-lg font-bold text-red-400">{blockedCards.length}</p>
-              <p className="text-[10px] text-muted-foreground">{getBlockedLabel()}</p>
+              <p className="text-[10px] text-muted-foreground">{de_lang ? "Gesperrt" : "Bloquée(s)"}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-3 text-center">
               <TrendingUp className="w-4 h-4 text-gold mx-auto mb-1" />
               <p className="text-sm font-bold text-gold">{formatCurrency(totalMonthlyLimit)}</p>
-              <p className="text-[10px] text-muted-foreground">{getMonthlyLimitLabel()}</p>
+              <p className="text-[10px] text-muted-foreground">{de_lang ? "Monatslimit" : "Limite mois"}</p>
             </CardContent>
           </Card>
         </div>
@@ -148,7 +114,7 @@ export default function CardsPage() {
               {card.status === "blocked" && (
                 <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
                   <Lock className="w-4 h-4 flex-shrink-0" />
-                  {getBlockedMessage()}
+                  {de_lang ? "Diese Karte ist gesperrt. Entsperren Sie sie über die Einstellungen." : "Cette carte est bloquée. Débloquez-la via les paramètres."}
                 </div>
               )}
 
@@ -235,7 +201,7 @@ export default function CardsPage() {
             <CreditCard className="w-10 h-10 mx-auto text-muted-foreground/30 mb-3" />
             <p className="text-sm font-medium mb-1">{t("cards_none")}</p>
             <p className="text-xs text-muted-foreground">
-              {getNoCardMessage()}
+              {de_lang ? "Kontaktieren Sie Ihren Berater für eine neue Karte" : "Contactez votre conseiller pour une nouvelle carte"}
             </p>
           </CardContent>
         </Card>
