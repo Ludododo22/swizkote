@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2c4a6e"/><stop offset="40%" stop-color="#4a7aaa"/><stop offset="100%" stop-color="#8ab4d4"/></linearGradient>
+    <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5a8ab8"/><stop offset="100%" stop-color="#3a6a9a"/></linearGradient>
+    <linearGradient id="meadow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4a7a30"/><stop offset="100%" stop-color="#2a4a18"/></linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#e8c96a"/></linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <!-- Sun -->
+  <circle cx="1200" cy="160" r="60" fill="#f5d080" opacity="0.9"/>
+  <circle cx="1200" cy="160" r="80" fill="#f5d080" opacity="0.2"/>
+  <!-- Clouds -->
+  <ellipse cx="300" cy="120" rx="120" ry="40" fill="white" opacity="0.8"/>
+  <ellipse cx="360" cy="110" rx="100" ry="35" fill="white" opacity="0.9"/>
+  <ellipse cx="240" cy="130" rx="80" ry="30" fill="white" opacity="0.7"/>
+  <ellipse cx="900" cy="180" rx="150" ry="45" fill="white" opacity="0.7"/>
+  <ellipse cx="980" cy="165" rx="120" ry="40" fill="white" opacity="0.8"/>
+  <!-- Mountains - back -->
+  <polygon points="0,550 200,200 400,450 600,150 800,350 1000,100 1200,320 1400,180 1600,400 1600,900 0,900" fill="#3a5a7a"/>
+  <!-- Snow on peaks -->
+  <polygon points="600,150 640,200 660,185 680,210 600,150" fill="white" opacity="0.95"/>
+  <polygon points="1000,100 1040,155 1065,138 1090,160 1000,100" fill="white" opacity="0.95"/>
+  <polygon points="1400,180 1435,225 1458,210 1480,232 1400,180" fill="white" opacity="0.95"/>
+  <polygon points="200,200 230,240 248,228 265,245 200,200" fill="white" opacity="0.9"/>
+  <!-- Middle mountains -->
+  <polygon points="0,600 300,350 500,520 700,280 900,480 1100,300 1300,460 1600,350 1600,900 0,900" fill="#2a4a5e"/>
+  <!-- Foreground hills -->
+  <ellipse cx="800" cy="720" rx="900" ry="180" fill="url(#meadow)"/>
+  <!-- Lake -->
+  <ellipse cx="800" cy="680" rx="600" ry="80" fill="url(#lake)"/>
+  <!-- Lake reflection shimmer -->
+  <rect x="500" y="665" width="600" height="3" rx="1" fill="white" opacity="0.3"/>
+  <rect x="550" y="672" width="500" height="2" rx="1" fill="white" opacity="0.2"/>
+  <rect x="600" y="679" width="400" height="2" rx="1" fill="white" opacity="0.2"/>
+  <!-- Trees left -->
+  <rect x="80" y="560" width="16" height="80" fill="#1a3010"/>
+  <polygon points="88,480 50,570 126,570" fill="#2a5020"/>
+  <polygon points="88,520 55,590 121,590" fill="#3a6030"/>
+  <rect x="160" y="555" width="14" height="85" fill="#1a3010"/>
+  <polygon points="167,472 130,562 204,562" fill="#2a5020"/>
+  <rect x="240" y="558" width="16" height="82" fill="#1a3010"/>
+  <polygon points="248,475 212,568 284,568" fill="#2a5020"/>
+  <!-- Trees right -->
+  <rect x="1350" y="555" width="16" height="85" fill="#1a3010"/>
+  <polygon points="1358,470 1320,565 1396,565" fill="#2a5020"/>
+  <rect x="1430" y="560" width="14" height="80" fill="#1a3010"/>
+  <polygon points="1437,478 1400,568 1474,568" fill="#2a5020"/>
+  <rect x="1510" y="558" width="16" height="82" fill="#1a3010"/>
+  <polygon points="1518,475 1482,568 1554,568" fill="#2a5020"/>
+  <!-- Swiss chalet -->
+  <rect x="680" y="580" width="240" height="140" fill="#8a6040"/>
+  <polygon points="660,580 800,500 940,580" fill="#6a3820"/>
+  <rect x="740" y="650" width="60" height="70" fill="#3a2010"/>
+  <rect x="700" y="605" width="50" height="50" fill="#c9a84c" opacity="0.7"/>
+  <rect x="850" y="605" width="50" height="50" fill="#c9a84c" opacity="0.7"/>
+  <!-- Swiss flag on chalet -->
+  <rect x="795" y="490" width="3" height="50" fill="#8a6040"/>
+  <rect x="798" y="492" width="24" height="16" fill="#cc0000"/>
+  <rect x="805" y="493" width="10" height="14" fill="white"/>
+  <rect x="807" y="495" width="6" height="10" fill="white"/>
+  <rect x="809" y="497" width="2" height="6" fill="white"/>
+  <!-- Foreground wildflowers -->
+  <circle cx="400" cy="780" r="5" fill="#f5c040" opacity="0.8"/>
+  <circle cx="450" cy="800" r="4" fill="#e86040" opacity="0.8"/>
+  <circle cx="500" cy="775" r="5" fill="#f5c040" opacity="0.8"/>
+  <circle cx="1100" cy="790" r="5" fill="#f5c040" opacity="0.8"/>
+  <circle cx="1150" cy="810" r="4" fill="#e86040" opacity="0.8"/>
+  <circle cx="1200" cy="785" r="5" fill="#f5c040" opacity="0.8"/>
+</svg>

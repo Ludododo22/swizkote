@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0f1824"/><stop offset="100%" stop-color="#1a2a3a"/></linearGradient>
+    <linearGradient id="phone" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1e2d3e"/><stop offset="100%" stop-color="#0d1820"/></linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0a1520"/><stop offset="100%" stop-color="#111d2c"/></linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#e8c96a"/></linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <!-- Glowing circles bg -->
+  <circle cx="600" cy="400" r="300" fill="none" stroke="#c9a84c" stroke-width="0.5" opacity="0.1"/>
+  <circle cx="600" cy="400" r="350" fill="none" stroke="#4a7aaa" stroke-width="0.5" opacity="0.08"/>
+  <!-- Phone frame -->
+  <rect x="400" y="60" width="400" height="700" rx="40" fill="url(#phone)"/>
+  <rect x="408" y="68" width="384" height="684" rx="36" fill="url(#screen)"/>
+  <!-- Screen content -->
+  <!-- Status bar -->
+  <rect x="408" y="68" width="384" height="30" rx="36" fill="#0d1520"/>
+  <text x="430" y="87" font-size="12" fill="white" opacity="0.6" font-family="sans-serif">9:41</text>
+  <!-- App header -->
+  <rect x="408" y="98" width="384" height="70" fill="#0d1520"/>
+  <text x="430" y="130" font-size="14" fill="white" opacity="0.8" font-family="sans-serif" font-weight="bold">SwizKote Bank</text>
+  <text x="430" y="150" font-size="11" fill="#c9a84c" opacity="0.9" font-family="sans-serif">Guten Tag, Sophie</text>
+  <!-- Balance card -->
+  <rect x="418" y="178" width="364" height="120" rx="16" fill="url(#gold)"/>
+  <text x="438" y="210" font-size="12" fill="#5a3a05" opacity="0.8" font-family="sans-serif">Gesamtguthaben</text>
+  <text x="438" y="250" font-size="28" fill="#3a2003" font-family="sans-serif" font-weight="bold">CHF 48'320.00</text>
+  <text x="438" y="275" font-size="11" fill="#5a3a05" opacity="0.7" font-family="sans-serif">CH93 0076 2011 6238 5295 7</text>
+  <!-- Quick actions -->
+  <rect x="418" y="310" width="80" height="70" rx="12" fill="#1a2a3a"/>
+  <rect x="510" y="310" width="80" height="70" rx="12" fill="#1a2a3a"/>
+  <rect x="602" y="310" width="80" height="70" rx="12" fill="#1a2a3a"/>
+  <rect x="694" y="310" width="80" height="70" rx="12" fill="#1a2a3a"/>
+  <!-- Action icons (simplified) -->
+  <rect x="450" y="325" width="20" height="16" rx="4" fill="#c9a84c" opacity="0.8"/>
+  <rect x="542" y="325" width="20" height="16" rx="4" fill="#4a8abf" opacity="0.8"/>
+  <rect x="634" y="325" width="20" height="16" rx="4" fill="#4abf8a" opacity="0.8"/>
+  <rect x="726" y="325" width="20" height="16" rx="4" fill="#bf4a8a" opacity="0.8"/>
+  <text x="428" y="393" font-size="9" fill="white" opacity="0.5" font-family="sans-serif">Senden</text>
+  <text x="514" y="393" font-size="9" fill="white" opacity="0.5" font-family="sans-serif">Empfangen</text>
+  <text x="610" y="393" font-size="9" fill="white" opacity="0.5" font-family="sans-serif">Karten</text>
+  <text x="701" y="393" font-size="9" fill="white" opacity="0.5" font-family="sans-serif">Konten</text>
+  <!-- Transactions list -->
+  <text x="430" y="420" font-size="12" fill="white" opacity="0.7" font-family="sans-serif" font-weight="bold">Transaktionen</text>
+  <!-- TX rows -->
+  <rect x="418" y="432" width="364" height="52" rx="8" fill="#1a2535"/>
+  <circle cx="444" cy="458" r="14" fill="#2a3a50"/>
+  <rect x="449" y="450" width="10" height="16" rx="3" fill="#c9a84c" opacity="0.7"/>
+  <text x="468" y="452" font-size="12" fill="white" opacity="0.8" font-family="sans-serif">Nestlé SA</text>
+  <text x="468" y="468" font-size="10" fill="#4abf8a" opacity="0.8" font-family="sans-serif">Gehalt</text>
+  <text x="700" y="458" font-size="13" fill="#4abf8a" font-family="sans-serif" font-weight="bold">+8 500</text>
+  <rect x="418" y="492" width="364" height="52" rx="8" fill="#1a2535"/>
+  <circle cx="444" cy="518" r="14" fill="#2a3a50"/>
+  <rect x="437" y="511" width="14" height="14" rx="3" fill="#bf4a4a" opacity="0.7"/>
+  <text x="468" y="512" font-size="12" fill="white" opacity="0.8" font-family="sans-serif">Miete</text>
+  <text x="468" y="528" font-size="10" fill="white" opacity="0.4" font-family="sans-serif">Wohnung</text>
+  <text x="700" y="518" font-size="13" fill="#bf6060" font-family="sans-serif" font-weight="bold">-2 100</text>
+  <rect x="418" y="552" width="364" height="52" rx="8" fill="#1a2535"/>
+  <circle cx="444" cy="578" r="14" fill="#2a3a50"/>
+  <rect x="437" y="571" width="14" height="14" rx="7" fill="#4a8abf" opacity="0.7"/>
+  <text x="468" y="572" font-size="12" fill="white" opacity="0.8" font-family="sans-serif">Swisscom</text>
+  <text x="468" y="588" font-size="10" fill="white" opacity="0.4" font-family="sans-serif">Abonnement</text>
+  <text x="700" y="578" font-size="13" fill="#bf6060" font-family="sans-serif" font-weight="bold">-45.80</text>
+  <!-- Chart mini -->
+  <rect x="418" y="616" width="364" height="80" rx="12" fill="#1a2535"/>
+  <polyline points="438,670 470,650 502,660 534,635 566,648 598,628 630,640 662,620 694,632 726,615 758,622 776,618" fill="none" stroke="#c9a84c" stroke-width="2"/>
+  <!-- Bottom navigation -->
+  <rect x="408" y="700" width="384" height="52" rx="0" fill="#0d1520"/>
+  <circle cx="480" cy="726" r="16" fill="#c9a84c" opacity="0.2"/>
+  <rect x="475" y="718" width="10" height="16" rx="3" fill="#c9a84c"/>
+  <circle cx="560" cy="726" r="16" fill="transparent"/>
+  <rect x="553" y="721" width="14" height="10" rx="2" fill="white" opacity="0.3"/>
+  <circle cx="640" cy="726" r="16" fill="transparent"/>
+  <rect x="634" y="719" width="12" height="14" rx="6" fill="white" opacity="0.3"/>
+  <circle cx="720" cy="726" r="16" fill="transparent"/>
+  <rect x="713" y="718" width="14" height="16" rx="3" fill="white" opacity="0.3"/>
+  <!-- Home button indicator -->
+  <rect x="570" y="745" width="60" height="4" rx="2" fill="white" opacity="0.2"/>
+  <!-- Floating notification -->
+  <rect x="100" y="200" width="260" height="120" rx="16" fill="#1a2535" opacity="0.95"/>
+  <rect x="100" y="200" width="260" height="4" rx="4" fill="url(#gold)"/>
+  <text x="120" y="230" font-size="13" fill="white" font-family="sans-serif" font-weight="bold">Überweisung erhalten</text>
+  <text x="120" y="252" font-size="11" fill="#c9a84c" font-family="sans-serif">+CHF 1 200.00</text>
+  <text x="120" y="270" font-size="10" fill="white" opacity="0.5" font-family="sans-serif">Von Jean Pierre · Heute, 14:32</text>
+  <rect x="120" y="288" width="60" height="18" rx="6" fill="#c9a84c" opacity="0.8"/>
+  <text x="133" y="301" font-size="10" fill="#3a2003" font-family="sans-serif">Ansehen</text>
+</svg>

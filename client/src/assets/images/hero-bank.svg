@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0a1628"/><stop offset="100%" stop-color="#1a2d4a"/></linearGradient>
+    <linearGradient id="bldg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1e3a5f"/><stop offset="100%" stop-color="#0d1f33"/></linearGradient>
+    <linearGradient id="bldg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#243b55"/><stop offset="100%" stop-color="#111d2c"/></linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#e8c96a"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <!-- Stars -->
+  <circle cx="200" cy="80" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="450" cy="50" r="1" fill="white" opacity="0.5"/>
+  <circle cx="700" cy="120" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="1100" cy="60" r="1" fill="white" opacity="0.5"/>
+  <circle cx="1350" cy="90" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="80" cy="200" r="1" fill="white" opacity="0.4"/>
+  <circle cx="900" cy="40" r="1" fill="white" opacity="0.6"/>
+  <!-- Mountains -->
+  <polygon points="0,650 200,300 350,500 500,200 650,450 800,250 950,420 1100,180 1250,380 1400,300 1600,500 1600,900 0,900" fill="#0d1e35"/>
+  <polygon points="0,680 150,400 300,550 500,280 650,480 800,320 950,460 1100,230 1250,410 1400,340 1600,530 1600,900 0,900" fill="#0f2240"/>
+  <!-- Snow caps -->
+  <polygon points="500,200 520,230 540,215 560,235 500,200" fill="white" opacity="0.9"/>
+  <polygon points="800,250 820,278 840,265 860,280 800,250" fill="white" opacity="0.9"/>
+  <polygon points="1100,180 1120,210 1140,195 1160,215 1100,180" fill="white" opacity="0.9"/>
+  <!-- Ground -->
+  <rect x="0" y="650" width="1600" height="250" fill="#091626"/>
+  <!-- Main building - Swiss Bank headquarters -->
+  <rect x="550" y="200" width="500" height="450" fill="url(#bldg1)"/>
+  <!-- Columns -->
+  <rect x="560" y="300" width="20" height="350" fill="#1a3050"/>
+  <rect x="610" y="300" width="20" height="350" fill="#1a3050"/>
+  <rect x="660" y="300" width="20" height="350" fill="#1a3050"/>
+  <rect x="710" y="300" width="20" height="350" fill="#1a3050"/>
+  <rect x="760" y="300" width="20" height="350" fill="#1a3050"/>
+  <rect x="810" y="300" width="20" height="350" fill="#1a3050"/>
+  <rect x="860" y="300" width="20" height="350" fill="#1a3050"/>
+  <rect x="910" y="300" width="20" height="350" fill="#1a3050"/>
+  <rect x="960" y="300" width="20" height="350" fill="#1a3050"/>
+  <rect x="1010" y="300" width="20" height="350" fill="#1a3050"/>
+  <!-- Pediment -->
+  <polygon points="540,200 800,120 1060,200" fill="#162840"/>
+  <rect x="540" y="295" width="520" height="15" fill="#162840"/>
+  <!-- Windows - lit -->
+  <rect x="580" y="330" width="35" height="50" fill="#c9a84c" opacity="0.8"/>
+  <rect x="640" y="330" width="35" height="50" fill="#e8c96a" opacity="0.6"/>
+  <rect x="700" y="330" width="35" height="50" fill="#c9a84c" opacity="0.9"/>
+  <rect x="760" y="330" width="35" height="50" fill="#e8c96a" opacity="0.7"/>
+  <rect x="820" y="330" width="35" height="50" fill="#c9a84c" opacity="0.8"/>
+  <rect x="880" y="330" width="35" height="50" fill="#e8c96a" opacity="0.9"/>
+  <rect x="940" y="330" width="35" height="50" fill="#c9a84c" opacity="0.6"/>
+  <rect x="1000" y="330" width="35" height="50" fill="#e8c96a" opacity="0.8"/>
+  <rect x="580" y="420" width="35" height="50" fill="#c9a84c" opacity="0.5"/>
+  <rect x="640" y="420" width="35" height="50" fill="#e8c96a" opacity="0.8"/>
+  <rect x="700" y="420" width="35" height="50" fill="#c9a84c" opacity="0.7"/>
+  <rect x="760" y="420" width="35" height="50" fill="#e8c96a" opacity="0.6"/>
+  <rect x="820" y="420" width="35" height="50" fill="#c9a84c" opacity="0.9"/>
+  <rect x="880" y="420" width="35" height="50" fill="#e8c96a" opacity="0.5"/>
+  <rect x="940" y="420" width="35" height="50" fill="#c9a84c" opacity="0.8"/>
+  <rect x="1000" y="420" width="35" height="50" fill="#e8c96a" opacity="0.7"/>
+  <!-- Entrance -->
+  <rect x="740" y="520" width="120" height="130" fill="#0a1e30"/>
+  <rect x="750" y="530" width="45" height="120" fill="#1a3050" opacity="0.5"/>
+  <rect x="805" y="530" width="45" height="120" fill="#1a3050" opacity="0.5"/>
+  <!-- Gold line accent -->
+  <rect x="0" y="648" width="1600" height="3" fill="url(#gold)" opacity="0.6"/>
+  <!-- Side buildings -->
+  <rect x="200" y="380" width="300" height="270" fill="url(#bldg2)"/>
+  <rect x="1100" y="350" width="320" height="300" fill="url(#bldg2)"/>
+  <!-- Side windows -->
+  <rect x="220" y="400" width="25" height="35" fill="#c9a84c" opacity="0.5"/>
+  <rect x="260" y="400" width="25" height="35" fill="#e8c96a" opacity="0.4"/>
+  <rect x="300" y="400" width="25" height="35" fill="#c9a84c" opacity="0.6"/>
+  <rect x="340" y="400" width="25" height="35" fill="#e8c96a" opacity="0.5"/>
+  <rect x="380" y="400" width="25" height="35" fill="#c9a84c" opacity="0.4"/>
+  <rect x="420" y="400" width="25" height="35" fill="#e8c96a" opacity="0.6"/>
+  <rect x="220" y="460" width="25" height="35" fill="#c9a84c" opacity="0.4"/>
+  <rect x="260" y="460" width="25" height="35" fill="#e8c96a" opacity="0.5"/>
+  <rect x="300" y="460" width="25" height="35" fill="#c9a84c" opacity="0.3"/>
+  <rect x="1120" y="380" width="25" height="35" fill="#c9a84c" opacity="0.5"/>
+  <rect x="1160" y="380" width="25" height="35" fill="#e8c96a" opacity="0.4"/>
+  <rect x="1200" y="380" width="25" height="35" fill="#c9a84c" opacity="0.6"/>
+  <rect x="1240" y="380" width="25" height="35" fill="#e8c96a" opacity="0.5"/>
+  <rect x="1280" y="380" width="25" height="35" fill="#c9a84c" opacity="0.4"/>
+  <rect x="1320" y="380" width="25" height="35" fill="#e8c96a" opacity="0.6"/>
+  <!-- Reflection in water -->
+  <rect x="0" y="800" width="1600" height="100" fill="#061018" opacity="0.8"/>
+  <rect x="550" y="800" width="500" height="100" fill="#0d1f33" opacity="0.6"/>
+  <!-- Gold glow at horizon -->
+  <ellipse cx="800" cy="648" rx="500" ry="40" fill="#c9a84c" opacity="0.08"/>
+</svg>
